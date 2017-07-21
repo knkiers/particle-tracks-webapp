@@ -1,0 +1,24 @@
+
+<!--
+  <svg:circle cx="100" cy="200"
+          [attr.r]="radius" stroke="black" stroke-width="2"
+          fill="none" >
+  </svg:circle>
+-->
+<!-- <svg:g *ngIf="params.circle">-->
+  <!-- need to tell angular that this is an svg element, not an html element-->
+<svg:circle
+  (mouseover)="checkDot()"
+  [attr.r]="findRadius()"
+  [attr.cx]="params.x"
+  [attr.cy]="params.y"
+  [attr.stroke-width]="findStrokeWidth()"
+  stroke="red"
+  fill="grey">
+</svg:circle>
+<!-- </svg:g> -->
+
+<!--<svg:g *ngIf="!params.circle">
+  <svg:circle [attr.r]="params.r" [attr.cx]="params.x" [attr.cy]="params.y" stroke="black" fill="red"></svg:circle>
+</svg:g>
+-->

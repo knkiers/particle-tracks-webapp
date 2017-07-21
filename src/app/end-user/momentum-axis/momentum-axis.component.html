@@ -1,0 +1,34 @@
+
+<svg:line
+  [attr.x1]="hAxisParams.x1"
+  [attr.x2]="hAxisParams.x2"
+  [attr.y1]="hAxisParams.y1"
+  [attr.y2]="hAxisParams.y2"
+  [attr.stroke-width]="1"
+  [attr.stroke]="'grey'">
+</svg:line>
+<svg:line
+  [attr.x1]="vAxisParams.x1"
+  [attr.x2]="vAxisParams.x2"
+  [attr.y1]="vAxisParams.y1"
+  [attr.y2]="vAxisParams.y2"
+  [attr.stroke-width]="1"
+  [attr.stroke]="'grey'">
+</svg:line>
+
+<svg:line *ngFor = "let mV of momentumVectorParams; let i = index"
+          [attr.x1]="mV.x1"
+          [attr.x2]="mV.x2"
+          [attr.y1]="mV.y1"
+          [attr.y2]="mV.y2"
+          [attr.stroke-width]="strokeWidth(i)"
+          [attr.stroke]="lineColor(i)">
+</svg:line>
+
+<svg:polygon *ngFor = "let mV of momentumVectorParams; let i = index"
+             [attr.points]="arrowHeadCoords"
+             [attr.stroke]="lineColor(i)"
+             [attr.stroke-width]="strokeWidth(i)"
+             [attr.fill]="lineColor(i)"
+             [attr.transform]="mV.arrowHeadTranslateRotate">
+</svg:polygon>

@@ -1,0 +1,212 @@
+<div class="container">
+  <!--
+    <span class="row">
+      <h5 class="brand-logo left">Event!</h5>
+    </span>
+    -->
+  <!-- 'Reading' Card -->
+  <div class="row">
+    <div class="card col s12">
+      <div class="card-content ">
+        <span class="card-title">
+          <span *ngIf="event">
+            <span [innerHTML]="event.name">
+            </span>
+          </span>
+          <span *ngIf="!event">
+            No Process Selected
+          </span>
+        </span>
+        <span class="right">
+          <!-- Dropdown Trigger -->
+          <a materialize="dropdown" class='dropdown-button btn' data-activates='dropdownActions'>Actions</a>
+        </span>
+
+        <div class="row">
+          <div class ="col s8">
+            <div *ngIf="boundaries && dots">
+              <svg [attr.height]="boundaries.height" [attr.width]="boundaries.width">
+                <rect [attr.x]="boundaries.xminPx"
+                      [attr.y]="boundaries.ymaxPx"
+                      [attr.width]="boundaries.widthDisplay"
+                      [attr.height]="boundaries.heightDisplay"
+                      style="fill:blue;stroke:grey;stroke-width:5;fill-opacity:0.1;stroke-opacity:0.9" />
+
+                <g *ngFor="let dot of dots" app-grid-item
+                   [colourModeOn]="colourModeOn"
+                   [params]="dot"
+                   (dotSelected)="dotSelected($event)"
+                   (dotDeselected)="dotDeselected($event)">
+                </g>
+
+                <g *ngFor="let circle of circles" app-circle-item
+                   [params]="circle">
+                </g>
+
+                <g *ngIf="eventDisplay && ((!editModeOn)||revealEvent)" app-event
+                    [eventDisplay]="eventDisplay"
+                    [dots]="dots">
+                </g>
+
+                <g *ngIf="eventDisplay && editModeOn && showAxes" app-axis
+                   [boundaries]="boundaries"
+                   [interactionLocation]="interactionLocation">
+                </g>
+
+              </svg>
+            </div>
+          </div>
+          <div class ="col s4">
+            <div *ngIf="momentumDiagramBoundaries && eventDisplay && editModeOn && showAxes" class="row">
+              <div class="col s12">
+                <svg [attr.height]="momentumDiagramBoundaries.height" [attr.width]="momentumDiagramBoundaries.width">
+                  <rect [attr.x]="momentumDiagramBoundaries.xminPx"
+                        [attr.y]="momentumDiagramBoundaries.ymaxPx"
+                        [attr.width]="momentumDiagramBoundaries.widthDisplay"
+                        [attr.height]="momentumDiagramBoundaries.heightDisplay"
+                        style="fill:blue;stroke:grey;stroke-width:5;fill-opacity:0.1;stroke-opacity:0.9" />
+
+                  <g *ngIf="eventDisplay && editModeOn && showAxes" app-momentum-axis
+                     [boundaries]="momentumDiagramBoundaries"
+                     [circles]="circles"
+                     [wakeUp]="circleChange">
+                  </g>
+
+                </svg>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col s12">
+                <app-circle-table
+                  [circles]="circles"
+                  [event]="event">
+                </app-circle-table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="card-action">
+        <div *ngIf="!editModeOn">
+          <button class="btn" (click)="fetchNewEvent()">Get Event</button>
+          <button *ngIf="event" class="btn" (click)="turnOnEditMode()">Analyze This Event</button>
+        </div>
+        <div *ngIf="editModeOn">
+          <button class="btn btn-flat" (click)="addCircle()">Add Circle</button>
+          <button
+            class="btn btn-flat"
+            (mouseenter)="showEvent()"
+            (mouseout)="hideEvent()">
+            Show Event
+          </button>
+
+          <!-- Switch -->
+          <span class="switch">
+            <label>
+              Deselect
+              <input
+                type="checkbox"
+                [checked]="colourModeOn"
+                (change)="toggleColourMode()"
+              >
+              <span class="lever"></span>
+              Select
+            </label>
+          </span>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Dropdown Structure -->
+<ul id='dropdownActions' class='dropdown-content'>
+  <li>
+    <a materialize="leanModal"
+       class="modal-trigger"
+       href="#modalBrowseSavedEvents"
+       (click)="getEvents()"
+    >
+      Browse Saved Events
+    </a>
+  </li>
+  <div *ngIf="editModeOn">
+    <li>
+      <a (click)="saveEvent(false)">Save Event</a>
+    </li>
+    <li>
+      <a materialize="leanModal"
+         class="modal-trigger"
+         href="#modalSaveFirstWarning">
+        Get New Event
+      </a>
+    </li>
+  </div>
+</ul>
+
+<!--
+<div *ngIf="editModeOn">
+  <button class="btn" (click)="saveEvent()">Save Event</button>
+  <a materialize="leanModal"
+     class="waves-effect waves-light btn secondary-content modal-trigger"
+     href="#modalSaveFirstWarning">
+      Get New Event
+  </a>
+</div>
+-->
+
+<!--
+<a materialize="leanModal"
+   class="waves-effect waves-light btn secondary-content modal-trigger"
+   href="#modalBrowseSavedEvents"
+   (click)="getEvents()"
+>
+  Browse Saved Events
+</a>
+-->
+
+
+<!-- Modal Structure -->
+<div id="modalBrowseSavedEvents" class="modal">
+  <div class="modal-content">
+    <h5>Saved Events</h5>
+    <app-list-saved-events
+      [eventList]="userEvents"
+      (onFinished)="onModalFinished($event)"
+      [modalID]="'modalBrowseSavedEvents'">
+    </app-list-saved-events>
+  </div>
+  <div class="modal-footer">
+    <a class="modal-action modal-close waves-effect waves-green btn-flat">Dismiss</a>
+  </div>
+</div>
+
+<!-- Modal Structure -->
+<div id="modalSaveFirstWarning" class="modal">
+  <div class="modal-content">
+    <h5>Save Current Event First?</h5>
+    Unsaved data will be lost....
+  </div>
+  <div class="modal-footer">
+    <a class="modal-action modal-close waves-effect waves-green btn-flat" (click)="fetchNewEvent()">Don't Save</a>
+    <a class="modal-action modal-close waves-effect waves-green btn-flat" (click)="saveEvent(true)">Save Event First</a>
+  </div>
+</div>
+
+<!--
+<div class="container">
+  <div class="row">
+    <div *ngFor="let reading of readings" class="col s12">
+      <app-reading-item
+        [includeBackButton]="includeBackButton"
+        [reading]="reading"
+        [practices]="reading.practices"
+        [resourceCollections]="reading.resourceCollections">
+      </app-reading-item>
+    </div>
+  </div>
+</div>
+-->

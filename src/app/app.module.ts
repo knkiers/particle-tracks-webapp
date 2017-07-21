@@ -9,6 +9,11 @@ import { MaterializeModule } from 'angular2-materialize';
 import { AppComponent } from './app.component';
 
 import {AuthenticationModule} from './authentication/authentication.module';
+import {EndUserModule} from './end-user/end-user.module';
+
+import { LoggedInGuard } from './shared/guards/logged-in.guard';
+import { UserService } from './shared/services/user.service';
+
 
 const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'}
@@ -23,11 +28,12 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {enableTracing: true}),
     MaterializeModule,
     AuthenticationModule,
+    EndUserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule
   ],
-  providers: [FormBuilder],
+  providers: [FormBuilder, LoggedInGuard, UserService],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })

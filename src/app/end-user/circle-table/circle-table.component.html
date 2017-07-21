@@ -1,0 +1,98 @@
+<div *ngIf="circles.length > 0">
+  <ul materialize="collapsible" class="collapsible" data-collapsible="accordion">
+    <li *ngFor="let circle of circles; let i=index" (mouseenter)="highlightCircle(i)" (mouseleave)="unhighlightCircle(i)">
+      <div class="collapsible-header">
+        Circle #{{i+1}}
+        <a (click)="deleteCircle(i)">
+          <i class="material-icons right">close</i>
+        </a>
+        <a (click)="circleInfo(i)">
+          <i class="material-icons right">info</i>
+        </a>
+      </div>
+
+      <div class="collapsible-body collapsible-content-wrapper">
+        <div class="row row-wrapper">
+          <div class="col s6">
+            r:
+          </div>
+          <div class="col s6">
+            {{circle.r | roundReal : 4}} cm
+          </div>
+        </div>
+        <div *ngIf="circle.theta">
+          <div class="row row-wrapper">
+            <div class="col s6">
+              &theta;:
+            </div>
+            <div class="col s6">
+              {{circle.theta | roundReal : 4}} rad
+            </div>
+          </div>
+        </div>
+        <div class="row row-wrapper">
+          <div class="col s6">
+            rotn:
+          </div>
+          <div class="col s6">
+            <a *ngIf="circle.CW" (click)="toggleRotationDirection(i)">
+              <i class="material-icons">redo</i>
+            </a>
+            <a *ngIf="!circle.CW" (click)="toggleRotationDirection(i)">
+              <i class="material-icons">undo</i>
+            </a>
+          </div>
+        </div>
+        <div class="row row-wrapper">
+          <div class="col s6">
+            in/out:
+          </div>
+          <div class="col s6">
+            <a *ngIf="circle.incoming" (click)="toggleIncomingOutgoing(i)">
+              <i class="material-icons">flight_land</i>
+            </a>
+            <a *ngIf="!circle.incoming" (click)="toggleIncomingOutgoing(i)">
+              <i class="material-icons">flight_takeoff</i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+
+</div>
+
+  <!--
+  <div *ngFor="let circle of circles; let i=index">
+    <div class = "row">
+      <div class="card col s12" (mouseenter)="highlightCircle(i)" (mouseleave)="unhighlightCircle(i)">
+        <div class="card-content">
+          <a (click)="deleteCircle(i)">
+            <i class="material-icons right">close</i>
+          </a>
+          <a (click)="circleInfo(i)">
+            <i class="material-icons right">info</i>
+          </a>
+          <p> r = {{circle.r | roundReal : 4}} cm</p>
+          <p> rotn:
+            <span *ngIf="circle.CW"> CW</span>
+            <span *ngIf="!circle.CW"> CCW</span>
+            <a (click)="toggleRotationDirection(i)">
+              <i class="material-icons">edit</i>
+            </a>
+          </p>
+          <p> in/out:
+            <span *ngIf="circle.incoming"> incoming</span>
+            <span *ngIf="!circle.incoming"> outgoing</span>
+            <a (click)="toggleIncomingOutgoing(i)">
+              <i class="material-icons">edit</i>
+            </a>
+          </p>
+          <p *ngIf="circle.theta"> &theta;: {{circle.theta | roundReal : 4}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+-->

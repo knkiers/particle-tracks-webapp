@@ -1,0 +1,31 @@
+<svg:path *ngIf="eventDisplay"
+          [attr.d]="eventDisplay.inCharged"
+          stroke="green"
+          stroke-width="3"
+          fill="none">
+</svg:path>
+<svg:path *ngIf="eventDisplay"
+          [attr.d]="eventDisplay.inNeutral"
+          stroke="green"
+          stroke-dasharray = "10, 5"
+          stroke-width="3">
+</svg:path>
+<svg:path *ngIf="eventDisplay"
+          [attr.d]="eventDisplay.outCharged"
+          stroke="grey"
+          stroke-width="3"
+          fill="none">
+</svg:path>
+<svg:path *ngIf="eventDisplay"
+          [attr.d]="eventDisplay.outNeutral"
+          stroke="grey"
+          stroke-dasharray = "10, 5"
+          stroke-width="3">
+</svg:path>
+
+<!--
+<path ng-attr-d = "{{vm.d.inCharged}}" stroke="green" stroke-width="3" fill="none" />
+<path ng-attr-d = "{{vm.d.inNeutral}}" stroke="green" stroke-dasharray = "10, 5" stroke-width="3" />
+<path ng-attr-d = "{{vm.d.outCharged}}" stroke="grey" stroke-width="3" fill="none" />
+<path ng-attr-d = "{{vm.d.outNeutral}}" stroke="grey" stroke-dasharray = "10, 5" stroke-width="3" />
+-->

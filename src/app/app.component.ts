@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './shared/services/user.service';
 
+import {EventDisplayService} from './shared/services/event-display.service';
+import {UnitConversionService} from './shared/services/unit-conversion.service';
+import {EventAnalysisService} from './shared/services/event-analysis.service';
 
+import { CircleBindingService } from './end-user/circle-binding.service';
 
 
 import {Router} from '@angular/router';
 
 //import { UserService } from './shared/services/user.service';
-import { LoggedInGuard } from './shared/guards/logged-in.guard';
+//import { LoggedInGuard } from './shared/guards/logged-in.guard';
 
 // useful resource for using Materialize components that require js:
 // https://github.com/InfomediaLtd/angular2-materialize/tree/master/app/components
@@ -20,8 +24,12 @@ import { LoggedInGuard } from './shared/guards/logged-in.guard';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   providers: [
-    UserService,
-    LoggedInGuard
+    //UserService,
+    EventDisplayService,
+    UnitConversionService,
+    EventAnalysisService,
+    CircleBindingService//,
+    //LoggedInGuard
   ]
 })
 export class AppComponent implements OnInit {
