@@ -1,0 +1,226 @@
+@import "src/materialize-src/sass/components/_color.scss";
+
+// ==========================================================================
+// Materialize Components
+// ==========================================================================
+
+// _global.scss
+// ==========================================================================
+
+// Collections
+.collection {
+  &.with-header {
+    .collection-header {
+      background-color: $primary-color; /* KK */ /* $collection-bg-color;*/
+      color: #FFFFFF; /* KK */
+    }
+  }
+}
+
+// Footer
+footer.page-footer {
+  margin-top: 20px;
+  //padding-top: 20px;
+  //background-color: $footer-bg-color;
+
+  .footer-copyright { /* KK edit */
+    overflow: hidden;
+    min-height: 50px; //changed to min height to fix mobile rendering issue where the footer was being cut off
+    //line-height: 50px; //commented out becauase it caused spacing issues in the footer when it wrapped around
+    padding: 1% 0; //added to vertically center text
+    //color: rgba(255,255,255,.8);
+    //background-color: rgba(51,51,51,.08);
+    //@extend .light;
+    /* KK: the following centers the div within the div vertically */
+    /* see: https://stackoverflow.com/questions/6490252/vertically-centering-a-div-inside-another-div */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+// _cards.scss
+// ==========================================================================
+
+.card {
+  // Card Sizes
+  &.small, &.medium, &.large {
+    .card-title-bar {/* KK */
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+
+  // Sticky Action Section
+  &.sticky-action {
+    .card-title-bar { /* KK */
+      z-index: 2;
+    }
+  }
+
+  .card-title-bar { /* KK */
+    position: relative;
+    background-color: $primary-color;
+    color: #FFFFFF;
+    /* border-top: 1px solid rgba(160,160,160,.2); */
+    padding: $card-padding;
+  }
+}
+
+// _dropdown.scss
+// ==========================================================================
+
+.dropdown-content {
+  li {
+    &:hover, &.active, &.selected {
+      color: $dropdown-color;/* KK */
+    }
+
+    & > a, & > span {
+      color: $primary-color;/* KK */
+    }
+  }
+}
+
+// ==========================================================================
+// _typography.scss
+// ==========================================================================
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+/* KK edits begin */
+.ql-editor strong {
+  font-weight: bold;
+}
+
+.step ul li {
+  list-style-type: circle;
+  padding-bottom: 10px;
+  margin-left: 2em;
+}
+
+.step ol li {
+  list-style-type: decimal;
+  padding-bottom: 10px;
+  /*margin-left: 2em;*/
+}
+
+.step strong {
+  font-weight: bold;
+}
+
+.step .ql-indent-1 {
+  /*
+  text-align:start;
+  text-indent:2em;
+  */
+  padding-left: 2em;
+}
+
+.step .ql-indent-2 {
+  /*
+  text-align:start;
+  text-indent:4em;
+  */
+  padding-left: 4em;
+}
+
+.step .ql-indent-3 {
+  /*
+  text-align:start;
+  text-indent:6em;
+  */
+  padding-left: 6em;
+}
+/* end of KK edits */
+
+
+// ==========================================================================
+// HTML Style (style.scss)
+// ==========================================================================
+
+nav {
+  // background-color: color("materialize-red", "lighten-2");
+
+  ul li a:hover, ul li.active {
+    background-color: $primary-color-dark;/* KK */ /* color("materialize-red", "lighten-1"); */
+    color: $dropdown-color;/* KK */
+  }
+}
+
+.include-pointer { /* LJ */
+     cursor: pointer !important;
+ }
+
+
+// dragula-specific styles:
+
+.dragula-container div,
+.gu-mirror {
+  transition: opacity 0.4s ease-in-out;
+}
+
+.dragula-container div {
+  cursor: move;
+  cursor: auto;
+  /*
+  dragula specifies the following, but this seems to apply cursor: grab
+  to children in a way that doesn't make sense....
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+  */
+}
+.gu-mirror {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+  list-style-type: none; /* https://stackoverflow.com/questions/1027354/need-an-unordered-list-without-any-bullets */
+  padding: 10px 20px;
+  border-color: #e0e0e0;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.gu-transit {
+  /*border-style: solid;*/
+  /*border-width: 2px;*/
+}
+
+.dragula-handle {
+  /*
+  padding: 0 5px;
+  margin-right: 5px;
+  background-color: rgba(0, 0, 0, 0.4);
+  */
+  cursor: move;
+}
+
+.dragula-step-handle {
+  /*
+  padding: 0 5px;
+  margin-right: 5px;
+  background-color: rgba(0, 0, 0, 0.4);
+  */
+  cursor: move;
+}
+
+// small modifications for collections (used on pages that use dragula)
+
+
+ul.collection.with-header.no-bottom-margin {
+  margin-bottom: 0px;
+  border-bottom: 0px;
+}
+
+ul.collection.no-top-bottom-margin {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  border-top: 0px;
+}
+

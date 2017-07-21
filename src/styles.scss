@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+
+// Variables must be imported first so they can be used across all other
+// style sheets and take priority over the Materialize variables.
+@import "global-variables.scss";
+
+@import 'src/materialize-src/sass/materialize.scss';
+
+// The custom global styles must be imported last so that they 'cascade'
+// over the materialize styles and take priority.
+@import "global-styles.scss";
+
