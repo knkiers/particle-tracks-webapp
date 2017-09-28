@@ -13,8 +13,8 @@ export class AxisComponent implements OnInit {
 
   @Input() boundaries: any;
   @Input() interactionLocation: any;
-  private hAxisParams: any;
-  private vAxisParams: any;
+  hAxisParams: any;
+  vAxisParams: any;
 
   constructor(private unitConversionService:UnitConversionService) {}
 

@@ -16,9 +16,9 @@ export class MomentumAxisComponent implements OnInit, OnChanges {
   @Input() circles: any;
   @Input() wakeUp: number;
 
-  private hAxisParams: any;
-  private vAxisParams: any;
-  private momentumVectorParams: any;
+  hAxisParams: any;
+  vAxisParams: any;
+  momentumVectorParams: any;
   private arrowHeadCoords = '';
 
   constructor() {}
