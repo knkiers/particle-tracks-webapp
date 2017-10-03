@@ -8,19 +8,27 @@
   <div class="row">
     <div class="card col s12">
       <div class="card-content ">
-        <span class="card-title">
-          <span *ngIf="event">
-            <span [innerHTML]="event.name">
+        <div class="row">
+          <div class="col s12 m6 l6">
+            <span class="card-title">
+              <span *ngIf="event">
+                <span [innerHTML]="event.name">
+                </span>
+              </span>
+              <span *ngIf="!event">
+                No Process Selected
+              </span>
             </span>
-          </span>
-          <span *ngIf="!event">
-            No Process Selected
-          </span>
-        </span>
-        <span class="right">
-          <!-- Dropdown Trigger -->
-          <a materialize="dropdown" class='dropdown-button btn' data-activates='dropdownActions'>Actions</a>
-        </span>
+          </div>
+          <div class="col s12 m6 l6">
+            <a
+              materialize="dropdown"
+              class='dropdown-button btn'
+              data-activates='dropdownActions'
+              [materializeParams]="[{belowOrigin: true, alignment: 'left'}]"
+            >Actions</a>
+          </div>
+        </div>
 
         <div class="row">
           <div class ="col s8">
@@ -125,32 +133,24 @@
 <!-- Dropdown Structure -->
 <ul id='dropdownActions' class='dropdown-content'>
   <li>
-    <a materialize="leanModal"
-       class="modal-trigger"
-       href="#modalBrowseSavedEvents"
-       (click)="getEvents()"
-    >
-      Browse Saved Events
-    </a>
+    <a (click)="openBrowseEventsModal()">Browse Saved Events</a>
   </li>
   <div *ngIf="editModeOn">
     <li>
       <a (click)="saveEvent(false)">Save Event</a>
     </li>
     <li>
-      <a materialize="leanModal"
-         class="modal-trigger"
-         href="#modalSaveFirstWarning">
-        Get New Event
-      </a>
+      <a (click)="openSaveWarningModal()">Get New Event</a>
     </li>
   </div>
 </ul>
 
+
+
 <!--
 <div *ngIf="editModeOn">
   <button class="btn" (click)="saveEvent()">Save Event</button>
-  <a materialize="leanModal"
+  <a materialize="modal"
      class="waves-effect waves-light btn secondary-content modal-trigger"
      href="#modalSaveFirstWarning">
       Get New Event
@@ -159,7 +159,7 @@
 -->
 
 <!--
-<a materialize="leanModal"
+<a materialize="modal"
    class="waves-effect waves-light btn secondary-content modal-trigger"
    href="#modalBrowseSavedEvents"
    (click)="getEvents()"
@@ -170,7 +170,7 @@
 
 
 <!-- Modal Structure -->
-<div id="modalBrowseSavedEvents" class="modal">
+<div id="modalBrowseSavedEvents" class="modal" materialize="modal" [materializeParams]="modalBrowseEventsParams" [materializeActions]="modalBrowseEventsActions">
   <div class="modal-content">
     <h5>Saved Events</h5>
     <app-list-saved-events
@@ -185,7 +185,7 @@
 </div>
 
 <!-- Modal Structure -->
-<div id="modalSaveFirstWarning" class="modal">
+<div id="modalSaveFirstWarning" class="modal" materialize="modal" [materializeParams]="modalSaveWarningParams" [materializeActions]="modalSaveWarningActions">
   <div class="modal-content">
     <h5>Save Current Event First?</h5>
     Unsaved data will be lost....
@@ -195,6 +195,20 @@
     <a class="modal-action modal-close waves-effect waves-green btn-flat" (click)="saveEvent(true)">Save Event First</a>
   </div>
 </div>
+
+
+<!-- Modal Structure -->
+<div id="modalCircleError" class="modal" materialize="modal" [materializeParams]="[{dismissible: false, alignment: 'right'}]" [materializeActions]="modalCircleActions">
+  <div class="modal-content">
+    <h5>Can't add a circle to the selected points....</h5>
+    Please select a minimum of three non-colinear points before
+    attempting to add a circle.
+  </div>
+  <div class="modal-footer">
+    <a class="modal-action modal-close waves-effect waves-green btn-flat">Got it!</a>
+  </div>
+</div>
+
 
 <!--
 <div class="container">

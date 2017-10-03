@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 
+import {MaterializeModule} from "angular2-materialize";
+
 import {SharedModule} from '../shared/shared.module';
 
 import { AnalyzeEventComponent } from './analyze-event';
@@ -44,6 +46,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
+    MaterializeModule,
     RouterModule.forChild(routes),
   ],
   declarations: [
