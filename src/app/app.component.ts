@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+
+import {Router} from '@angular/router';
+
 import { UserService } from './shared/services/user.service';
 
 import {EventDisplayService} from './shared/services/event-display.service';
@@ -7,8 +10,7 @@ import {EventAnalysisService} from './shared/services/event-analysis.service';
 
 import { CircleBindingService } from './end-user/circle-binding.service';
 
-
-import {Router} from '@angular/router';
+import {User} from './shared/models/user';
 
 //import { UserService } from './shared/services/user.service';
 //import { LoggedInGuard } from './shared/guards/logged-in.guard';
@@ -34,7 +36,7 @@ import {Router} from '@angular/router';
 })
 export class AppComponent implements OnInit {
 
-  currentUser: any; // TODO: construct a User object(!)
+  currentUser: User = null;
 
   constructor(
     private userService: UserService,
@@ -45,10 +47,19 @@ export class AppComponent implements OnInit {
     if (this.userService.isLoggedIn()){
       //this.currentUser = this.userService.getCurrentUser();
       console.log('inside ngOnInit, and the user is logged in already');
-      // WORKING HERE:
-      // - after creating a user object, will just get it (as above), and then
-      //   will have access to the user's name, etc.
-      //console.log(this.currentUser);
+      // make sure we haven't lost the user's information for some reason; if so, refetch it....
+      if (!this.userService.currentUserDataIsSet()) {
+        let token = this.userService.fetchToken();
+        if (token !== null && !(this.userService.tokenExpired())) {
+          this.userService.setUserData(token).subscribe(
+            result => {
+              console.log('user data: ', result);
+            }
+          )
+        }
+
+
+      }
     } else {
       console.log('inside ngOnInit, and the user is not logged in yet');
       //console.log(this.currentUser);

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject }    from 'rxjs/Subject';
 
 import {Http, Response, Headers} from '@angular/http';
+import {Router} from '@angular/router';
 
 import {Observable} from 'rxjs/Rx';
 
@@ -10,6 +11,7 @@ import {EventTypeUrl} from './urls';
 
 import {Event} from '../models/event';
 import {UnitConversionService} from './unit-conversion.service';
+import {UserService} from './user.service';
 
 @Injectable()
 export class EventDisplayService {
@@ -22,7 +24,9 @@ export class EventDisplayService {
 
   constructor(
     private http:Http,
-    private unitConversionService:UnitConversionService) {}
+    private unitConversionService:UnitConversionService,
+    private userService: UserService,
+    private router: Router) {}
 
   // this looks helpful for using tokens: https://github.com/auth0-blog/angular2-http
   // also: http://stackoverflow.com/questions/34464108/angular2-set-headers-for-every-request
@@ -44,6 +48,10 @@ export class EventDisplayService {
     console.log(headers);
     console.log(EventTypeUrl);
 
+    if (this.userService.tokenExpired()) {
+      this.router.navigate(['/login']);
+    }
+
     return this.http
       .get(EventUrl, {headers})
       .map(response => response.json());
@@ -54,6 +62,7 @@ export class EventDisplayService {
   // the issue seems to be that the I am doing res.json() on something that is
   // already a json object (not a string) and so does not need to be parsed;
   // see here: http://stackoverflow.com/questions/38380462/syntaxerror-unexpected-token-o-in-json-at-position-1
+  /*
   getEventTypes(): Observable<Event> {
     let headers = new Headers();
     let authToken = localStorage.getItem('auth_token');
@@ -66,10 +75,15 @@ export class EventDisplayService {
     console.log(headers);
     console.log(EventTypeUrl);
 
+    if (this.userService.tokenExpired()) {
+      this.router.navigate(['/login']);
+    }
+
     return this.http
       .get(EventTypeUrl, {headers})
       .map(res => res.json());
   }
+  */
 
 
 

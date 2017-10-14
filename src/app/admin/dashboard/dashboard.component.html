@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <div class="card col s12">
+      <div *ngIf="users">
+        <div *ngFor="let user of users">
+          <div *ngIf="user.analyzed_events.length > 0">
+            {{user.first_name}} {{user.last_name}} ({{user.email}}):
+            {{user.analyzed_events.length}} Event(s)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

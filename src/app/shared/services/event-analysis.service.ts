@@ -1,16 +1,30 @@
 import { Injectable } from '@angular/core';
 
 import {Http, Response, Headers} from '@angular/http';
+import {Router} from '@angular/router';
+
+import {Observable} from 'rxjs/Observable';
+import { Subject }    from 'rxjs/Subject';
+
 
 import {AnalyzedEventsUrl, UserEventsUrl} from './urls';
 
 import {UnitConversionService} from './unit-conversion.service';
+import {UserService} from './user.service';
 
 @Injectable()
 export class EventAnalysisService {
 
+  // Observable user source
+  private tokenExpiredSource = new Subject<any>();
+
+  // Observable user stream
+  tokenExpired$ = this.tokenExpiredSource.asObservable();
+
   constructor(private http:Http,
-              private unitConversionService:UnitConversionService) {}
+              private unitConversionService:UnitConversionService,
+              private router: Router,
+              private userService: UserService) {}
 
   /*
    looks at the 'gridItemList' array and determines which have been selected for fitting a circle;
@@ -203,6 +217,10 @@ export class EventAnalysisService {
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `JWT ${authToken}`);
 
+    if (this.userService.tokenExpired()) {
+      this.router.navigate(['/login']);
+    }
+
     return this.http
       .post(
         AnalyzedEventsUrl,
@@ -222,6 +240,10 @@ export class EventAnalysisService {
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `JWT ${authToken}`);
 
+    if (this.userService.tokenExpired()) {
+      this.router.navigate(['/login']);
+    }
+
     return this.http
       .get(UserEventsUrl, {headers})
       .map(response => response.json());
@@ -236,6 +258,11 @@ export class EventAnalysisService {
     headers.append('Authorization', `JWT ${authToken}`);
 
     console.log(id);
+
+    if (this.userService.tokenExpired()) {
+      this.router.navigate(['/login']);
+    }
+
     return this.http
       .get(AnalyzedEventsUrl+id+'/', {headers})
       .map(response => response.json());
@@ -249,6 +276,11 @@ export class EventAnalysisService {
 
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `JWT ${authToken}`);
+
+    if (this.userService.tokenExpired()) {
+      this.tokenExpiredSource.next(null);
+      this.router.navigate(['/login']);
+    }
 
     return this.http
       .put(

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, EventEmitter } from '@angular/core';
 //import { ROUTER_DIRECTIVES } from '@angular/router';
 import { Subscription }   from 'rxjs/Subscription';
 //import {FormsModule} from '@angular/forms';
@@ -16,7 +16,7 @@ import { CircleBindingService } from '../circle-binding.service';
 import {Event} from '../../shared/models/event';
 
 // 1. QUESTION: should js-base64 be added to package.json?
-// 2. TODO: If jwt times out (currently set for 3 hrs), give an error message
+// 2. TODO: If jwt times out (currently set for 10 days), give an error message
 //    ("session timed out") and redirect to login page or something.  Currently it just
 //    crashes...!!
 // 3. Create a User object; if the user's token is still valid, but the user
@@ -31,7 +31,7 @@ declare var $: any; // for using jQuery within this angular component
   templateUrl: 'analysis-display.component.html',
   styleUrls: ['analysis-display.component.css']
 })
-export class AnalysisDisplayComponent implements OnInit {
+export class AnalysisDisplayComponent implements OnInit, OnDestroy {
 
   // TODO: Should make circles and dots objects with methods; then they can 'do' things
   // to themselves, like set hovering, selecting dots, etc.;
@@ -48,6 +48,7 @@ export class AnalysisDisplayComponent implements OnInit {
 
   subscription: Subscription;
   circleSubscription: Subscription;
+  tokenExpiredSubscription: Subscription;
 
   event: Event;
   private eventJSON: any;
@@ -105,9 +106,12 @@ export class AnalysisDisplayComponent implements OnInit {
         this.editCircleProperty(updateData);
         this.updateCircleTangentAngles();
         this.circleChange = -this.circleChange;
-      }
-    );
-
+      });
+    this.tokenExpiredSubscription = eventAnalysisService.tokenExpired$.subscribe(
+      (data) => {
+        console.log('token timed out!');
+        this.closeBrowseEventsModal();
+      });
   }
 
   ngOnInit() {
@@ -149,6 +153,7 @@ export class AnalysisDisplayComponent implements OnInit {
       );
   }
 
+  /*
   fetchEventTypes() {
     //this.eventType = null;
     this.eventDisplayService.getEventTypes()
@@ -160,6 +165,7 @@ export class AnalysisDisplayComponent implements OnInit {
         }
       );
   }
+  */
 
   saveEvent(fetchAfterSave: boolean) {
     //probably need to tweak this list, but OK for now....
@@ -586,6 +592,12 @@ export class AnalysisDisplayComponent implements OnInit {
 
   openCircleErrorModal() {
     this.modalCircleActions.emit({action:"modal",params:['open']});
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    this.circleSubscription.unsubscribe();
+    this.tokenExpiredSubscription.unsubscribe();
   }
 
 }

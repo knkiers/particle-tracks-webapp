@@ -46,8 +46,13 @@ export class LoginComponent implements OnInit {
         this.loginForm.value.username,
         this.loginForm.value.password).subscribe(
         (result) => {
-          console.log('back in the login component');
-          this.router.navigate(['/end-user']);
+          console.log('back in the login component; here is result: ', result);
+          this.userService.setUserData(result.token).subscribe(
+            result => {
+              console.log('user data! ', result);
+              this.router.navigate(['/end-user']);
+            }
+          );
         },
         (error) => {
           let errorDict = JSON.parse(error._body);

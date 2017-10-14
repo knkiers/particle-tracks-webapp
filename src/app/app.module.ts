@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 
 import {AuthenticationModule} from './authentication/authentication.module';
 import {EndUserModule} from './end-user/end-user.module';
+import {AdminModule} from './admin/admin.module';
 
 import { LoggedInGuard } from './shared/guards/logged-in.guard';
 import { UserService } from './shared/services/user.service';
@@ -29,6 +30,7 @@ const routes: Routes = [
     MaterializeModule,
     AuthenticationModule,
     EndUserModule,
+    AdminModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule

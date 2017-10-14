@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Http, Headers } from '@angular/http';
+import {Router} from '@angular/router';
 
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -18,26 +19,29 @@ import { JwtHelper } from 'angular2-jwt';
 import {EventTypeUrl} from './urls';
 import {LoginUrl} from './urls';
 import {AccountsUrl} from './urls';
+import {UsersUrl} from './urls';
 
+import {User} from '../models/user';
 
 @Injectable()
 export class UserService {
 
   jwtHelper: JwtHelper = new JwtHelper();
-  decoded: any;
-  userID: any;
 
-  private loggedIn = false;
+  currentUser: User = null;
+
+  //private loggedIn = false;
 
   // Observable user source
-  private userAnnouncedSource = new Subject<any>();
+  private userAnnouncedSource = new Subject<User>();
 
   // Observable user stream
   userAnnounced$ = this.userAnnouncedSource.asObservable();
 
 
-  constructor(private http: Http) {
-    this.loggedIn = !!localStorage.getItem('auth_token');
+  constructor(private http: Http,
+              private router: Router) {
+    //this.loggedIn = !!localStorage.getItem('auth_token');
   }
 
   register(username, password, email, firstName, lastName): Observable<any> {
@@ -62,63 +66,114 @@ export class UserService {
   }
 
   login(username, password) {
+    console.log('at login method');
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-
-    /*
-     WORKING HERE...
-     to do next:
-     - add the ability to save and retrieve events
-     */
     return this.http
       .post(
         LoginUrl,
         JSON.stringify({ username, password }),
         { headers }
       )
-      .map(res => res.json())
-      .map((res) => {
-        console.log('inside user service');
-        console.log(res);
-        localStorage.setItem('auth_token', res.token);
-        this.loggedIn = true;
-        this.announceUser(username);
-        console.log(localStorage.getItem('auth_token'));
-        this.decoded = this.jwtHelper.decodeToken(localStorage.getItem('auth_token'));
-        console.log(this.decoded);
-        this.userID = this.decoded.user_id;
-        console.log(this.userID);
+      .map(res => {
+        // apparently if there is an error, that just gets returned automatically(?), skipping over this part of the code
+        let jsonResponse = res.json();
+        console.log('here is the response: ', jsonResponse);
+        localStorage.setItem('auth_token', jsonResponse.token);
+        //this.loggedIn = true;
+        return jsonResponse;
+      })
+  }
 
-        // TODO:
-        // probably after getting the token, should go back and get all
-        // of the user's data, so can create a User object...it's kind of
-        // hinky to take the typed-in username as the user's name...plus we
-        // lose it if the page gets refreshed....
+  tokenExpired() {
+    let token: string = this.fetchToken();
+    if (token === null) {
+      return true;
+    } else {
+      let nowSeconds = Date.now()/1000;
+      let decoded = this.jwtHelper.decodeToken(token);
+      console.log('seconds remaining: ', decoded.exp - nowSeconds - 10);
 
+      return !(decoded.exp > nowSeconds + 10);// add 10 seconds to be on the safe side
+    }
+  }
+
+  setUserData(authToken: string) {
+    let decoded = this.jwtHelper.decodeToken(authToken);//localStorage.getItem('auth_token'));
+    let userID = decoded.user_id;
+    let headers = new Headers();
+    //let authToken = localStorage.getItem('auth_token');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `JWT ${authToken}`);
+    // some useful information about map, etc.:
+    // https://stackoverflow.com/questions/40029986/how-does-map-subscribe-on-angular2-work
+    return this.http
+      .get(
+        UsersUrl + userID+"/",
+        {headers}
+      )
+      .map(res => {
+        let userData = res.json();
+        this.currentUser = new User(userData);
+        this.announceUser(this.currentUser);
+        return userData;
       });
   }
 
   logout() {
     localStorage.removeItem('auth_token');
-    this.loggedIn = false;
+    //this.loggedIn = false;
     this.userAnnouncedSource.next(null);
     //this.announceLogOut();
   }
 
-  fetchUserID() {
-    return this.userID;
+  fetchToken() {
+    return localStorage.getItem('auth_token');
   }
 
-
   isLoggedIn() {
-    return this.loggedIn;
+    let loggedIn: boolean = !!localStorage.getItem('auth_token');
+    return loggedIn;
+  }
+
+  currentUserDataIsSet() {
+    return !(this.currentUser === null);
+  }
+
+  fetchUsers() {
+
+    if (this.tokenExpired()) {
+      this.router.navigate(['/login']);
+    }
+
+    // the following docs are very helpful for wiring up the authentication with a
+    // jwt on both the server and client side:
+    //   client side: https://medium.com/@blacksonic86/angular-2-authentication-revisited-611bf7373bf9#.jelvdws38
+    //   server side: http://getblimp.github.io/django-rest-framework-jwt/
+    let headers = new Headers();
+    let authToken = localStorage.getItem('auth_token');
+    console.log('here is authToken:');
+    console.log(authToken);
+
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `JWT ${authToken}`);
+
+    console.log(headers);
+    console.log(EventTypeUrl);
+
+    return this.http
+      .get(
+        UsersUrl,
+        {headers}
+      )
+      .map(res => res.json());
   }
 
   // Service message command
-  announceUser(username) {
+  announceUser(user: User) {
     console.log('announcing user! or lack thereof....');
     //console.log(this.currentUser);
-    this.userAnnouncedSource.next(username);
+    this.userAnnouncedSource.next(user);
   }
 
 }
