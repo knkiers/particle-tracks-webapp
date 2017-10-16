@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ComponentFactoryResolver } from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
+
+import { Subscription }   from 'rxjs/Subscription';
 
 import {UserService} from '../../shared/services/user.service';
 import {EventAnalysisService} from '../../shared/services/event-analysis.service';
 import {User} from '../../shared/models/user';
+
+import { UserEventAnchorDirective } from './user-event-anchor.directive';
+import {AnalysisDisplayComponent} from '../../end-user/analysis-display';
 
 
 @Component({
@@ -11,15 +16,26 @@ import {User} from '../../shared/models/user';
   templateUrl: './user-events.component.html',
   styleUrls: ['./user-events.component.css']
 })
-export class UserEventsComponent implements OnInit {
+export class UserEventsComponent implements OnInit, OnDestroy {
+
+  @ViewChild(UserEventAnchorDirective) userEventAnchor: UserEventAnchorDirective;
 
   private user: User = null;
   events: any = null;
+  private analysisDisplayComponent: any;
+
+  subscription: Subscription;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               private userService: UserService,
-              private eventAnalysisService: EventAnalysisService) { }
+              private eventAnalysisService: EventAnalysisService,
+              private componentFactoryResolver: ComponentFactoryResolver) {
+    this.subscription = eventAnalysisService.analysisDisplayClosed$.subscribe(
+      event => {
+        this.closeUserEvent();
+      });
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -49,14 +65,6 @@ export class UserEventsComponent implements OnInit {
     this.eventAnalysisService.getAnalyzedUserEvents(eventIdList).subscribe(
       userEvents => {
         let events = userEvents;//JSON.parse(userEvents);
-        /*
-        for (var i in events) {
-          let date = new Date(this.events[i].created);
-          //console.log(date);
-          this.events.created = date.toLocaleTimeString("en-us", options);// makes the date a bit more human-readable
-        }
-        */
-        console.log(events);
         let submittedEvents = [];
         let nonsubmittedEvents  =[];
         events.forEach(event => {
@@ -77,8 +85,22 @@ export class UserEventsComponent implements OnInit {
     );
   }
 
+  openUserEvent(eventData: any) {
+    console.log(eventData);
+    this.userEventAnchor.viewContainer.clear();
+    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(AnalysisDisplayComponent);
+    this.analysisDisplayComponent = this.userEventAnchor.viewContainer.createComponent(componentFactory).instance;
+    this.analysisDisplayComponent.refreshView(eventData);
+    this.analysisDisplayComponent.userIsReadOnly = true;
+  }
+
+  closeUserEvent() {
+    this.userEventAnchor.viewContainer.clear();
+  }
 
 
-
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
 }

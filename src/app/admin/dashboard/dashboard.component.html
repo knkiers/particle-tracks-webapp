@@ -17,7 +17,7 @@
             <td>{{user.last_name}}</td>
             <td>{{user.email}}</td>
             <td>{{user.analyzed_events.length}}</td>
-            <td><a *ngIf="user.analyzed_events.length > 0">View</a></td>
+            <td><a *ngIf="user.analyzed_events.length > 0" [routerLink]="['/admin/user-events', user.id]">View</a></td>
           </tr>
         </tbody>
 

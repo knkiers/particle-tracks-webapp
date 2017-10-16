@@ -58,8 +58,8 @@ export class ListSavedEventsComponent implements OnInit {
             this.eventAnalysisService.getAnalyzedEvents()
               .subscribe(
                 userEvents => {
-                  //console.log(userEvents);
                   this.eventList = JSON.parse(userEvents);
+                  console.log(this.eventList);
                   for (var i in this.eventList) {
                     date = new Date(this.eventList[i].created);
                     //console.log(date);

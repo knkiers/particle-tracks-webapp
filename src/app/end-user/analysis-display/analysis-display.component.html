@@ -20,13 +20,16 @@
               </span>
             </span>
           </div>
-          <div class="col s12 m6 l6">
+          <div *ngIf="!userIsReadOnly" class="col s12 m6 l6">
             <a
               materialize="dropdown"
               class='dropdown-button btn'
               data-activates='dropdownActions'
               [materializeParams]="[{belowOrigin: true, alignment: 'left'}]"
             >Actions</a>
+          </div>
+          <div *ngIf="userIsReadOnly" class="col s12 m6 l6 right-align">
+            <a (click)="closeAnalysisDisplay()"><i class="material-icons">close</i></a>
           </div>
         </div>
 
@@ -88,7 +91,8 @@
               <div class="col s12">
                 <app-circle-table
                   [circles]="circles"
-                  [event]="event">
+                  [event]="event"
+                  [userIsReadOnly]="userIsReadOnly">
                 </app-circle-table>
               </div>
             </div>
@@ -102,7 +106,7 @@
           <button *ngIf="event" class="btn" (click)="turnOnEditMode()">Analyze This Event</button>
         </div>
         <div *ngIf="editModeOn">
-          <button class="btn btn-flat" (click)="addCircle()">Add Circle</button>
+          <button *ngIf="!userIsReadOnly" class="btn btn-flat" (click)="addCircle()">Add Circle</button>
           <button
             class="btn btn-flat"
             (mouseenter)="showEvent()"
@@ -111,7 +115,7 @@
           </button>
 
           <!-- Switch -->
-          <span class="switch">
+          <span *ngIf="!userIsReadOnly" class="switch">
             <label>
               Deselect
               <input

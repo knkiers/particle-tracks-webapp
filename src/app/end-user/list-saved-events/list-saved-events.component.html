@@ -18,9 +18,7 @@
   </div>
   <div class="row">
     <div *ngFor="let event of eventList">
-      <div class="col s4">
-        {{event.title}}
-      </div>
+      <div class="col s4" [innerHtml]="event.title"></div>
       <div class="col s4">
         {{event.created}}
       </div>

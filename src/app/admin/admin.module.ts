@@ -25,7 +25,8 @@ import {AdminComponent} from './admin.component';
 import { LoggedInGuard } from '../shared/guards/logged-in.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserEventsComponent } from './user-events/user-events.component';
-
+import { UserEventAnchorDirective } from './user-events/user-event-anchor.directive';
+import {AnalysisDisplayComponent} from '../end-user/analysis-display';
 
 const routes: Routes = [
   {
@@ -54,6 +55,9 @@ const routes: Routes = [
     MaterializeModule,
     RouterModule.forChild(routes),
   ],
+  entryComponents: [
+    AnalysisDisplayComponent
+  ],
   declarations: [
     // EndUserComponent,
     // AnalyzeEventComponent,
@@ -69,7 +73,8 @@ const routes: Routes = [
     //RoundRealPipe,
     AdminComponent,
     DashboardComponent,
-    UserEventsComponent
+    UserEventsComponent,
+    UserEventAnchorDirective
   ]
 })
 export class AdminModule { }

@@ -37,10 +37,10 @@ export class AnalysisDisplayComponent implements OnInit, OnDestroy {
   // to themselves, like set hovering, selecting dots, etc.;
   // could refactor this on the next go-around....
 
-  // TODO: add OnDestroy to unsubscribe from subscriptions(?)
-
   //@Input() event: Event;
   //@Input() numberEventsRequested: any;
+
+  userIsReadOnly: boolean = false; // set to true if viewing from the admin (for grading purposes)
 
   modalSaveWarningActions = new EventEmitter<string|MaterializeAction>();
   modalBrowseEventsActions = new EventEmitter<string|MaterializeAction>();
@@ -592,6 +592,10 @@ export class AnalysisDisplayComponent implements OnInit, OnDestroy {
 
   openCircleErrorModal() {
     this.modalCircleActions.emit({action:"modal",params:['open']});
+  }
+
+  closeAnalysisDisplay() {
+    this.eventAnalysisService.announcedAnalysisDisplayClosed();
   }
 
   ngOnDestroy() {

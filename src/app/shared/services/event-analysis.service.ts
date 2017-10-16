@@ -15,11 +15,13 @@ import {UserService} from './user.service';
 @Injectable()
 export class EventAnalysisService {
 
-  // Observable user source
+  // Observable sources
   private tokenExpiredSource = new Subject<any>();
+  private analysisDisplayClosedSource = new Subject<any>();
 
-  // Observable user stream
+  // Observable streams
   tokenExpired$ = this.tokenExpiredSource.asObservable();
+  analysisDisplayClosed$ = this.analysisDisplayClosedSource.asObservable();
 
   constructor(private http:Http,
               private unitConversionService:UnitConversionService,
@@ -324,6 +326,10 @@ export class EventAnalysisService {
         { headers }
       )
       .map(res => res.json());
+  }
+
+  announcedAnalysisDisplayClosed() {
+    this.analysisDisplayClosedSource.next(null);
   }
 
 

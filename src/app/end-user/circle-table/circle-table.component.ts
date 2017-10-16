@@ -15,6 +15,7 @@ export class CircleTableComponent implements OnInit {
 
   @Input() circles: any;
   @Input() event: any;
+  @Input() userIsReadOnly: boolean = false;
 
   constructor(private circleBindingService:CircleBindingService) {}
 
