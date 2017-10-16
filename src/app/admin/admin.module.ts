@@ -24,6 +24,7 @@ import {AdminComponent} from './admin.component';
 
 import { LoggedInGuard } from '../shared/guards/logged-in.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { UserEventsComponent } from './user-events/user-events.component';
 
 
 const routes: Routes = [
@@ -36,8 +37,11 @@ const routes: Routes = [
         path: '',
         component: DashboardComponent,
       },
-
-      ]
+      {
+        path: 'user-events/:userId',
+        component: UserEventsComponent,
+      },
+    ]
   },
 ];
 
@@ -64,7 +68,8 @@ const routes: Routes = [
     // MomentumAxisComponent,
     //RoundRealPipe,
     AdminComponent,
-    DashboardComponent
+    DashboardComponent,
+    UserEventsComponent
   ]
 })
 export class AdminModule { }

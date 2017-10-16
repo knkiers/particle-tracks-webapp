@@ -169,6 +169,30 @@ export class UserService {
       .map(res => res.json());
   }
 
+  fetchUser(userId: number) {
+
+    if (this.tokenExpired()) {
+      this.router.navigate(['/login']);
+    }
+
+    // the following docs are very helpful for wiring up the authentication with a
+    // jwt on both the server and client side:
+    //   client side: https://medium.com/@blacksonic86/angular-2-authentication-revisited-611bf7373bf9#.jelvdws38
+    //   server side: http://getblimp.github.io/django-rest-framework-jwt/
+    let headers = new Headers();
+    let authToken = localStorage.getItem('auth_token');
+
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `JWT ${authToken}`);
+    return this.http
+      .get(
+        UsersUrl+userId+'/',
+        {headers}
+      )
+      .map(res => res.json());
+  }
+
+
   // Service message command
   announceUser(user: User) {
     console.log('announcing user! or lack thereof....');

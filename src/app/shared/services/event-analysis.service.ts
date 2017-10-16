@@ -233,6 +233,10 @@ export class EventAnalysisService {
       .map(res => res.json());
   }
 
+  /**
+   * fetches analyzed events for the logged in user
+   * @returns {Observable<R>}
+   */
   getAnalyzedEvents() {
     let headers = new Headers();
     let authToken = localStorage.getItem('auth_token');
@@ -250,14 +254,11 @@ export class EventAnalysisService {
 
   }
 
-  getAnalyzedEvent(id) {
+  getAnalyzedEvent(id: number) {
     let headers = new Headers();
     let authToken = localStorage.getItem('auth_token');
-
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `JWT ${authToken}`);
-
-    console.log(id);
 
     if (this.userService.tokenExpired()) {
       this.router.navigate(['/login']);
@@ -267,6 +268,36 @@ export class EventAnalysisService {
       .get(AnalyzedEventsUrl+id+'/', {headers})
       .map(response => response.json());
 
+  }
+
+  /**
+   *
+   * fetches an array of analyzed events; events could be for a user
+   * other than the logged-in user (who should be an admin to use this method)
+   *
+   * see: https://stackoverflow.com/questions/35676451/observable-forkjoin-and-array-argument
+   *
+   * @param idList
+   * @returns {any}
+   */
+  getAnalyzedUserEvents(idList: number[]): Observable<Array<any>> {
+    let headers = new Headers();
+    let authToken = localStorage.getItem('auth_token');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `JWT ${authToken}`);
+
+    if (this.userService.tokenExpired()) {
+      this.router.navigate(['/login']);
+    }
+
+    let observableBatch = [];
+    idList.forEach(id => {
+      observableBatch.push(
+        this.http
+          .get(AnalyzedEventsUrl+id+'/', {headers})
+          .map(response => response.json()));
+    });
+    return Observable.forkJoin(observableBatch);
   }
 
   submitAnalyzedEvent(title: string, data, id, submit: boolean) {

@@ -1,0 +1,32 @@
+<div *ngIf="user" class="container">
+  <div class="card">
+    <div class="card-content">
+      <div class="card-title">
+        Events for {{user.firstName}} {{user.lastName}} ({{user.username}})
+      </div>
+      <div *ngIf="events">
+        <table class="striped bordered">
+          <thead>
+          <tr>
+            <th>Event</th>
+            <th>Time Stamp</th>
+            <th>Submitted?</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let event of events">
+            <td [innerHTML]="event.event_data.event.name"></td>
+            <td>{{event.created}}</td>
+            <td><span *ngIf="event.submitted">yes</span></td>
+            <td><a>View</a></td>
+          </tr>
+          </tbody>
+
+
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
