@@ -29,11 +29,24 @@
             >Actions</a>
           </div>
           <div *ngIf="userIsReadOnly" class="col s12 m6 l6 right-align">
-            <a (click)="closeAnalysisDisplay()"><i class="material-icons">close</i></a>
+
+            <button *ngIf="userIsReadOnly && revealEvent"
+                    class="btn btn-flat"
+                    (click)="hideEvent()">
+              Hide Event
+            </button>
+
+            <button *ngIf="userIsReadOnly && !revealEvent"
+                    class="btn btn-flat"
+                    (click)="showEvent()">
+              Show Event
+            </button>
+
+            <button class="btn btn-flat" (click)="closeAnalysisDisplay()"> close </button>
           </div>
         </div>
 
-        <div class="row">
+        <div class="row row-no-bottom-margin">
           <div class ="col s8">
             <div *ngIf="boundaries && dots">
               <svg [attr.height]="boundaries.height" [attr.width]="boundaries.width">
@@ -100,14 +113,15 @@
         </div>
 
       </div>
-      <div class="card-action">
+      <div *ngIf="!userIsReadOnly" class="card-action">
         <div *ngIf="!editModeOn">
           <button class="btn" (click)="fetchNewEvent()">Get Event</button>
           <button *ngIf="event" class="btn" (click)="turnOnEditMode()">Analyze This Event</button>
         </div>
+
         <div *ngIf="editModeOn">
           <button *ngIf="!userIsReadOnly" class="btn btn-flat" (click)="addCircle()">Add Circle</button>
-          <button
+          <button *ngIf="!userIsReadOnly"
             class="btn btn-flat"
             (mouseenter)="showEvent()"
             (mouseout)="hideEvent()">

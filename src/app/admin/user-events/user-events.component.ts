@@ -9,7 +9,8 @@ import {User} from '../../shared/models/user';
 
 import { UserEventAnchorDirective } from './user-event-anchor.directive';
 import {AnalysisDisplayComponent} from '../../end-user/analysis-display';
-
+import { EventInfoAnchorDirective } from './event-info-anchor.directive';
+import {EventEnergyMomentumComponent} from '../event-energy-momentum/event-energy-momentum.component';
 
 @Component({
   selector: 'app-user-events',
@@ -19,10 +20,12 @@ import {AnalysisDisplayComponent} from '../../end-user/analysis-display';
 export class UserEventsComponent implements OnInit, OnDestroy {
 
   @ViewChild(UserEventAnchorDirective) userEventAnchor: UserEventAnchorDirective;
+  @ViewChild(EventInfoAnchorDirective) eventInfoAnchor: EventInfoAnchorDirective;
 
   private user: User = null;
   events: any = null;
   private analysisDisplayComponent: any;
+  private eventEnergyMomentumComponent: any;
 
   subscription: Subscription;
 
@@ -92,6 +95,13 @@ export class UserEventsComponent implements OnInit, OnDestroy {
     this.analysisDisplayComponent = this.userEventAnchor.viewContainer.createComponent(componentFactory).instance;
     this.analysisDisplayComponent.refreshView(eventData);
     this.analysisDisplayComponent.userIsReadOnly = true;
+
+    this.eventInfoAnchor.viewContainer.clear();
+    let eventInfoComponentFactory = this.componentFactoryResolver.resolveComponentFactory(EventEnergyMomentumComponent);
+    this.eventEnergyMomentumComponent = this.eventInfoAnchor.viewContainer.createComponent(eventInfoComponentFactory).instance;
+    this.eventEnergyMomentumComponent.eventData = eventData;
+    //this.analysisDisplayComponent.userIsReadOnly = true;
+
   }
 
   closeUserEvent() {

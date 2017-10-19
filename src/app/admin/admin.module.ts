@@ -27,6 +27,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserEventsComponent } from './user-events/user-events.component';
 import { UserEventAnchorDirective } from './user-events/user-event-anchor.directive';
 import {AnalysisDisplayComponent} from '../end-user/analysis-display';
+import { EventEnergyMomentumComponent } from './event-energy-momentum/event-energy-momentum.component';
+import { EventInfoAnchorDirective } from './user-events/event-info-anchor.directive';
 
 const routes: Routes = [
   {
@@ -56,25 +58,16 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   entryComponents: [
-    AnalysisDisplayComponent
+    AnalysisDisplayComponent,
+    EventEnergyMomentumComponent
   ],
   declarations: [
-    // EndUserComponent,
-    // AnalyzeEventComponent,
-    // AnalysisDisplayComponent,
-    // AxisComponent,
-    // CircleItemComponent,
-    // CircleTableComponent,
-    // EventComponent,
-    // EventItemComponent,
-    // GridItemComponent,
-    // ListSavedEventsComponent,
-    // MomentumAxisComponent,
-    //RoundRealPipe,
     AdminComponent,
     DashboardComponent,
     UserEventsComponent,
-    UserEventAnchorDirective
+    UserEventAnchorDirective,
+    EventEnergyMomentumComponent,
+    EventInfoAnchorDirective
   ]
 })
 export class AdminModule { }

@@ -29,7 +29,7 @@ declare var $: any; // for using jQuery within this angular component
 @Component({
   selector: 'app-analysis-display',
   templateUrl: 'analysis-display.component.html',
-  styleUrls: ['analysis-display.component.css']
+  styleUrls: ['analysis-display.component.scss']
 })
 export class AnalysisDisplayComponent implements OnInit, OnDestroy {
 

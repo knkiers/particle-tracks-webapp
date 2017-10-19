@@ -1,0 +1,82 @@
+<div class="container">
+  <div *ngIf="eventData" class="row">
+    <div class="card col s12">
+      <div class="card-content ">
+        <div class="row">
+          <div class="col s12">
+
+            <div class="card-title">
+              <div [innerHtml]="eventData.event.name"></div>
+              <span>
+                B = {{eventData.bFieldStrength}} kG ({{eventData.bFieldDirection}})
+              </span>
+              <div>Event Data: </div>
+            </div>
+            <table class="striped bordered">
+              <thead>
+              <tr>
+                <th>Particle</th>
+                <th>in/out</th>
+                <th>X/Y?</th>
+                <th>Mass (MeV/c<sup>2</sup>)</th>
+                <th>p (MeV/c)</th>
+                <th>p<sub>x</sub> (MeV/c)</th>
+                <th>p<sub>y</sub> (MeV/c)</th>
+                <th>&theta; (rad)</th>
+                <th>E (MeV)</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let particle of eventDataSummary">
+                  <td [innerHtml]="particle.name"></td>
+                  <td>out</td>
+                  <td [innerHtml]="particle.alias"></td>
+                  <td>{{particle.mass}}</td>
+                  <td>{{particle.pMag | roundReal : 4}}</td>
+                  <td>{{particle.px | roundReal : 4}}</td>
+                  <td>{{particle.py | roundReal : 4}}</td>
+                  <td>{{particle.theta | roundReal : 4}}</td>
+                  <td>{{particle.energy | roundReal : 4}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="card-title">
+              <div> Student Data:</div>
+            </div>
+            <table *ngIf="studentData" class="striped bordered">
+              <thead>
+              <tr>
+                <th>Circle #</th>
+                <th>in/out</th>
+                <th>r (cm)</th>
+                <th>p (MeV/c)</th>
+                <th>p<sub>x</sub> (MeV/c)</th>
+                <th>p<sub>y</sub> (MeV/c)</th>
+                <th>&theta; (rad)</th>
+                <th>E (MeV)</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let entry of studentData">
+                <td>{{entry.circleNumber}}</td>
+                <td>{{entry.inout}}</td>
+                <td>{{entry.r | roundReal : 4}}</td>
+                <td>{{entry.pMag | roundReal : 4}}</td>
+                <td>{{entry.px | roundReal : 4}}</td>
+                <td>{{entry.py | roundReal : 4}}</td>
+                <td>{{entry.theta | roundReal : 4}}</td>
+                <td></td>
+              </tr>
+              </tbody>
+            </table>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

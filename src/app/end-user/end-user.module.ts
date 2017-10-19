@@ -18,7 +18,7 @@ import {GridItemComponent} from './grid-item';
 import {ListSavedEventsComponent} from './list-saved-events';
 import {MomentumAxisComponent} from './momentum-axis';
 
-import {RoundRealPipe} from '../shared/pipes/round-real.pipe';
+//import {RoundRealPipe} from '../shared/pipes/round-real.pipe';
 
 
 import { LoggedInGuard } from '../shared/guards/logged-in.guard';
@@ -60,8 +60,8 @@ const routes: Routes = [
     EventItemComponent,
     GridItemComponent,
     ListSavedEventsComponent,
-    MomentumAxisComponent,
-    RoundRealPipe
+    MomentumAxisComponent
+    //RoundRealPipe
   ]
 })
 export class EndUserModule { }
