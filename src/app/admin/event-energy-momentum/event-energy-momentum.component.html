@@ -19,23 +19,23 @@
                 <th>in/out</th>
                 <th>X/Y?</th>
                 <th>Mass (MeV/c<sup>2</sup>)</th>
+                <th>&theta; (rad)</th>
                 <th>p (MeV/c)</th>
                 <th>p<sub>x</sub> (MeV/c)</th>
                 <th>p<sub>y</sub> (MeV/c)</th>
-                <th>&theta; (rad)</th>
                 <th>E (MeV)</th>
               </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let particle of eventDataSummary">
                   <td [innerHtml]="particle.name"></td>
-                  <td>out</td>
+                  <td>{{particle.inout}}</td>
                   <td [innerHtml]="particle.alias"></td>
                   <td>{{particle.mass}}</td>
+                  <td>{{particle.theta | roundReal : 4}}</td>
                   <td>{{particle.pMag | roundReal : 4}}</td>
                   <td>{{particle.px | roundReal : 4}}</td>
                   <td>{{particle.py | roundReal : 4}}</td>
-                  <td>{{particle.theta | roundReal : 4}}</td>
                   <td>{{particle.energy | roundReal : 4}}</td>
                 </tr>
               </tbody>
@@ -50,10 +50,12 @@
                 <th>Circle #</th>
                 <th>in/out</th>
                 <th>r (cm)</th>
+                <th>Particle</th>
+                <th>Mass (MeV/c<sup>2</sup>)</th>
+                <th>&theta; (rad)</th>
                 <th>p (MeV/c)</th>
                 <th>p<sub>x</sub> (MeV/c)</th>
                 <th>p<sub>y</sub> (MeV/c)</th>
-                <th>&theta; (rad)</th>
                 <th>E (MeV)</th>
               </tr>
               </thead>
@@ -62,10 +64,13 @@
                 <td>{{entry.circleNumber}}</td>
                 <td>{{entry.inout}}</td>
                 <td>{{entry.r | roundReal : 4}}</td>
+                <td [innerHtml] = "entry.name"></td>
+                <td>{{entry.mass }}</td>
+                <td>{{entry.theta | roundReal : 4}}</td>
                 <td>{{entry.pMag | roundReal : 4}}</td>
                 <td>{{entry.px | roundReal : 4}}</td>
                 <td>{{entry.py | roundReal : 4}}</td>
-                <td>{{entry.theta | roundReal : 4}}</td>
+                <td>{{entry.energy | roundReal : 4}}</td>
                 <td></td>
               </tr>
               </tbody>

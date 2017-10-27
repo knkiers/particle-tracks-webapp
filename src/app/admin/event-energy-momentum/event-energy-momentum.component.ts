@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
+import {EventDisplayService} from '../../shared/services/event-display.service';
+
+
+/**
+ * This component is instantiated from UserEventsComponent, which sets
+ * the value of eventData
+ */
+
 @Component({
   selector: 'app-event-energy-momentum',
   templateUrl: './event-energy-momentum.component.html',
@@ -8,15 +16,18 @@ import { Component, OnInit } from '@angular/core';
 export class EventEnergyMomentumComponent implements OnInit {
 
   eventData: any = null;
+  eventActivatedDots: any = null;
   studentData: any = null;
   eventDataSummary: any = null;
 
-  constructor() { }
+  constructor(private eventDisplayService: EventDisplayService) { }
 
   ngOnInit() {
     //console.log('eventData: ', this.eventData);
     this.buildEventDataSummary();
+    this.determineActivatedDots();
     this.buildStudentData();
+
   }
 
   // the data coming from the server has px and py, but not |p|, which is
@@ -61,36 +72,100 @@ export class EventEnergyMomentumComponent implements OnInit {
     this.studentData = [];
     let circleNumber: number = 1;
     this.eventData.circles.forEach(circle => {
+      let pMag = circle.r*0.3*bMag;
+      let bestFitIndex = this.bestFitIndex(circle);
+      let bestFitMass: number = null;
+      let energyFit: number = null;
+      let name: string = null;
+      if (bestFitIndex !== null) {
+        bestFitMass = this.eventActivatedDots[bestFitIndex].mass;
+        energyFit = Math.sqrt(pMag*pMag + bestFitMass*bestFitMass);
+        name = this.eventActivatedDots[bestFitIndex].name;
+      }
       this.studentData.push(
         {
           circleNumber: circleNumber,
           inout: circle.incoming ? 'in' : 'out',
           r: circle.r,
-          pMag: circle.r*0.3*bMag,
-          px: circle.r*0.3*bMag*Math.cos(circle.theta),
-          py: circle.r*0.3*bMag*Math.sin(circle.theta),
-          theta: circle.theta
+          pMag: pMag,
+          px: pMag*Math.cos(circle.theta),
+          py: pMag*Math.sin(circle.theta),
+          theta: circle.theta,
+          mass: bestFitMass,
+          energy: energyFit,
+          name: name,
+          activatedDotsIndex: bestFitIndex
         }
       );
       circleNumber++;
     });
   }
 
+  determineActivatedDots() {
+    this.eventActivatedDots = [];
+    let bMag = this.eventData.bFieldStrength;
+    let bFieldDirection = this.eventData.bFieldDirection;
+    let dots = this.eventData.dots;
+    let boundaries = this.eventData.boundaries;
+    let interactionLocation = this.eventData.interactionLocation;
 
+    // determine the activated dots for the parent
+    let charge = this.eventData.event.parent.charge;
+    let px = this.eventData.event.parent.energy_momentum[1];
+    let py = this.eventData.event.parent.energy_momentum[2];
 
-  /*
-   circleInfo(i: number){
-   console.log(this.circles[i]);
-   if(this.circles[i].theta) {
-   console.log('px: ' + 0.3 * 80 * this.circles[i].r * Math.cos(this.circles[i].theta));
-   console.log('py: ' + 0.3 * 80 * this.circles[i].r * Math.sin(this.circles[i].theta));
-   }
-   console.log('parent: ' + this.event.parent.energy_momentum[0] + ' ' + this.event.parent.energy_momentum[1] + ' ' + this.event.parent.energy_momentum[2]);
-   for (var j in this.event.decay_products) {
-   console.log('decay product: ' + this.event.decay_products[j].energy_momentum[0] + ' ' + this.event.decay_products[j].energy_momentum[1] + ' ' + this.event.decay_products[j].energy_momentum[2]);
-   }
-   console.log(this.event);
-   }
-   */
+    let activatedDotIndex = 0;
+    if (charge != 0) {
+      let particleDirection = this.eventDisplayService.inOut(bFieldDirection, charge);
+      let pathParams = this.eventDisplayService.curvedPathParams(bMag, dots, boundaries, interactionLocation,
+        px, py, particleDirection, 'incoming');
+      this.eventActivatedDots.push({
+        dotIndices: pathParams.activatedDots,
+        mass: this.eventData.event.parent.mass,
+        index: activatedDotIndex,
+        name: this.eventData.event.parent.particle_name
+      });
+      activatedDotIndex++;
+    }
+
+    // determine the activated dots for the decay products
+    this.eventData.event.decay_products.forEach(particle => {
+      let charge = particle.charge;
+      let px = particle.energy_momentum[1];
+      let py = particle.energy_momentum[2];
+      if (charge != 0) {
+        let particleDirection = this.eventDisplayService.inOut(bFieldDirection, charge);
+        let pathParams = this.eventDisplayService.curvedPathParams(bMag, dots, boundaries, interactionLocation,
+          px, py, particleDirection, 'outgoing');
+        this.eventActivatedDots.push({
+          dotIndices: pathParams.activatedDots,
+          mass: particle.mass,
+          index: activatedDotIndex,
+          name: particle.particle_name
+        });
+        activatedDotIndex++;
+      }
+    });
+  }
+
+  // this method determines which set of eventActivatedDots best matches
+  // the dots in circle (which is a student-defined set of circle dots)
+  bestFitIndex(circle) {
+    let maxNumberMatches = 0;
+    let bestIndex: number = null;
+    this.eventActivatedDots.forEach(activatedDotsElement => {
+      let numberMatches = 0;
+      circle.dotIndices.forEach(circleDotIndex => {
+        if (activatedDotsElement.dotIndices.includes(circleDotIndex)) {
+          numberMatches++;
+        }
+      });
+      if (numberMatches > maxNumberMatches) {
+        maxNumberMatches = numberMatches;
+        bestIndex = activatedDotsElement.index
+      }
+    });
+    return bestIndex;
+  }
 
 }
