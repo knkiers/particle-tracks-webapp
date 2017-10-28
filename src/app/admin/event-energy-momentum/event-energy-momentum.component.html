@@ -12,6 +12,10 @@
               </span>
               <div>Event Data: </div>
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12">
             <table class="striped bordered">
               <thead>
               <tr>
@@ -40,7 +44,10 @@
                 </tr>
               </tbody>
             </table>
-
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12">
             <div class="card-title">
               <div> Student Data:</div>
             </div>
@@ -61,7 +68,13 @@
               </thead>
               <tbody>
               <tr *ngFor="let entry of studentData">
-                <td>{{entry.circleNumber}}</td>
+                <td *ngIf="entry.error">
+                  {{entry.circleNumber}}
+                  <i class="material-icons icon-align-no-space red-text text-darken-2">error_outline</i>
+                </td>
+                <td *ngIf="!entry.error">
+                  {{entry.circleNumber}}
+                </td>
                 <td>{{entry.inout}}</td>
                 <td>{{entry.r | roundReal : 4}}</td>
                 <td [innerHtml] = "entry.name"></td>
@@ -75,9 +88,16 @@
               </tr>
               </tbody>
             </table>
-
-
-
+          </div>
+        </div>
+        <div *ngIf="errorMessages" class="row">
+          <div class="col s12">
+            <div class="card-title red-text text-darken-2">
+              <div> Errors/Warnings:</div>
+            </div>
+          </div>
+          <div *ngFor="let error of errorMessages" class="col s12">
+            <i class="material-icons icon-align red-text text-darken-2">error_outline</i> {{error}}
           </div>
         </div>
       </div>

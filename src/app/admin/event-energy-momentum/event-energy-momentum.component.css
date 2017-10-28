@@ -1,0 +1,9 @@
+.material-icons.icon-align {
+  vertical-align: middle;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.material-icons.icon-align-no-space {
+  vertical-align: middle;
+}
