@@ -106,6 +106,7 @@ export class UserEventsComponent implements OnInit, OnDestroy {
 
   closeUserEvent() {
     this.userEventAnchor.viewContainer.clear();
+    this.eventInfoAnchor.viewContainer.clear();
   }
 
 

@@ -5,9 +5,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class RoundRealPipe implements PipeTransform {
 
-  transform(value: number, numDecimalPlaces: number): any {
-    console.log(value);
-    return value.toFixed(numDecimalPlaces);
+  transform(value, numDecimalPlaces: number): any {
+    if (typeof value === 'number') {
+      return value.toFixed(numDecimalPlaces);
+    } else {
+      return value;
+    }
   }
 
 }

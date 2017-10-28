@@ -3,7 +3,7 @@
     <div class="card col s12">
       <div class="card-content ">
         <div class="row">
-          <div class="col s12">
+          <div class="col s12 m6 l6">
 
             <div class="card-title">
               <div [innerHtml]="eventData.event.name"></div>
@@ -13,6 +13,11 @@
               <div>Event Data: </div>
             </div>
           </div>
+
+          <div class="col s12 m6 l6 right-align">
+            <button class="btn btn-flat" (click)="closeAnalysisDisplay()"> close </button>
+          </div>
+
         </div>
         <div class="row">
           <div class="col s12">
@@ -54,11 +59,11 @@
             <table *ngIf="studentData" class="striped bordered">
               <thead>
               <tr>
+                <th>Particle</th>
                 <th>Circle #</th>
                 <th>in/out</th>
-                <th>r (cm)</th>
-                <th>Particle</th>
                 <th>Mass (MeV/c<sup>2</sup>)</th>
+                <th>r (cm)</th>
                 <th>&theta; (rad)</th>
                 <th>p (MeV/c)</th>
                 <th>p<sub>x</sub> (MeV/c)</th>
@@ -67,30 +72,92 @@
               </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let entry of studentData">
-                <td *ngIf="entry.error">
-                  {{entry.circleNumber}}
-                  <i class="material-icons icon-align-no-space red-text text-darken-2">error_outline</i>
-                </td>
-                <td *ngIf="!entry.error">
-                  {{entry.circleNumber}}
-                </td>
-                <td>{{entry.inout}}</td>
-                <td>{{entry.r | roundReal : 4}}</td>
-                <td [innerHtml] = "entry.name"></td>
-                <td>{{entry.mass }}</td>
-                <td>{{entry.theta | roundReal : 4}}</td>
-                <td>{{entry.pMag | roundReal : 4}}</td>
-                <td>{{entry.px | roundReal : 4}}</td>
-                <td>{{entry.py | roundReal : 4}}</td>
-                <td>{{entry.energy | roundReal : 4}}</td>
-                <td></td>
-              </tr>
+                <tr *ngIf="studentNeutralData && !incomingIsCharged">
+                  <td [innerHtml] = "studentNeutralData.name"></td>
+                  <td>
+                    {{studentNeutralData.circleNumber}}
+                  </td>
+                  <td>{{studentNeutralData.inout}}</td>
+                  <td>{{studentNeutralData.mass }}</td>
+                  <td>{{studentNeutralData.r | roundReal : 4}}</td>
+                  <td>{{studentNeutralData.theta | roundReal : 4}}</td>
+                  <td>{{studentNeutralData.pMag | roundReal : 4}}</td>
+                  <td>{{studentNeutralData.px | roundReal : 4}}</td>
+                  <td>{{studentNeutralData.py | roundReal : 4}}</td>
+                  <td>{{studentNeutralData.energy | roundReal : 4}}</td>
+                </tr>
+                <tr *ngFor="let entry of studentData">
+                  <td [innerHtml] = "entry.name"></td>
+                  <td *ngIf="entry.error">
+                    {{entry.circleNumber}}
+                    <i class="material-icons icon-align-no-space red-text text-darken-2">error_outline</i>
+                  </td>
+                  <td *ngIf="!entry.error">
+                    {{entry.circleNumber}}
+                  </td>
+                  <td>{{entry.inout}}</td>
+                  <td>{{entry.mass }}</td>
+                  <td>{{entry.r | roundReal : 4}}</td>
+                  <td>{{entry.theta | roundReal : 4}}</td>
+                  <td>{{entry.pMag | roundReal : 4}}</td>
+                  <td>{{entry.px | roundReal : 4}}</td>
+                  <td>{{entry.py | roundReal : 4}}</td>
+                  <td>{{entry.energy | roundReal : 4}}</td>
+                </tr>
+                <tr *ngIf="studentNeutralData && incomingIsCharged">
+                  <td [innerHtml] = "studentNeutralData.name"></td>
+                  <td>
+                    {{studentNeutralData.circleNumber}}
+                  </td>
+                  <td>{{studentNeutralData.inout}}</td>
+                  <td>{{studentNeutralData.mass }}</td>
+                  <td>{{studentNeutralData.r | roundReal : 4}}</td>
+                  <td>{{studentNeutralData.theta | roundReal : 4}}</td>
+                  <td>{{studentNeutralData.pMag | roundReal : 4}}</td>
+                  <td>{{studentNeutralData.px | roundReal : 4}}</td>
+                  <td>{{studentNeutralData.py | roundReal : 4}}</td>
+                  <td>{{studentNeutralData.energy | roundReal : 4}}</td>
+                </tr>
+                <tr *ngIf="studentDeltaData">
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>&Delta;:  </td>
+                  <td>{{studentDeltaData.deltaPx | roundReal : 4}}</td>
+                  <td>{{studentDeltaData.deltaPy | roundReal : 4}}</td>
+                  <td>{{studentDeltaData.deltaE | roundReal : 4}}</td>
+                </tr>
+                <tr *ngIf="studentDeltaData">
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>&Delta;%:  </td>
+                  <td *ngIf="studentDeltaData.deltaPxPercent">{{studentDeltaData.deltaPxPercent | roundReal : 2}}%</td>
+                  <td *ngIf="!studentDeltaData.deltaPxPercent">-</td>
+                  <td *ngIf="studentDeltaData.deltaPyPercent">{{studentDeltaData.deltaPyPercent | roundReal : 2}}%</td>
+                  <td *ngIf="!studentDeltaData.deltaPyPercent">-</td>
+                  <td>{{studentDeltaData.deltaEPercent | roundReal : 2}}%</td>
+                </tr>
+
+                <!--
+        deltaPx: inpx - outpx,
+        deltaPy: inpy - outpy,
+        deltaE: inE - outE,
+        deltaPxPercent: maxPx > 0 ? (inpx-outpx)*100/maxPx : '??',
+        deltaPyPercent: maxPy > 0 ? (inpy-outpy)*100/maxPy : '??',
+        deltaEPercent: inE > 0 ? (inE-outE)*100/inE : '??',
+      }"-->
               </tbody>
             </table>
           </div>
         </div>
-        <div *ngIf="errorMessages" class="row">
+        <div *ngIf="errorMessages.length > 0" class="row">
           <div class="col s12">
             <div class="card-title red-text text-darken-2">
               <div> Errors/Warnings:</div>

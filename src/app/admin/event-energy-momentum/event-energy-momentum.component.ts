@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import {EventAnalysisService} from '../../shared/services/event-analysis.service';
 import {EventDisplayService} from '../../shared/services/event-display.service';
 
 
@@ -16,17 +17,22 @@ import {EventDisplayService} from '../../shared/services/event-display.service';
 export class EventEnergyMomentumComponent implements OnInit {
 
   @Input() eventData: any = null;
+
   eventActivatedDots: any = null; // an array containing sets of activated dots and other properties for each particle in the event
   studentData: any = null;
+  studentNeutralData: any = null;
+  studentDeltaData: any = null;
   eventDataSummary: any = null;
   errorMessages: any = [];
   studentDataIsValid: boolean = true;
   numberChargedParticles: number = 0;
   numberNeutralParticles: number = 0;
+  eventNeutralData: any = null;//if there is a neutral particle, this contains its mass and name
   incomingIsCharged: boolean = true;
   neutralParticleData: any = null; // if there is a neutral particle (assumed to at most one neutral particle!), this will contain some of its data
 
-  constructor(private eventDisplayService: EventDisplayService) { }
+  constructor(private eventDisplayService: EventDisplayService,
+              private eventAnalysisService:EventAnalysisService) { }
 
   ngOnInit() {
     //console.log('eventData: ', this.eventData);
@@ -35,7 +41,7 @@ export class EventEnergyMomentumComponent implements OnInit {
     this.determineActivatedDots();
     this.buildStudentData();
     this.checkErrors();
-
+    this.checkEnergyMomentumConservation();
   }
 
   // the data coming from the server has px and py, but not |p|, which is
@@ -82,10 +88,18 @@ export class EventEnergyMomentumComponent implements OnInit {
       this.numberChargedParticles++;
     } else {
       this.numberNeutralParticles++;
+      this.eventNeutralData = {
+        mass: this.eventData.event.parent.mass,
+        name: this.eventData.event.parent.particle_name
+      }
     }
     this.eventData.event.decay_products.forEach(particle => {
       if (particle.charge === 0) {
         this.numberNeutralParticles++;
+        this.eventNeutralData = {
+          mass: particle.mass,
+          name: particle.particle_name
+        }
       } else {
         this.numberChargedParticles++;
       }
@@ -253,5 +267,118 @@ export class EventEnergyMomentumComponent implements OnInit {
       circleNumber++;
     });
   }
-  
+
+  checkEnergyMomentumConservation() {
+    let inpx: number = 0;
+    let outpx: number = 0;
+    let inpy: number = 0;
+    let outpy: number = 0;
+    let inE: number = 0;
+    let outE: number = 0;
+
+    let maxPx: number = 0;
+    let maxPy: number = 0;
+    let maxE: number = 0;
+
+    this.studentData.forEach(circle => {
+      if (Math.abs(circle.px) > maxPx) {
+        maxPx = Math.abs(circle.px);
+      }
+      if (Math.abs(circle.py) > maxPy) {
+        maxPy = Math.abs(circle.py);
+      }
+      if (circle.incoming) {
+        inpx += circle.px;
+        inpy += circle.py;
+        inE += circle.energy;
+      } else {
+        outpx += circle.px;
+        outpy += circle.py;
+        outE += circle.energy;
+      }
+    });
+
+    console.log('inpx: ', inpx);
+    console.log('inpy: ', inpy);
+    console.log('inE: ', inE);
+    console.log('outpx: ', outpx);
+    console.log('outpy: ', outpy);
+    console.log('outE: ', outE);
+
+    if (this.numberNeutralParticles === 0) {
+      this.studentDeltaData = {
+        deltaPx: inpx - outpx,
+        deltaPy: inpy - outpy,
+        deltaE: inE - outE,
+        deltaPxPercent: maxPx > 0 ? (inpx-outpx)*100/maxPx : '??',
+        deltaPyPercent: maxPy > 0 ? (inpy-outpy)*100/maxPy : '??',
+        deltaEPercent: inE > 0 ? (inE-outE)*100/inE : '??',
+      }
+    } else {// there is a neutral particle
+      let mass = this.eventNeutralData.mass;
+      let name = this.eventNeutralData.name;
+      if (this.incomingIsCharged) {// one of the final state particles is neutral
+        let pMag = Math.sqrt((inpx-outpx)*(inpx-outpx) + (inpy-outpy)*(inpy-outpy));
+        this.studentNeutralData = {
+          circleNumber: '-',
+          inout: 'out',
+          incoming: false,
+          CW: null,
+          r: '-',
+          pMag: pMag,
+          px: inpx-outpx,
+          py: inpy-outpy,
+          theta: '-',
+          mass: mass,
+          energy: Math.sqrt(pMag*pMag+mass*mass),
+          name: name,
+          activatedDotsIndex: null,
+          error: false
+        }
+        let deltaE = inE - outE - Math.sqrt(pMag*pMag+mass*mass);
+        this.studentDeltaData = {
+          deltaPx: '-',
+          deltaPy: '-',
+          deltaE: deltaE,
+          deltaPxPercent: '',
+          deltaPyPercent: '',
+          deltaEPercent: inE > 0 ? deltaE*100/inE : '??',
+        }
+      } else { // incoming particle is neutral
+        let pMag = Math.sqrt(outpx*outpx + outpy*outpy);
+        this.studentNeutralData = {
+          circleNumber: '-',
+          inout: 'in',
+          incoming: true,
+          CW: null,
+          r: '-',
+          pMag: pMag,
+          px: outpx,
+          py: outpy,
+          theta: '-',
+          mass: mass,
+          energy: Math.sqrt(pMag*pMag+mass*mass),
+          name: name,
+          activatedDotsIndex: null,
+          error: false
+        }
+        inE = Math.sqrt(pMag*pMag+mass*mass)
+        let deltaE = inE - outE;
+        this.studentDeltaData = {
+          deltaPx: '-',
+          deltaPy: '-',
+          deltaE: deltaE,
+          deltaPxPercent: '',
+          deltaPyPercent: '',
+          deltaEPercent: inE > 0 ? deltaE*100/inE : '??',
+        }
+      }
+    }
+  }
+
+  closeAnalysisDisplay() {
+    this.eventAnalysisService.announcedAnalysisDisplayClosed();
+  }
+
+
 }
