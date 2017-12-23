@@ -22,6 +22,9 @@ export class SignupComponent implements OnInit {
   private newUser = true;
   public userForm: FormGroup; // our model driven form
 
+  availableInstitutions: any = null;
+  haveInstitutions: boolean = false;
+
   constructor(private formBuilder: FormBuilder,
               private router: Router,
               private userService: UserService) {
@@ -30,8 +33,22 @@ export class SignupComponent implements OnInit {
 
   ngOnInit() {
     console.log('inside ngOnInit of sign-up');
+    this.fetchInstitutions();
     this.initializeForm();
   }
+
+  fetchInstitutions() {
+    this.userService.fetchInstitutions().subscribe(
+      institutions => {
+        console.log('institutions: ',institutions);
+        this.availableInstitutions = institutions;
+        this.haveInstitutions = true;
+      },
+      err => console.log("ERROR", err)
+    );
+
+  }
+
 
   initializeForm(){
     this.createEmptyUserData();// could (conditionally) user supplied userData instead....
@@ -44,6 +61,7 @@ export class SignupComponent implements OnInit {
       }, {validator: this.areEqual}),
       firstName: [this.userData.firstName, [<any>Validators.required]],
       lastName: [this.userData.lastName, [<any>Validators.required]],
+      institutionId: [this.userData.institutionId, [<any>Validators.required]],
       //joinedOn: [this.date.toISOString(), [<any>Validators.required]],//maybe fill this in upon submission instead...?!?
       //enabled: [true, [<any>Validators.required]],
       //preferredVersionID: [this.userData.preferredVersionID, [<any>Validators.required]],
@@ -58,6 +76,7 @@ export class SignupComponent implements OnInit {
       password: '',
       firstName: '',
       lastName: '',
+      institutionId: null
     }
   }
 
@@ -79,10 +98,6 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
-    //event.preventDefault();
-    //console.log(this.loginForm);
-    //var username: string;
-    //var password: string;
     if (this.userForm.valid){
       this.signinServerError = null;//reinitialize it....
       this.userService.register(
@@ -90,7 +105,8 @@ export class SignupComponent implements OnInit {
         this.userForm.value.passwords.password,
         this.userForm.value.email,
         this.userForm.value.firstName,
-        this.userForm.value.lastName
+        this.userForm.value.lastName,
+        +this.userForm.value.institutionId
       ).subscribe(
         (result) => {
           console.log('back in the login component');

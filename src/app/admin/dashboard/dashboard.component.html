@@ -7,6 +7,8 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
+            <th>Username</th>
+            <th>Institution</th>
             <th># Events</th>
             <th></th>
           </tr>
@@ -16,6 +18,9 @@
             <td>{{user.first_name}}</td>
             <td>{{user.last_name}}</td>
             <td>{{user.email}}</td>
+            <td>{{user.username}}</td>
+            <td *ngIf="haveInstitutions">{{getInstitutionName(user.institution_id)}}</td>
+            <td *ngIf="!haveInstitutions">---</td>
             <td>{{user.analyzed_events.length}}</td>
             <td><a *ngIf="user.analyzed_events.length > 0" [routerLink]="['/admin/user-events', user.id]">View</a></td>
           </tr>

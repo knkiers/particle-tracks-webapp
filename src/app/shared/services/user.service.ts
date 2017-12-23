@@ -20,6 +20,7 @@ import {EventTypeUrl} from './urls';
 import {LoginUrl} from './urls';
 import {AccountsUrl} from './urls';
 import {UsersUrl} from './urls';
+import {InstitutionsUrl} from './urls';
 
 import {User} from '../models/user';
 
@@ -44,7 +45,7 @@ export class UserService {
     //this.loggedIn = !!localStorage.getItem('auth_token');
   }
 
-  register(username, password, email, firstName, lastName): Observable<any> {
+  register(username, password, email, firstName, lastName, institutionId): Observable<any> {
     let headers = new Headers();
     let emptyList = [];
     headers.append('Content-Type', 'application/json');
@@ -58,7 +59,8 @@ export class UserService {
           'email': email,
           'first_name': firstName,
           'last_name': lastName,
-          'analyzed_events': emptyList
+          'analyzed_events': emptyList,
+          'institution_id': institutionId
         }),
         { headers }
       )
@@ -199,5 +201,22 @@ export class UserService {
     //console.log(this.currentUser);
     this.userAnnouncedSource.next(user);
   }
+
+  fetchInstitutions() {
+    let headers = new Headers();
+
+    headers.append('Content-Type', 'application/json');
+
+    console.log(headers);
+    console.log(InstitutionsUrl);
+
+    return this.http
+      .get(
+        InstitutionsUrl,
+        {headers}
+      )
+      .map(res => res.json());
+  }
+
 
 }

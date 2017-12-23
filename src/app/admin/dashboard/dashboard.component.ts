@@ -10,6 +10,8 @@ import {EventAnalysisService} from '../../shared/services/event-analysis.service
 })
 export class DashboardComponent implements OnInit {
 
+  institutions: any = null;
+  haveInstitutions: boolean = false;
   users: any = []; //TODO: create a User object....
 
   constructor(
@@ -18,6 +20,7 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.fetchInstitutions();
     this.userService.fetchUsers().subscribe(
       users => {
         console.log('got users!');
@@ -27,6 +30,29 @@ export class DashboardComponent implements OnInit {
     )
 
   }
+
+  fetchInstitutions() {
+    this.userService.fetchInstitutions().subscribe(
+      institutions => {
+        console.log('institutions: ',institutions);
+        this.institutions = institutions;
+        this.haveInstitutions = true;
+      },
+      err => console.log("ERROR", err)
+    );
+
+  }
+
+  getInstitutionName(id: number) {
+    let institutionName = null;
+    for (let institution of this.institutions) {
+      if (institution.id === id) {
+        institutionName = institution.name;
+      }
+    }
+    return institutionName;
+  }
+
 
   fetchEvent(id: number) {
     console.log('event id: ', id, typeof id);
