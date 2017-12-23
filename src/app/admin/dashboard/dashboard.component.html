@@ -21,8 +21,8 @@
             <td>{{user.username}}</td>
             <td *ngIf="haveInstitutions">{{getInstitutionName(user.institution_id)}}</td>
             <td *ngIf="!haveInstitutions">---</td>
-            <td>{{user.analyzed_events.length}}</td>
-            <td><a *ngIf="user.analyzed_events.length > 0" [routerLink]="['/admin/user-events', user.id]">View</a></td>
+            <td>{{user.number_events}}</td>
+            <td><a *ngIf="user.number_events > 0" [routerLink]="['/admin/user-events', user.id]">View</a></td>
           </tr>
         </tbody>
 

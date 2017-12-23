@@ -7,4 +7,5 @@ export const AccountsUrl = BaseURL + "/accounts/";
 export const AnalyzedEventsUrl = BaseURL + "/analyzedevents/";
 export const UserEventsUrl = BaseURL + "/useranalyzedevents/";
 export const UsersUrl = BaseURL + "/users/";
+export const UsersThisInstitutionUrl = BaseURL + "/usersthisinstitution/";
 export const InstitutionsUrl = BaseURL + "/institutions/";

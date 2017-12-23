@@ -20,6 +20,7 @@ import {EventTypeUrl} from './urls';
 import {LoginUrl} from './urls';
 import {AccountsUrl} from './urls';
 import {UsersUrl} from './urls';
+import {UsersThisInstitutionUrl} from './urls';
 import {InstitutionsUrl} from './urls';
 
 import {User} from '../models/user';
@@ -170,6 +171,36 @@ export class UserService {
       )
       .map(res => res.json());
   }
+
+  fetchUsersThisInstitution() {
+    if (this.tokenExpired()) {
+      this.router.navigate(['/login']);
+    }
+
+    // the following docs are very helpful for wiring up the authentication with a
+    // jwt on both the server and client side:
+    //   client side: https://medium.com/@blacksonic86/angular-2-authentication-revisited-611bf7373bf9#.jelvdws38
+    //   server side: http://getblimp.github.io/django-rest-framework-jwt/
+    let headers = new Headers();
+    let authToken = localStorage.getItem('auth_token');
+    console.log('here is authToken:');
+    console.log(authToken);
+
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `JWT ${authToken}`);
+
+    console.log(headers);
+
+    return this.http
+      .get(
+        UsersThisInstitutionUrl,
+        {headers}
+      )
+      .map(res => res.json());
+
+  }
+
+
 
   fetchUser(userId: number) {
 

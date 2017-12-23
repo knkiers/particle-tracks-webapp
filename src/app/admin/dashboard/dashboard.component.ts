@@ -21,11 +21,10 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.fetchInstitutions();
-    this.userService.fetchUsers().subscribe(
+    this.userService.fetchUsersThisInstitution().subscribe(
       users => {
         console.log('got users!');
-        console.log(users);
-        this.users = users;
+        this.users = JSON.parse(users);
       }
     )
 
