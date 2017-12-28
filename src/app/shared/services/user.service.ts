@@ -139,6 +139,15 @@ export class UserService {
     return loggedIn;
   }
 
+  isAdmin() {
+    if (this.currentUser === null) {
+      return false;
+    } else {
+      return this.currentUser.isStaff;
+    }
+  }
+
+
   currentUserDataIsSet() {
     return !(this.currentUser === null);
   }

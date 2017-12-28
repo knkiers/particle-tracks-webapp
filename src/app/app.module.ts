@@ -13,6 +13,7 @@ import {EndUserModule} from './end-user/end-user.module';
 import {AdminModule} from './admin/admin.module';
 
 import { LoggedInGuard } from './shared/guards/logged-in.guard';
+import { AdminGuard } from './shared/guards/admin.guard';
 import { UserService } from './shared/services/user.service';
 
 
@@ -35,7 +36,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     HttpModule
   ],
-  providers: [FormBuilder, LoggedInGuard, UserService],
+  providers: [FormBuilder, LoggedInGuard, AdminGuard, UserService],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })

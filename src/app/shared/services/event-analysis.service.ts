@@ -281,6 +281,7 @@ export class EventAnalysisService {
    *
    * @param idList
    * @returns {any}
+   *
    */
   getAnalyzedUserEvents(idList: number[]): Observable<Array<any>> {
     let headers = new Headers();

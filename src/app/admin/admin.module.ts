@@ -23,6 +23,7 @@ import {AdminComponent} from './admin.component';
 
 
 import { LoggedInGuard } from '../shared/guards/logged-in.guard';
+import { AdminGuard } from '../shared/guards/admin.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserEventsComponent } from './user-events/user-events.component';
 import { UserEventAnchorDirective } from './user-events/user-event-anchor.directive';
@@ -34,7 +35,7 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [LoggedInGuard],
+    canActivate: [LoggedInGuard, AdminGuard],
     children: [
       {
         path: '',
