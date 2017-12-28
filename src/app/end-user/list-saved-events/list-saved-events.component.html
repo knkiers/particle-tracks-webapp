@@ -24,13 +24,13 @@
       </div>
       <div class="col s1">
         <a (click)="closeModalFetchEvent(event.id)">
-          <i class="material-icons">file_download</i>
+          <i class="material-icons include-pointer">file_download</i>
         </a>
       </div>
       <div class="col s1">
         <span *ngIf="!event.submitted">
           <a (click)="submitAnalyzedEvent(event.id, true)">
-            <i class="material-icons">send</i>
+            <i class="material-icons include-pointer">send</i>
           </a>
         </span>
         <span *ngIf="event.submitted">
@@ -40,7 +40,7 @@
       <div class="col s2">
         <span *ngIf="event.submitted">
           <a (click)="submitAnalyzedEvent(event.id, false)">
-            <i class="material-icons">cancel</i>
+            <i class="material-icons include-pointer">cancel</i>
           </a>
         </span>
       </div>

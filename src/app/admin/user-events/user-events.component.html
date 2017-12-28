@@ -22,7 +22,7 @@
             <td [innerHTML]="event.event_data.event.name"></td>
             <td>{{event.created}}</td>
             <td class="center-align"><span *ngIf="event.submitted"><i class="material-icons">done</i></span></td>
-            <td class="center-align" (click)="openUserEvent(event.event_data)"><a>View</a></td>
+            <td class="center-align include-pointer" (click)="openUserEvent(event.event_data)"><a>View</a></td>
           </tr>
           </tbody>
         </table>

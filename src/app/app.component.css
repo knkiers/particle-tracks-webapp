@@ -1,3 +1,8 @@
 .medium-large-width {
   min-width: 200px;
 }
+
+.toolbar-wrapper {
+  margin-left: 20px;
+  margin-right: 20px;
+}
