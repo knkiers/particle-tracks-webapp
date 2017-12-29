@@ -153,29 +153,23 @@ export class AnalysisDisplayComponent implements OnInit, OnDestroy {
       );
   }
 
-  /*
-  fetchEventTypes() {
-    //this.eventType = null;
-    this.eventDisplayService.getEventTypes()
-      .subscribe(
-        eventType => {
-          this.eventTypeJSON = eventType;
-          //console.log(JSON.parse(this.eventTypeJSON));
-          //console.log(JSON.parse(this.event));
-        }
-      );
-  }
-  */
-
   saveEvent(fetchAfterSave: boolean) {
     //probably need to tweak this list, but OK for now....
+
+    let reducedDots = [];
+    for (let dot of this.dots) {
+      if (dot.activated) {
+        reducedDots.push(dot);
+      }
+    }
+
     let eventData = {
       event: this.event,
       circles: this.circles,
       eventJSON: this.eventJSON,
       eventType: this.eventTypeJSON,
       svgRegion: this.svgRegion,
-      dots: this.dots,
+      dots: reducedDots,
       boundaries: this.boundaries,
       momentumDiagramBoundaries: this.momentumDiagramBoundaries,
       interactionRegion: this.interactionRegion,
@@ -221,8 +215,6 @@ export class AnalysisDisplayComponent implements OnInit, OnDestroy {
   listEvents(){
     console.log(this.userEvents);
   }
-
-
 
   initializeEvent() {
     this.interactionLocation = {
@@ -529,13 +521,24 @@ export class AnalysisDisplayComponent implements OnInit, OnDestroy {
   }
 
   refreshView(eventData) {
-    //console.log(eventData);
+    console.log(eventData);
     this.event = eventData.event;
     this.eventTypeJSON = eventData.eventType;
     this.svgRegion = eventData.svgRegion;
     this.eventJSON = eventData.eventJSON;
-    this.circleChange = - this.circleChange;
-    this.dots = eventData.dots;
+    //this.circleChange = - this.circleChange;
+    /**
+     *
+     * the saved event only includes the activated dots, so we need to
+     * reconstitute the entire dot array and then overwrite the activated
+     * dots; not sure if it is safe to assume that the dots will never
+     * be reordered in the list...if so, we have a problem....
+     *
+     */
+    this.dots = this.unitConversionService.initializeGrid(eventData.boundaries);
+    for (let dot of eventData.dots) {
+      this.dots[dot.id] = dot;
+    }
     this.circles = eventData.circles;
     this.clearDotsForFit();
 
@@ -561,6 +564,7 @@ export class AnalysisDisplayComponent implements OnInit, OnDestroy {
       this.circleChange = -this.circleChange;
     } else {
       this.showAxes = false;
+      this.circleChange = -this.circleChange;
     }
 
 

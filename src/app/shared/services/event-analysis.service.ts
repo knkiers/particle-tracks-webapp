@@ -303,10 +303,9 @@ export class EventAnalysisService {
     return Observable.forkJoin(observableBatch);
   }
 
-  submitAnalyzedEvent(title: string, data, id, submit: boolean) {
+  submitAnalyzedEvent(id, submit: boolean) {
     let headers = new Headers();
     let authToken = localStorage.getItem('auth_token');
-    let eventData = JSON.stringify(data);
 
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `JWT ${authToken}`);
@@ -317,11 +316,11 @@ export class EventAnalysisService {
     }
 
     return this.http
-      .put(
+      .patch(
         AnalyzedEventsUrl+id+'/',
         JSON.stringify({
-          'title': title,
-          'event_data': eventData,
+          //'title': title,
+          //'event_data': eventData,
           'submitted': submit
         }),
         { headers }

@@ -84,14 +84,6 @@ export class UnitConversionService {
 
   getGrid(){
     var grid = this.initializeGrid(BOUNDARIES);
-    /*
-    console.log(grid[55]);
-    grid[55].activated = true;
-    grid[22].activated = true;
-    grid[147].activated = true;
-    grid[251].activated = true;
-    grid[201].activated = true;
-    */
     var promise = Promise.resolve(grid);// Observable.just(DOTS);
     //var promise = Promise.resolve(DOTS);// Observable.just(DOTS);
     return Observable.fromPromise(promise);

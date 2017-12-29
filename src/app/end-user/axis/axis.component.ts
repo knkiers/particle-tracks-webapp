@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 
 import {UnitConversionService} from '../../shared/services/unit-conversion.service';
 
@@ -9,10 +9,11 @@ const axisFraction = 0.8;
   templateUrl: 'axis.component.html',
   styleUrls: ['axis.component.css']
 })
-export class AxisComponent implements OnInit {
+export class AxisComponent implements OnInit, OnChanges {
 
   @Input() boundaries: any;
   @Input() interactionLocation: any;
+  @Input() wakeUp: number;
   hAxisParams: any;
   vAxisParams: any;
 
@@ -23,6 +24,11 @@ export class AxisComponent implements OnInit {
     console.log(this.boundaries);
     console.log(this.interactionLocation);
     this.computeAxisCoordinates();
+  }
+
+  ngOnChanges(){
+    this.computeAxisCoordinates();
+    console.log('change detected by axis component!');
   }
 
   computeAxisCoordinates(){
