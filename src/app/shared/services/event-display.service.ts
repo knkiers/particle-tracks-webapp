@@ -8,6 +8,7 @@ import {Observable} from 'rxjs/Rx';
 
 import {EventUrl} from './urls';
 import {EventTypeUrl} from './urls';
+import {POINT_THREE} from './unit-conversion.service';
 
 import {Event} from '../models/event';
 import {UnitConversionService} from './unit-conversion.service';
@@ -178,7 +179,7 @@ export class EventDisplayService {
                    interactionLocation, px, py,
                    direction, inout) {
     var p = Math.sqrt(px*px+py*py);
-    var r = p/(0.3*b_field);
+    var r = p/(POINT_THREE*b_field);
     var phi0, x0, y0, phiBorder;
     var PI = Math.acos(-1);
     var returnString, returnDict;

@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
           this.userService.setUserData(result.token).subscribe(
             result => {
               console.log('user data! ', result);
-              this.router.navigate(['/end-user']);
+              this.router.navigate(['/events']);
             }
           );
         },

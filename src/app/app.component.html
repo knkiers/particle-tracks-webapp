@@ -3,7 +3,7 @@
     <nav>
       <div class="toolbar-wrapper">
         <div class="nav-wrapper">
-          <a [routerLink]="['/end-user']" class="brand-logo">Particle Tracks</a>
+          <a [routerLink]="['/events']" class="brand-logo">Particle Tracks</a>
           <ul id="nav-mobile" class="right">
 
             <li *ngIf="currentUser">
@@ -17,7 +17,7 @@
             </li>
 
             <li *ngIf="currentUser && currentUser.isStaff">
-              <a [routerLink]="['/end-user']">
+              <a [routerLink]="['/events']">
                 Events
               </a>
             </li>

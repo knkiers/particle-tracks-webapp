@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import {POINT_THREE} from '../../shared/services/unit-conversion.service';
 import {EventAnalysisService} from '../../shared/services/event-analysis.service';
 import {EventDisplayService} from '../../shared/services/event-display.service';
-
+import {UnitConversionService} from '../../shared/services/unit-conversion.service';
 
 /**
  * This component is instantiated from UserEventsComponent, which sets
@@ -32,7 +33,8 @@ export class EventEnergyMomentumComponent implements OnInit {
   neutralParticleData: any = null; // if there is a neutral particle (assumed to at most one neutral particle!), this will contain some of its data
 
   constructor(private eventDisplayService: EventDisplayService,
-              private eventAnalysisService:EventAnalysisService) { }
+              private eventAnalysisService:EventAnalysisService,
+              private unitConversionService: UnitConversionService) { }
 
   ngOnInit() {
     //console.log('eventData: ', this.eventData);
@@ -113,7 +115,7 @@ export class EventEnergyMomentumComponent implements OnInit {
     this.studentData = [];
     let circleNumber: number = 1;
     this.eventData.circles.forEach(circle => {
-      let pMag = circle.r*0.3*bMag;
+      let pMag = circle.r*POINT_THREE*bMag;
       let bestFitIndex = this.bestFitIndex(circle);
       let bestFitMass: number = null;
       let energyFit: number = null;
@@ -149,7 +151,19 @@ export class EventEnergyMomentumComponent implements OnInit {
     this.eventActivatedDots = [];
     let bMag = this.eventData.bFieldStrength;
     let bFieldDirection = this.eventData.bFieldDirection;
-    let dots = this.eventData.dots;
+    /**
+     *
+     * the saved event only includes the activated dots, so we need to
+     * reconstitute the entire dot array and then overwrite the activated
+     * dots; not sure if it is safe to assume that the dots will never
+     * be reordered in the list...if so, we have a problem....
+     *
+     */
+    let dots = this.unitConversionService.initializeGrid(this.eventData.boundaries);
+    for (let dot of this.eventData.dots) {
+      dots[dot.id] = dot;
+    }
+    //let dots = this.eventData.dots;
     let boundaries = this.eventData.boundaries;
     let interactionLocation = this.eventData.interactionLocation;
 
@@ -226,7 +240,7 @@ export class EventEnergyMomentumComponent implements OnInit {
   /**
    * this method checks for some gross errors, such as:
    *  - the number of student-created circles is > or < than the # of charged particles
-   *  - two or more student-created circles appear to correspond to the same same charged particle
+   *  - two or more student-created circles appear to correspond to the same charged particle
    */
   checkErrors() {
     // check # of student circles and compare against event data
@@ -241,7 +255,10 @@ export class EventEnergyMomentumComponent implements OnInit {
 
     // check "incoming" and "outgoing" properties for students' data
     let circleNumber: number = 0;
+    console.log(this.studentData);
     this.studentData.forEach(circle => {
+      console.log('circleNumber: ', circleNumber);
+      console.log('circle: ', circle);
       if (this.eventActivatedDots[circle.activatedDotsIndex].incoming !== circle.incoming) {
         this.studentDataIsValid = false;
         circle.error = true;

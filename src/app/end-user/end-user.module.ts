@@ -27,7 +27,7 @@ import { LoggedInGuard } from '../shared/guards/logged-in.guard';
 
 const routes: Routes = [
   {
-    path: 'end-user',
+    path: 'events',
     component: EndUserComponent,
     canActivate: [LoggedInGuard],
     children: [

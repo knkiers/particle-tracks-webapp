@@ -2,27 +2,29 @@ import { Injectable } from '@angular/core';
 
 import {Observable} from 'rxjs/Rx';
 
-/*
-This service deals with everything having to do with initialization, constants, units,
-conversion between units, etc.
-*/
+/**
+ *
+ * This service deals with everything having to do with initialization, constants, units,
+ * conversion between units, etc.
+ *
+ */
 
 const BOUNDARIES = { // very important that the x and y directions preserve the aspect ratio!!!
-  xmin: -5, // cm; boundaries of the display region
-  xmax: 5,  // cm
-  ymin: -5, // cm
-  ymax: 5,  // cm
+  xmin: -20, // cm; boundaries of the display region
+  xmax: 20,  // cm
+  ymin: -20, // cm
+  ymax: 20,  // cm
   numGridPointsX: 61, // the number of grid points in the x direction; must be at least 2
   numGridPointsY: 61,
-  height: 500,
-  width: 500,
+  height: 420,
+  width: 420,
   heightDisplay: 400, // heightDisplay = yminPx - ymaxPx
   widthDisplay: 400, // widthDisplay = xmaxPx - xminPx
-  xminPx: 50, // boundaries of the display region in pixels
-  xmaxPx: 450, // pixels
-  yminPx: 450, // pixels; yminPx is at the bottom of the plot region
-  ymaxPx: 50, // pixels
-  deltaR: 0.05 // cm; radial distance from a track within which a "dot" in the grid will be activated
+  xminPx: 10, // boundaries of the display region in pixels
+  xmaxPx: 410, // pixels
+  yminPx: 410, // pixels; yminPx is at the bottom of the plot region
+  ymaxPx: 10, // pixels
+  deltaR: 0.2 // cm; radial distance from a track within which a "dot" in the grid will be activated
 };
 
 const MOMENTUM_DIAGRAM_BOUNDARIES = {
@@ -43,6 +45,17 @@ const INTERACTION_REGION = {// this is the region within which the interaction p
   ymax: 1
 }
 
+/**
+ *
+ * The following constant is used in the expression:
+ *
+ *    p = 0.299792*B*r,
+ *
+ * which gives the momentum (in MeV/c) if B and r are in kG and cm, respectively.
+ *
+ */
+
+export const POINT_THREE = 0.299792;
 
 @Injectable()
 export class UnitConversionService {

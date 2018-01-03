@@ -14,6 +14,9 @@
               <span *ngIf="event">
                 <span [innerHTML]="event.name">
                 </span>
+                <span class="right right-space">
+                  B = {{bFieldStrength}} kG
+                </span>
               </span>
               <span *ngIf="!event">
                 No Process Selected
@@ -42,46 +45,80 @@
               Show Event
             </button>
 
-            <button class="btn btn-flat" (click)="closeAnalysisDisplay()"> close </button>
+            <button class="btn btn-flat" (click)="closeAnalysisDisplay()"> close</button>
           </div>
         </div>
 
         <div class="row row-no-bottom-margin">
-          <div class ="col s8">
-            <div *ngIf="boundaries && dots">
-              <svg [attr.height]="boundaries.height" [attr.width]="boundaries.width">
-                <rect [attr.x]="boundaries.xminPx"
-                      [attr.y]="boundaries.ymaxPx"
-                      [attr.width]="boundaries.widthDisplay"
-                      [attr.height]="boundaries.heightDisplay"
-                      style="fill:blue;stroke:grey;stroke-width:5;fill-opacity:0.1;stroke-opacity:0.9" />
+          <div class="col s8">
+            <div class="row">
+              <div class="col s12">
+                <div *ngIf="boundaries && dots">
+                  <svg [attr.height]="boundaries.height" [attr.width]="boundaries.width">
+                    <rect [attr.x]="boundaries.xminPx"
+                          [attr.y]="boundaries.ymaxPx"
+                          [attr.width]="boundaries.widthDisplay"
+                          [attr.height]="boundaries.heightDisplay"
+                          style="fill:blue;stroke:grey;stroke-width:5;fill-opacity:0.1;stroke-opacity:0.9"/>
 
-                <g *ngFor="let dot of dots" app-grid-item
-                   [colourModeOn]="colourModeOn"
-                   [params]="dot"
-                   (dotSelected)="dotSelected($event)"
-                   (dotDeselected)="dotDeselected($event)">
-                </g>
+                    <g *ngFor="let dot of dots" app-grid-item
+                       [colourModeOn]="colourModeOn"
+                       [params]="dot"
+                       (dotSelected)="dotSelected($event)"
+                       (dotDeselected)="dotDeselected($event)">
+                    </g>
 
-                <g *ngFor="let circle of circles" app-circle-item
-                   [params]="circle">
-                </g>
+                    <g *ngFor="let circle of circles" app-circle-item
+                       [params]="circle">
+                    </g>
 
-                <g *ngIf="eventDisplay && ((!editModeOn)||revealEvent)" app-event
-                    [eventDisplay]="eventDisplay"
-                    [dots]="dots">
-                </g>
+                    <g *ngIf="eventDisplay && ((!editModeOn)||revealEvent)" app-event
+                       [eventDisplay]="eventDisplay"
+                       [dots]="dots">
+                    </g>
 
-                <g *ngIf="eventDisplay && editModeOn && showAxes" app-axis
-                   [boundaries]="boundaries"
-                   [interactionLocation]="interactionLocation"
-                   [wakeUp]="circleChange">
-                </g>
+                    <g *ngIf="eventDisplay && editModeOn && showAxes" app-axis
+                       [boundaries]="boundaries"
+                       [interactionLocation]="interactionLocation"
+                       [wakeUp]="circleChange">
+                    </g>
 
-              </svg>
+                  </svg>
+                </div>
+              </div>
+              <div *ngIf="!userIsReadOnly" class="col s12">
+                <div *ngIf="!editModeOn">
+                  <button class="btn" (click)="fetchNewEvent()">Get Event</button>
+                  <button *ngIf="event" class="btn" (click)="turnOnEditMode()">Analyze This Event</button>
+                </div>
+
+                <div *ngIf="editModeOn">
+                  <button *ngIf="!userIsReadOnly" class="btn btn-flat" (click)="addCircle()">Add Circle</button>
+                  <button *ngIf="!userIsReadOnly"
+                          class="btn btn-flat"
+                          (mouseenter)="showEvent()"
+                          (mouseout)="hideEvent()">
+                    Show Event
+                  </button>
+
+                  <!-- Switch -->
+                  <span *ngIf="!userIsReadOnly" class="switch">
+                    <label>
+                      Deselect
+                      <input
+                        type="checkbox"
+                        [checked]="colourModeOn"
+                        (change)="toggleColourMode()"
+                      >
+                      <span class="lever"></span>
+                      Select
+                    </label>
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
-          <div class ="col s4">
+          <div class="col s4">
             <div *ngIf="momentumDiagramBoundaries && eventDisplay && editModeOn && showAxes" class="row">
               <div class="col s12">
                 <svg [attr.height]="momentumDiagramBoundaries.height" [attr.width]="momentumDiagramBoundaries.width">
@@ -89,7 +126,7 @@
                         [attr.y]="momentumDiagramBoundaries.ymaxPx"
                         [attr.width]="momentumDiagramBoundaries.widthDisplay"
                         [attr.height]="momentumDiagramBoundaries.heightDisplay"
-                        style="fill:blue;stroke:grey;stroke-width:5;fill-opacity:0.1;stroke-opacity:0.9" />
+                        style="fill:blue;stroke:grey;stroke-width:5;fill-opacity:0.1;stroke-opacity:0.9"/>
 
                   <g *ngIf="eventDisplay && editModeOn && showAxes" app-momentum-axis
                      [boundaries]="momentumDiagramBoundaries"
@@ -112,38 +149,6 @@
             </div>
           </div>
         </div>
-
-      </div>
-      <div *ngIf="!userIsReadOnly" class="card-action">
-        <div *ngIf="!editModeOn">
-          <button class="btn" (click)="fetchNewEvent()">Get Event</button>
-          <button *ngIf="event" class="btn" (click)="turnOnEditMode()">Analyze This Event</button>
-        </div>
-
-        <div *ngIf="editModeOn">
-          <button *ngIf="!userIsReadOnly" class="btn btn-flat" (click)="addCircle()">Add Circle</button>
-          <button *ngIf="!userIsReadOnly"
-            class="btn btn-flat"
-            (mouseenter)="showEvent()"
-            (mouseout)="hideEvent()">
-            Show Event
-          </button>
-
-          <!-- Switch -->
-          <span *ngIf="!userIsReadOnly" class="switch">
-            <label>
-              Deselect
-              <input
-                type="checkbox"
-                [checked]="colourModeOn"
-                (change)="toggleColourMode()"
-              >
-              <span class="lever"></span>
-              Select
-            </label>
-          </span>
-
-        </div>
       </div>
     </div>
   </div>
@@ -165,31 +170,9 @@
 </ul>
 
 
-
-<!--
-<div *ngIf="editModeOn">
-  <button class="btn" (click)="saveEvent()">Save Event</button>
-  <a materialize="modal"
-     class="waves-effect waves-light btn secondary-content modal-trigger"
-     href="#modalSaveFirstWarning">
-      Get New Event
-  </a>
-</div>
--->
-
-<!--
-<a materialize="modal"
-   class="waves-effect waves-light btn secondary-content modal-trigger"
-   href="#modalBrowseSavedEvents"
-   (click)="getEvents()"
->
-  Browse Saved Events
-</a>
--->
-
-
 <!-- Modal Structure -->
-<div id="modalBrowseSavedEvents" class="modal" materialize="modal" [materializeParams]="modalBrowseEventsParams" [materializeActions]="modalBrowseEventsActions">
+<div id="modalBrowseSavedEvents" class="modal" materialize="modal" [materializeParams]="modalBrowseEventsParams"
+     [materializeActions]="modalBrowseEventsActions">
   <div class="modal-content">
     <h5>Saved Events</h5>
     <app-list-saved-events
@@ -204,7 +187,8 @@
 </div>
 
 <!-- Modal Structure -->
-<div id="modalSaveFirstWarning" class="modal" materialize="modal" [materializeParams]="modalSaveWarningParams" [materializeActions]="modalSaveWarningActions">
+<div id="modalSaveFirstWarning" class="modal" materialize="modal" [materializeParams]="modalSaveWarningParams"
+     [materializeActions]="modalSaveWarningActions">
   <div class="modal-content">
     <h5>Save Current Event First?</h5>
     Unsaved data will be lost....
@@ -217,7 +201,8 @@
 
 
 <!-- Modal Structure -->
-<div id="modalCircleError" class="modal" materialize="modal" [materializeParams]="[{dismissible: false, alignment: 'right'}]" [materializeActions]="modalCircleActions">
+<div id="modalCircleError" class="modal" materialize="modal"
+     [materializeParams]="[{dismissible: false, alignment: 'right'}]" [materializeActions]="modalCircleActions">
   <div class="modal-content">
     <h5>Can't add a circle to the selected points....</h5>
     Please select a minimum of three non-colinear points before

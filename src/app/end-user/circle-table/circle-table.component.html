@@ -39,18 +39,18 @@
           </div>
           <div *ngIf="!userIsReadOnly" class="col s6">
             <a *ngIf="circle.CW" (click)="toggleRotationDirection(i)">
-              <i class="material-icons">redo</i>
+              <i class="material-icons include-pointer">redo</i>
             </a>
             <a *ngIf="!circle.CW" (click)="toggleRotationDirection(i)">
-              <i class="material-icons">undo</i>
+              <i class="material-icons include-pointer">undo</i>
             </a>
           </div>
           <div *ngIf="userIsReadOnly" class="col s6">
             <span *ngIf="circle.CW">
-              <i class="material-icons">redo</i>
+              <i class="material-icons include-pointer">redo</i>
             </span>
             <span *ngIf="!circle.CW">
-              <i class="material-icons">undo</i>
+              <i class="material-icons include-pointer">undo</i>
             </span>
           </div>
         </div>
@@ -60,18 +60,18 @@
           </div>
           <div *ngIf="!userIsReadOnly" class="col s6">
             <a *ngIf="circle.incoming" (click)="toggleIncomingOutgoing(i)">
-              <i class="material-icons">flight_land</i>
+              <i class="material-icons include-pointer">flight_land</i>
             </a>
             <a *ngIf="!circle.incoming" (click)="toggleIncomingOutgoing(i)">
-              <i class="material-icons">flight_takeoff</i>
+              <i class="material-icons include-pointer">flight_takeoff</i>
             </a>
           </div>
           <div *ngIf="userIsReadOnly" class="col s6">
             <span *ngIf="circle.incoming">
-              <i class="material-icons">flight_land</i>
+              <i class="material-icons include-pointer">flight_land</i>
             </span>
             <span *ngIf="!circle.incoming">
-              <i class="material-icons">flight_takeoff</i>
+              <i class="material-icons include-pointer">flight_takeoff</i>
             </span>
           </div>
         </div>
