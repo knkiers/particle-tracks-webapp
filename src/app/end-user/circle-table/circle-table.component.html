@@ -60,18 +60,18 @@
           </div>
           <div *ngIf="!userIsReadOnly" class="col s6">
             <a *ngIf="circle.incoming" (click)="toggleIncomingOutgoing(i)">
-              <i class="material-icons include-pointer">flight_land</i>
+              <i class="material-icons include-pointer">flight_land</i> (incoming)
             </a>
             <a *ngIf="!circle.incoming" (click)="toggleIncomingOutgoing(i)">
-              <i class="material-icons include-pointer">flight_takeoff</i>
+              <i class="material-icons include-pointer">flight_takeoff</i> (outgoing)
             </a>
           </div>
           <div *ngIf="userIsReadOnly" class="col s6">
             <span *ngIf="circle.incoming">
-              <i class="material-icons include-pointer">flight_land</i>
+              <i class="material-icons include-pointer">flight_land</i> (incoming)
             </span>
             <span *ngIf="!circle.incoming">
-              <i class="material-icons include-pointer">flight_takeoff</i>
+              <i class="material-icons include-pointer">flight_takeoff</i> (outgoing)
             </span>
           </div>
         </div>
