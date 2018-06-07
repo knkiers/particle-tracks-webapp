@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 
 import { Http, Headers } from '@angular/http';
+
+// See: https://blog.hackages.io/angular-http-httpclient-same-but-different-86a50bbcc450
+// Note: at some point Http will be deprecated in favour of HttpClient....
+// See: https://angular.io/guide/http
+//import {HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+
 import {Router} from '@angular/router';
 
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import {Observable,  Subject, pipe } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { Subject }    from 'rxjs/Subject';
-import { JwtHelper } from 'angular2-jwt';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
 // NOTE: only using angular2-jwt to decode the jwt; in principle this package could
 //       be used much more extensively
 
@@ -24,11 +30,14 @@ import {UsersThisInstitutionUrl} from './urls';
 import {InstitutionsUrl} from './urls';
 
 import {User} from '../models/user';
+import {UserNumberEvents} from '../interfaces/user-number-events';
 
 @Injectable()
 export class UserService {
 
-  jwtHelper: JwtHelper = new JwtHelper();
+  //jwtHelper: JwtHelper = new JwtHelper();
+
+  jwtHelper = new JwtHelperService();
 
   currentUser: User = null;
 
@@ -42,6 +51,7 @@ export class UserService {
 
 
   constructor(private http: Http,
+              //private httpClient: HttpClient,
               private router: Router) {
     //this.loggedIn = !!localStorage.getItem('auth_token');
   }
@@ -65,7 +75,9 @@ export class UserService {
         }),
         { headers }
       )
-      .map(res => res.json());
+      .pipe(
+        map(res => res.json())
+      );
   }
 
   login(username, password) {
@@ -76,16 +88,18 @@ export class UserService {
       .post(
         LoginUrl,
         JSON.stringify({ username, password }),
-        { headers }
-      )
-      .map(res => {
+        { headers })
+      .pipe(
+        map(res => {
         // apparently if there is an error, that just gets returned automatically(?), skipping over this part of the code
-        let jsonResponse = res.json();
-        console.log('here is the response: ', jsonResponse);
-        localStorage.setItem('auth_token', jsonResponse.token);
-        //this.loggedIn = true;
-        return jsonResponse;
+          let jsonResponse = res.json();
+          console.log('here is the response: ', jsonResponse);
+          localStorage.setItem('auth_token', jsonResponse.token);
+          //this.loggedIn = true;
+          return jsonResponse;
       })
+      )
+      ;
   }
 
   tokenExpired() {
@@ -115,12 +129,14 @@ export class UserService {
         UsersUrl + userID+"/",
         {headers}
       )
-      .map(res => {
-        let userData = res.json();
-        this.currentUser = new User(userData);
-        this.announceUser(this.currentUser);
-        return userData;
-      });
+      .pipe(
+        map(res => {
+          let userData = res.json();
+          this.currentUser = new User(userData);
+          this.announceUser(this.currentUser);
+          return userData;
+        })
+      );
   }
 
   logout() {
@@ -162,13 +178,17 @@ export class UserService {
     // jwt on both the server and client side:
     //   client side: https://medium.com/@blacksonic86/angular-2-authentication-revisited-611bf7373bf9#.jelvdws38
     //   server side: http://getblimp.github.io/django-rest-framework-jwt/
+
+    //https://stackoverflow.com/questions/45286764/angular-httpclient-doesnt-send-header
+
     let headers = new Headers();
     let authToken = localStorage.getItem('auth_token');
-    console.log('here is authToken:');
-    console.log(authToken);
-
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `JWT ${authToken}`);
+
+    //eventually will be required to switch to HttpClient; then this will be how to set the headers:
+    //let headers = new HttpHeaders(); // this is the
+    //headers = headers.set('Content-Type', 'application/json').set('Authorization', `JWT ${authToken}`);
 
     console.log(headers);
     console.log(EventTypeUrl);
@@ -178,7 +198,9 @@ export class UserService {
         UsersUrl,
         {headers}
       )
-      .map(res => res.json());
+      .pipe(
+        map(res => res.json())
+      );
   }
 
   fetchUsersThisInstitution() {
@@ -190,23 +212,28 @@ export class UserService {
     // jwt on both the server and client side:
     //   client side: https://medium.com/@blacksonic86/angular-2-authentication-revisited-611bf7373bf9#.jelvdws38
     //   server side: http://getblimp.github.io/django-rest-framework-jwt/
+
+    // https://blog.hackages.io/angular-http-httpclient-same-but-different-86a50bbcc450
+
     let headers = new Headers();
     let authToken = localStorage.getItem('auth_token');
-    console.log('here is authToken:');
-    console.log(authToken);
-
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `JWT ${authToken}`);
 
-    console.log(headers);
+    //eventually will be required to switch to HttpClient; then this will be how to set the headers:
+    //let headers = new HttpHeaders(); // this is the
+    //headers = headers.set('Content-Type', 'application/json').set('Authorization', `JWT ${authToken}`);
+
+    //console.log(headers);
 
     return this.http
       .get(
         UsersThisInstitutionUrl,
-        {headers}
+        {headers: headers}
       )
-      .map(res => res.json());
-
+      .pipe(
+        map(res => res.json())
+      );
   }
 
 
@@ -231,7 +258,9 @@ export class UserService {
         UsersUrl+userId+'/',
         {headers}
       )
-      .map(res => res.json());
+      .pipe(
+        map(res => res.json())
+      );
   }
 
 
@@ -255,7 +284,9 @@ export class UserService {
         InstitutionsUrl,
         {headers}
       )
-      .map(res => res.json());
+      .pipe(
+        map(res => res.json())
+      );
   }
 
 

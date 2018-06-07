@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Subject }    from 'rxjs/Subject';
+import { Subject , Observable, pipe } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import {Http, Response, Headers} from '@angular/http';
 import {Router} from '@angular/router';
-
-import {Observable} from 'rxjs/Rx';
 
 import {EventUrl} from './urls';
 import {EventTypeUrl} from './urls';
@@ -55,7 +54,9 @@ export class EventDisplayService {
 
     return this.http
       .get(EventUrl, {headers})
-      .map(response => response.json());
+      .pipe(
+        map(response => response.json())
+      );
   }
 
   // the following is NOT WORKING (but it is probably also not needed....);

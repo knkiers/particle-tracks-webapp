@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../shared/services/user.service';
 import {EventAnalysisService} from '../../shared/services/event-analysis.service';
 
+import {UserNumberEvents} from '../../shared/interfaces/user-number-events';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -12,18 +14,21 @@ export class DashboardComponent implements OnInit {
 
   institutions: any = null;
   haveInstitutions: boolean = false;
-  users: any = []; //TODO: create a User object....
+  users: Array<UserNumberEvents> = []; //TODO: create a User object....
 
   constructor(
     private userService: UserService,
     private eventAnalysisService: EventAnalysisService
   ) { }
 
+
   ngOnInit() {
     this.fetchInstitutions();
     this.userService.fetchUsersThisInstitution().subscribe(
       users => {
-        console.log('got users!');
+        //console.log(users);
+        //console.log(typeof users);//string
+        //console.log(typeof this.users);//object
         this.users = JSON.parse(users);
       }
     )

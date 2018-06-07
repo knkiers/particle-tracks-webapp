@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core';
 import {Http, Response, Headers} from '@angular/http';
 import {Router} from '@angular/router';
 
-import {Observable} from 'rxjs/Observable';
-import { Subject }    from 'rxjs/Subject';
-
+import {Subject, Observable, pipe, forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import {AnalyzedEventsUrl, UserEventsUrl} from './urls';
 
@@ -232,7 +231,9 @@ export class EventAnalysisService {
         }),
         { headers }
       )
-      .map(res => res.json());
+      .pipe(
+        map(res => res.json())
+      );
   }
 
   /**
@@ -252,7 +253,9 @@ export class EventAnalysisService {
 
     return this.http
       .get(UserEventsUrl, {headers})
-      .map(response => response.json());
+      .pipe(
+        map(response => response.json())
+      );
 
   }
 
@@ -268,7 +271,9 @@ export class EventAnalysisService {
 
     return this.http
       .get(AnalyzedEventsUrl+id+'/', {headers})
-      .map(response => response.json());
+      .pipe(
+        map(response => response.json())
+      );
 
   }
 
@@ -298,9 +303,11 @@ export class EventAnalysisService {
       observableBatch.push(
         this.http
           .get(AnalyzedEventsUrl+id+'/', {headers})
-          .map(response => response.json()));
+          .pipe(
+            map(response => response.json())
+          ));
     });
-    return Observable.forkJoin(observableBatch);
+    return forkJoin(observableBatch);
   }
 
   submitAnalyzedEvent(id, submit: boolean) {
@@ -325,7 +332,9 @@ export class EventAnalysisService {
         }),
         { headers }
       )
-      .map(res => res.json());
+      .pipe(
+        map(res => res.json())
+      );
   }
 
   announcedAnalysisDisplayClosed() {

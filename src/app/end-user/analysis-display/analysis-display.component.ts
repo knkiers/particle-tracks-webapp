@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, EventEmitter } from '@angular/core';
 //import { ROUTER_DIRECTIVES } from '@angular/router';
-import { Subscription }   from 'rxjs/Subscription';
+import { Subscription }   from 'rxjs';
 //import {FormsModule} from '@angular/forms';
 
 //import {MaterializeDirective} from "angular2-materialize";

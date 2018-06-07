@@ -2,6 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule, Http, RequestOptions} from '@angular/http';
+
+// see: https://blog.hackages.io/angular-http-httpclient-same-but-different-86a50bbcc450
+import { HttpClientModule } from '@angular/common/http';
+
 import {RouterModule, Routes} from "@angular/router";
 
 import { MaterializeModule } from 'angular2-materialize';
@@ -34,7 +38,8 @@ const routes: Routes = [
     AdminModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule
+    HttpModule,
+    HttpClientModule
   ],
   providers: [FormBuilder, LoggedInGuard, AdminGuard, UserService],
   entryComponents: [AppComponent],

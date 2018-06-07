@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import {Observable} from 'rxjs/Rx';
+import { Observable, from } from 'rxjs';
 
 /**
  *
@@ -99,18 +99,19 @@ export class UnitConversionService {
     var grid = this.initializeGrid(BOUNDARIES);
     var promise = Promise.resolve(grid);// Observable.just(DOTS);
     //var promise = Promise.resolve(DOTS);// Observable.just(DOTS);
-    return Observable.fromPromise(promise);
+    return from(promise);//returns an observable
+
   }
 
   getBoundaries(){
     var promise = Promise.resolve(
       {boundaries: BOUNDARIES, momentumDiagramBoundaries: MOMENTUM_DIAGRAM_BOUNDARIES});
-    return Observable.fromPromise(promise);
+    return from(promise);
   }
 
   getInteractionRegion(){
     var promise = Promise.resolve(INTERACTION_REGION);
-    return Observable.fromPromise(promise);
+    return from(promise);
   }
 
   translateCircleDatatoPixels(circleDatacm, boundaries, dotIndices) {
