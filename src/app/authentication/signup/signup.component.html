@@ -111,15 +111,6 @@
                 </div>
               </div>
 
-
-
-              <!--
-
-              WORKING HERE....
-              not sure what is going on with materializeSelectOptions;
-              maybe need to upgrade to most recent version of materialize or something?!?!
-              -->
-
               <div *ngIf="haveInstitutions" class="row">
                 <div class="input-field col s12 m12 l12">
                   <select
@@ -127,15 +118,12 @@
                     [materializeSelectOptions]="availableInstitutions"
                     formControlName="institutionId"
                   >
-                    <option value="" disabled selected>Choose your institution</option>
+                    <option value="" [disabled]="true" [selected]="true">Choose your institution</option>-->
                     <option *ngFor="let institution of availableInstitutions"
                             [value]="institution.id"
                     >{{institution.name}}
                     </option>
                   </select>
-
-                  <!--this should probably go inside the select tag...?!?
-                  [materializeSelectOptions]="selectOptions"-->
 
                   <div *ngIf="userForm.controls.institutionId.errors && userForm.controls.institutionId.touched">
                     <small class="warning">
@@ -165,6 +153,7 @@
           </div>
         </div>
       </form>
+
     </div>
 
     <div class="row">
