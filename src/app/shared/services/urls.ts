@@ -1,5 +1,5 @@
-const BaseURL = "http://127.0.0.1:8000";
-//const BaseURL = "https://particle-tracks.physics.taylor.edu/django";
+//const BaseURL = "http://127.0.0.1:8000";
+const BaseURL = "https://particle-tracks.physics.taylor.edu/django";
 
 export const EventUrl = BaseURL + "/api/generateevent/";
 export const EventTypeUrl = BaseURL + "/api/decaytypelist/";

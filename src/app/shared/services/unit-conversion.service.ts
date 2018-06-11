@@ -10,10 +10,10 @@ import { Observable, from } from 'rxjs';
  */
 
 const BOUNDARIES = { // very important that the x and y directions preserve the aspect ratio!!!
-  xmin: -20, // cm; boundaries of the display region
-  xmax: 20,  // cm
-  ymin: -20, // cm
-  ymax: 20,  // cm
+  xmin: -100, // cm; boundaries of the display region
+  xmax: 100,  // cm
+  ymin: -100, // cm
+  ymax: 100,  // cm
   numGridPointsX: 61, // the number of grid points in the x direction; must be at least 2
   numGridPointsY: 61,
   height: 420,
@@ -24,8 +24,20 @@ const BOUNDARIES = { // very important that the x and y directions preserve the 
   xmaxPx: 410, // pixels
   yminPx: 410, // pixels; yminPx is at the bottom of the plot region
   ymaxPx: 10, // pixels
-  deltaR: 0.2 // cm; radial distance from a track within which a "dot" in the grid will be activated
+  deltaR: 1 // cm; radial distance from a track within which a "dot" in the grid will be activated
 };
+
+/**
+ *
+ * When choosing the B field for the event, try to make sure the radii of all
+ * charged-particle tracks are between R_MIN and R_MAX; also try to make sure
+ * B < B_MAX; the calculations are done in the setBFieldByEvent method
+ * inside the AnalysisDisplay component
+ *
+ */
+export const R_MIN = 20; // cm
+export const R_MAX = 70; // cm
+export const B_MAX = 40; // kG
 
 const MOMENTUM_DIAGRAM_BOUNDARIES = {
   height: 200,
@@ -39,10 +51,10 @@ const MOMENTUM_DIAGRAM_BOUNDARIES = {
 }
 
 const INTERACTION_REGION = {// this is the region within which the interaction point can occur
-  xmin: -1,
-  xmax: 1,
-  ymin: -1,
-  ymax: 1
+  xmin: -5, // cm
+  xmax: 5,
+  ymin: -5,
+  ymax: 5
 }
 
 /**
