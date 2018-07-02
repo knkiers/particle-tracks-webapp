@@ -1,8 +1,28 @@
+
+/*
+.nav-bar-submenu {
+  padding-left: 20px;
+}
+*/
+
+
 .medium-large-width {
   min-width: 200px;
+}
+
+
+.large-width {
+  min-width: 240px;
 }
 
 .toolbar-wrapper {
   margin-left: 20px;
   margin-right: 20px;
+}
+
+/*
+  https://stackoverflow.com/questions/32445707/is-there-any-way-to-change-the-caption-of-buttons-from-capital-letters-to-small8
+*/
+.no-uppercase {
+  text-transform: none;
 }

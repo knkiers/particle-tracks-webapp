@@ -15,6 +15,7 @@ import { AppComponent } from './app.component';
 import {AuthenticationModule} from './authentication/authentication.module';
 import {EndUserModule} from './end-user/end-user.module';
 import {AdminModule} from './admin/admin.module';
+import {StaticContentModule} from './static-content/static-content.module';
 
 import { LoggedInGuard } from './shared/guards/logged-in.guard';
 import { AdminGuard } from './shared/guards/admin.guard';
@@ -22,7 +23,7 @@ import { UserService } from './shared/services/user.service';
 
 
 const routes: Routes = [
-  {path: '', redirectTo: '/login', pathMatch: 'full'}
+  //{path: '', redirectTo: '/login', pathMatch: 'full'}
   ];
 
 @NgModule({
@@ -36,6 +37,7 @@ const routes: Routes = [
     AuthenticationModule,
     EndUserModule,
     AdminModule,
+    StaticContentModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,

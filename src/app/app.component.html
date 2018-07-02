@@ -3,7 +3,7 @@
     <nav>
       <div class="toolbar-wrapper">
         <div class="nav-wrapper">
-          <a [routerLink]="['/events']" class="brand-logo">Particle Tracks</a>
+          <a [routerLink]="['/']" class="brand-logo">Particle Tracks</a>
           <ul id="nav-mobile" class="right">
 
             <li *ngIf="currentUser">
@@ -22,17 +22,40 @@
               </a>
             </li>
             <li>
-              <a *ngIf="isLoggedIn()"
-                 (click)="logout()">
-                <i class="material-icons">power_settings_new</i>
+              <a materialize="dropdown"
+                 data-alignment="right"
+                 data-beloworigin="true"
+                 class='dropdown-button'
+                 data-activates='helpDropdownMenu'>
+                Explore
               </a>
             </li>
+
             <li>
               <a *ngIf="!isLoggedIn()"
                  [routerLink]="['/login']">
-                <i class="material-icons">perm_identity</i>
+                Sign In
               </a>
             </li>
+
+            <li>
+              <a *ngIf="!isLoggedIn()"
+                 [routerLink]="['/signup']">
+                <a class="waves-effect waves-light btn no-uppercase">Sign Up</a>
+              </a>
+            </li>
+
+            <li>
+              <a *ngIf="isLoggedIn()"
+                 (click)="logout()">
+                Sign Out
+              </a>
+            </li>
+
+            <!--<li>
+              <a materialize="dropdown" class='dropdown-button' href='#' data-activates='dropdown1'>Drop Me!</a>
+            </li>-->
+
           </ul>
         </div>
       </div>
@@ -43,4 +66,19 @@
     <router-outlet></router-outlet>
   </main>
 
+
+  <!-- Dropdown Structure -->
+  <ul id='helpDropdownMenu' class='dropdown-content large-width'>
+    <li><a [routerLink]="['/end-user/help-create-account']">Background Information</a></li>
+    <li><a [routerLink]="['/end-user/help-how-forum']">Example Problems</a></li>
+    <li><a [routerLink]="['/end-user/help-how-journal']">Demo</a></li>
+    <li><a [routerLink]="['/end-user/help-how-journal']">Analysis</a></li>
+  </ul>
+
+
+
+
 </body>
+
+
+
