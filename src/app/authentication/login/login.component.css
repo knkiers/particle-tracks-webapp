@@ -7,6 +7,16 @@
   /*color: #c62828;*/
 }
 
+.login-padding{
+  padding-top: 50px;
+  padding-bottom: 10px;
+}
+
+
+/*
+ https://answers.squarespace.com/questions/81339/form-font-size-is-too-small-how-can-i-change-it.html
+ https://stackoverflow.com/questions/32445707/is-there-any-way-to-change-the-caption-of-buttons-from-capital-letters-to-small8
+*/
 .no-uppercase {
   text-transform: none;
   font-size:24px;
@@ -14,3 +24,13 @@
   margin-left: 10px;
   margin-right: 10px;
 }
+
+.no-uppercase:hover {
+  text-transform: none;
+  font-size:24px;
+  border: 1px solid #4dd0e1;
+  margin-left: 10px;
+  margin-right: 10px;
+  color: #fff;
+}
+

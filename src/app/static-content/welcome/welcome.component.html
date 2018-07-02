@@ -71,8 +71,8 @@
           <img class="activator" src="assets/images/cover-image.png">
         </div>
         <div class="card-content">
-          <span class="card-title activator grey-text text-darken-4">For Teachers<i class="material-icons right">more_vert</i></span>
-          <p><a href="#">Go!</a></p>
+          <span class="card-title activator grey-text text-darken-4">FAQ for Teachers<i class="material-icons right">more_vert</i></span>
+          <p><a [routerLink]="['/teacher-faq']">Go!</a></p>
         </div>
         <div class="card-reveal">
           <span class="card-title grey-text text-darken-4">For Teachers<i class="material-icons right">close</i></span>
@@ -103,8 +103,8 @@
   <div class="row">
     <div class="col s10 offset-s1 m8 offset-m2 l6 offset-l3">
       <h5 class="center-align">
-        <a class="waves-effect waves-teal btn-flat btn-large no-uppercase">Sign In</a>
-        <a class="waves-effect waves-teal btn-flat btn-large no-uppercase">Sign Up</a>
+        <a [routerLink]="['/login']" class="waves-effect waves-teal btn-flat btn-large no-uppercase">Sign In</a>
+        <a [routerLink]="['/signup']" class="waves-effect waves-teal btn-flat btn-large no-uppercase">Sign Up</a>
       </h5>
     </div>
   </div>

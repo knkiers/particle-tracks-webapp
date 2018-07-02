@@ -8,6 +8,10 @@ import {MaterializeModule} from "angular2-materialize";
 import {StaticContentComponent} from './static-content.component';
 
 import { WelcomeComponent } from './welcome/welcome.component';
+import { ForTeachersComponent } from './for-teachers/for-teachers.component';
+import { BackgroundComponent } from './background/background.component';
+import { DemoComponent } from './demo/demo.component';
+import { ExampleProblemsComponent } from './example-problems/example-problems.component';
 
 const routes: Routes = [
   {
@@ -18,6 +22,22 @@ const routes: Routes = [
       {
         path: '',
         component: WelcomeComponent,
+      },
+      {
+        path: 'teacher-faq',
+        component: ForTeachersComponent,
+      },
+      {
+        path: 'example-problems',
+        component: ExampleProblemsComponent,
+      },
+      {
+        path: 'demo',
+        component: DemoComponent,
+      },
+      {
+        path: 'background',
+        component: BackgroundComponent,
       },
 
     ]
@@ -34,7 +54,11 @@ const routes: Routes = [
   ],
   declarations: [
     StaticContentComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    ForTeachersComponent,
+    BackgroundComponent,
+    DemoComponent,
+    ExampleProblemsComponent
   ]
 })
 export class StaticContentModule { }
