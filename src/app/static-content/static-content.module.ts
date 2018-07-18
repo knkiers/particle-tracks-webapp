@@ -4,6 +4,12 @@ import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 
 import {MaterializeModule} from "angular2-materialize";
+//import {MaterializeDirective,MaterializeAction} from "angular2-materialize";
+
+import {SharedModule} from '../shared/shared.module';
+
+//import {NeutralDecaysComponent} from '../shared/static-content/neutral-decays/neutral-decays.component';
+//import {ChargedDecaysComponent} from '../shared/static-content/charged-decays/charged-decays.component';
 
 import {StaticContentComponent} from './static-content.component';
 
@@ -51,6 +57,7 @@ const routes: Routes = [
     CommonModule,
     MaterializeModule,
     RouterModule.forChild(routes),
+    SharedModule
   ],
   declarations: [
     StaticContentComponent,
