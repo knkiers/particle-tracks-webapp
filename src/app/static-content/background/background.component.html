@@ -1,4 +1,4 @@
-<div class="container">
+<!--<div class="container">
   <div>
     <h2 class="indigo-text text-darken-2 center-align welcome-title">
       Background
@@ -23,6 +23,7 @@
     </div>
 
   </div>
+  <
   <div class="row">
     <div class="col s10 offset-s1 m8 offset-m2">
       <app-neutral-decays>
@@ -32,7 +33,89 @@
 
     </div>
   </div>
+-->
 
+  <div class="container">
+    <div>
+      <h2 class="indigo-text text-darken-2 center-align welcome-title">
+        Background Information
+      </h2>
+    </div>
 
+    <div class="row">
+      <div class="col s10 offset-s1 m8 offset-m2">
+        <h4 class="left-align">
+          What are particles?
+        </h4>
+      </div>
+      <div class="col s10 offset-s1 m8 offset-m2">
+        <h5 class="left-align grey-text text-darken-2 faq-text">
+          Subatomic particles, such as protons, neutrons, electrons, muons, neutrinos,
+          quarks and mesons make up all matter (and antimatter). The smallest individual
+          particles are called fundamental particles. Small particles like these make up
+          protons and neutrons.
+        </h5>
+      </div>
+    </div>
 
+    <div class="row">
+      <div class="col s10 offset-s1 m8 offset-m2">
+        <h4 class="left-align">
+          What are decays?
+        </h4>
+      </div>
+      <div class="col s10 offset-s1 m8 offset-m2">
+        <h5 class="left-align grey-text text-darken-2 faq-text">
+          Many particles are unstable, meaning that they decay into other particles
+          after they are produced. The particles decay into less massive particles
+          (particles with smaller masses). Particles have different lifetimes,
+          or the typical amount of time it takes them to decay. These lifetimes can be
+          as small as 5×10<sup>-25</sup> seconds, the average lifetime of the top quark...
+          or the particle could have a very long lifetime. Neutrons, for example,
+          have a lifetime of almost 15 minutes.
+        </h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s10 offset-s1 m8 offset-m2">
+        <h4 class="left-align">
+          How are particles detected?
+        </h4>
+      </div>
+      <div class="col s10 offset-s1 m8 offset-m2">
+        <h5 class="left-align grey-text text-darken-2 faq-text">
+          Wire chambers, such as the <a href="https://www-cdf.fnal.gov/virtualtour/central_outer_tracker.html" target="_blank">Central Outer Tracker</a>
+          are simulated in our particle tracks website. As the charged particle moves
+          in a circular path (due to the magnetic field), wires sense the charge of the
+          particle, and the path of the particle can be reconstructed. Physicists can then
+          calculate the momentum of the particles using the trajectories and identify them.
+          Particles create smaller or larger curvature of path depending on their momentums.
+        </h5>
+        <h5 class="left-align grey-text text-darken-2 faq-text">
+          There are many other ingenious ways physicists detect and visualize subatomic particles.
+          The first detector invented was cloud chambers. Other devices include:
+          <a href="https://en.wikipedia.org/wiki/Cloud_chamber" target="_blank">Cloud Chamber</a>, <a href="https://en.wikipedia.org/wiki/Bubble_chamber" target="_blank">Bubble Chamber</a>, and the <a href="https://home.cern/topics/large-hadron-collider" target="_blank">Large Hadron Collider</a>.
+        </h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s10 offset-s1 m8 offset-m2">
+        <h4 class="left-align">
+          What is the momentum and energy conservation?
+        </h4>
+      </div>
+      <div class="col s10 offset-s1 m8 offset-m2">
+        <h5 class="left-align grey-text text-darken-2 faq-text">
+          Energy is defined by the equation <i>E = (p<sup>2</sup> + m<sup>2</sup>)<sup>1/2</sup></i> with p as the momentum of the particle,
+          and m as the mass. Momentum can be found with the equation: <i>p = 0.299792 B r</i>,
+          where B is the strength of the magnetic field, and r is the radius of the
+          circle the particles create. Energy and momentum are conserved.
+        </h5>
+      </div>
+    </div>
+  <div class="col s10 offset-s1 center-align">
+    <a class="btn-large" [routerLink]="['/advanced-background']">Explore More</a>
+  </div>
 </div>

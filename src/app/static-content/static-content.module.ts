@@ -18,6 +18,7 @@ import { ForTeachersComponent } from './for-teachers/for-teachers.component';
 import { BackgroundComponent } from './background/background.component';
 import { DemoComponent } from './demo/demo.component';
 import { ExampleProblemsComponent } from './example-problems/example-problems.component';
+import { AdvancedBackgroundComponent } from './advanced-background/advanced-background.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,10 @@ const routes: Routes = [
         path: 'background',
         component: BackgroundComponent,
       },
+      {
+        path: 'advanced-background',
+        component: AdvancedBackgroundComponent,
+      },
 
     ]
   },
@@ -65,7 +70,8 @@ const routes: Routes = [
     ForTeachersComponent,
     BackgroundComponent,
     DemoComponent,
-    ExampleProblemsComponent
+    ExampleProblemsComponent,
+    AdvancedBackgroundComponent
   ]
 })
 export class StaticContentModule { }
