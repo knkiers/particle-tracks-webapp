@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, EventEmitter } from '@angular/core';
 import { Router} from '@angular/router';
 import {
   FormBuilder,
@@ -8,6 +8,8 @@ import {
   FormControl
 } from '@angular/forms';
 
+import {MaterializeDirective,MaterializeAction} from "angular2-materialize";
+
 import { UserService } from '../../shared/services/user.service';
 
 @Component({
@@ -15,7 +17,7 @@ import { UserService } from '../../shared/services/user.service';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, AfterViewInit {
 
   signinServerError: any;
   private userData: any;
@@ -24,6 +26,16 @@ export class SignupComponent implements OnInit {
 
   availableInstitutions: any = null;
   haveInstitutions: boolean = false;
+
+  modalAlreadyLoggedInActions = new EventEmitter<string|MaterializeAction>();
+  modalAlreadyLoggedInParams = [
+    {
+      dismissible: false,
+      alignment: 'right',
+      complete: function() { console.log('Closed'); }
+    }
+  ]
+
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -35,6 +47,13 @@ export class SignupComponent implements OnInit {
     console.log('inside ngOnInit of sign-up');
     this.fetchInstitutions();
     this.initializeForm();
+  }
+
+  ngAfterViewInit() {
+    console.log('after view init');
+    if(this.userService.isLoggedIn()) {
+      this.openAlreadyLoggedInModal();
+    }
   }
 
   fetchInstitutions() {
@@ -108,8 +127,6 @@ export class SignupComponent implements OnInit {
         +this.userForm.value.institutionId
       ).subscribe(
         (result) => {
-          console.log('back in the login component');
-          console.log(result);
           this.router.navigate(['/login']);
         },
         (error) => {
@@ -126,6 +143,29 @@ export class SignupComponent implements OnInit {
     }
 
   }
+
+  userIsLoggedIn() {
+    return this.userService.isLoggedIn();
+  }
+
+  openAlreadyLoggedInModal() {
+    console.log('inside modal launcher!');
+    this.modalAlreadyLoggedInActions.emit({action:"modal",params:['open']});
+  }
+
+  closeAlreadyLoggedInModal() {
+    this.modalAlreadyLoggedInActions.emit({action:"modal",params:['close']});
+  }
+
+  signOut() {
+    this.userService.logout();
+  }
+
+  redirect() {
+    this.router.navigate(['/events']);
+  }
+
+
 
 
 }

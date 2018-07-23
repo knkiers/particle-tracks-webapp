@@ -36,20 +36,14 @@ export class LoginComponent implements OnInit {
   // NOTE: Not currently using angular2-jwt.
 
   onSubmit() {
-    //event.preventDefault();
-    //console.log(this.loginForm);
-    //var username: string;
-    //var password: string;
     if (this.loginForm.valid){
       this.signinServerError = null;//reinitialize it....
       this.userService.login(
         this.loginForm.value.username,
         this.loginForm.value.password).subscribe(
         (result) => {
-          console.log('back in the login component; here is result: ', result);
           this.userService.setUserData(result.token).subscribe(
             result => {
-              console.log('user data! ', result);
               this.router.navigate(['/events']);
             }
           );

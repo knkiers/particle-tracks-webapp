@@ -212,7 +212,7 @@ export class EventAnalysisService {
 
   saveAnalyzedEvent(title: string, data) {
     let headers = new Headers();
-    let authToken = localStorage.getItem('auth_token');
+    let authToken = sessionStorage.getItem('auth_token');
     let eventData = JSON.stringify(data);
 
     headers.append('Content-Type', 'application/json');
@@ -242,7 +242,7 @@ export class EventAnalysisService {
    */
   getAnalyzedEvents() {
     let headers = new Headers();
-    let authToken = localStorage.getItem('auth_token');
+    let authToken = sessionStorage.getItem('auth_token');
 
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `JWT ${authToken}`);
@@ -261,7 +261,7 @@ export class EventAnalysisService {
 
   getAnalyzedEvent(id: number) {
     let headers = new Headers();
-    let authToken = localStorage.getItem('auth_token');
+    let authToken = sessionStorage.getItem('auth_token');
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `JWT ${authToken}`);
 
@@ -290,7 +290,7 @@ export class EventAnalysisService {
    */
   getAnalyzedUserEvents(idList: number[]): Observable<Array<any>> {
     let headers = new Headers();
-    let authToken = localStorage.getItem('auth_token');
+    let authToken = sessionStorage.getItem('auth_token');
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `JWT ${authToken}`);
 
@@ -312,7 +312,7 @@ export class EventAnalysisService {
 
   submitAnalyzedEvent(id, submit: boolean) {
     let headers = new Headers();
-    let authToken = localStorage.getItem('auth_token');
+    let authToken = sessionStorage.getItem('auth_token');
 
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `JWT ${authToken}`);

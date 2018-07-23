@@ -14,6 +14,15 @@
                 Update Account
               </span>
 
+              <div *ngIf="userIsLoggedIn()" class="row">
+                <div class="input-field col s12 login-error red-text text-darken-2 red lighten-3">
+                  You are currently signed in!  Please
+                  <a class="include-pointer grey-text text-lighten-2" (click)="signOut()">Sign Out</a> before attempting
+                  to create a new account.
+                </div>
+              </div>
+
+
               <div class="row">
                 <div class="input-field col s12">
                   <label for="firstName">First Name</label>
@@ -133,22 +142,28 @@
                 </div>
               </div>
 
-
-
-
               <div *ngIf="signinServerError" class="row">
                 <div class="input-field col s12 user-exists-warning red-text text-darken-2 red lighten-3">
                   {{signinServerError}}
                 </div>
               </div>
+
+              <div *ngIf="userIsLoggedIn()" class="row">
+                <div class="input-field col s12 login-error red-text text-darken-2 red lighten-3">
+                  You are currently signed in!  Please
+                  <a class="include-pointer grey-text text-lighten-2" (click)="signOut()">Sign Out</a> before attempting
+                  to create a new account.
+                </div>
+              </div>
+
             </div>
 
             <div class="card-action">
               <button
                 class="waves-effect waves-light btn"
                 type="submit"
-                [class.disabled]="!userForm.valid"
-                [disabled]="!userForm.valid">Submit</button>
+                [class.disabled]="!userForm.valid || userIsLoggedIn()"
+                [disabled]="!userForm.valid || userIsLoggedIn()">Submit</button>
             </div>
           </div>
         </div>
@@ -171,3 +186,24 @@
 
   </div>
 </div>
+
+
+
+<!-- Modal Structure -->
+<div id="modalAlreadyLoggedInWarning" class="modal" materialize="modal" [materializeParams]="modalAlreadyLoggedInParams"
+     [materializeActions]="modalAlreadyLoggedInActions">
+  <div class="modal-content">
+    <h5>Create New Account:</h5>
+    <div>
+      You are currently signed in!  If you wish to create a new account, please sign out first.
+      If you wish to remain signed in, you can go back to the Events page.
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a class="modal-action modal-close waves-effect waves-cyan btn-flat" (click)="signOut()">Sign out</a>
+    <a class="modal-action modal-close waves-effect waves-cyan btn-flat" (click)="redirect()">Go To Events Page</a>
+  </div>
+</div>
+
+<a class="btn btn-flat" (click)="openAlreadyLoggedInModal()">launch modal!</a>
+

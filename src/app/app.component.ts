@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
         if (token !== null && !(this.userService.tokenExpired())) {
           this.userService.setUserData(token).subscribe(
             result => {
-              console.log('user data: ', result);
+              console.log('user is logged in and ready to go');
             }
           )
         }
@@ -69,7 +69,7 @@ export class AppComponent implements OnInit {
       user => {
         this.currentUser = user;
         console.log('inside app comp...user updated');
-        console.log(this.currentUser);
+//        console.log(this.currentUser);
       });
     /*
      if(this.isLoggedIn()) {
