@@ -8,7 +8,7 @@ import {
   FormControl
 } from '@angular/forms';
 
-import {MaterializeDirective,MaterializeAction} from "angular2-materialize";
+import {MaterializeDirective/*,MaterializeAction*/} from "angular2-materialize";
 
 import { UserService } from '../../shared/services/user.service';
 
@@ -17,7 +17,7 @@ import { UserService } from '../../shared/services/user.service';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit, AfterViewInit {
+export class SignupComponent implements OnInit {
 
   signinServerError: any;
   private userData: any;
@@ -27,6 +27,7 @@ export class SignupComponent implements OnInit, AfterViewInit {
   availableInstitutions: any = null;
   haveInstitutions: boolean = false;
 
+  /*
   modalAlreadyLoggedInActions = new EventEmitter<string|MaterializeAction>();
   modalAlreadyLoggedInParams = [
     {
@@ -35,6 +36,7 @@ export class SignupComponent implements OnInit, AfterViewInit {
       complete: function() { console.log('Closed'); }
     }
   ]
+  */
 
 
   constructor(private formBuilder: FormBuilder,
@@ -49,12 +51,14 @@ export class SignupComponent implements OnInit, AfterViewInit {
     this.initializeForm();
   }
 
+  /*
   ngAfterViewInit() {
     console.log('after view init');
     if(this.userService.isLoggedIn()) {
       this.openAlreadyLoggedInModal();
     }
   }
+  */
 
   fetchInstitutions() {
     this.userService.fetchInstitutions().subscribe(
@@ -148,6 +152,11 @@ export class SignupComponent implements OnInit, AfterViewInit {
     return this.userService.isLoggedIn();
   }
 
+  signOut() {
+    this.userService.logout();
+  }
+
+  /*
   openAlreadyLoggedInModal() {
     console.log('inside modal launcher!');
     this.modalAlreadyLoggedInActions.emit({action:"modal",params:['open']});
@@ -157,14 +166,10 @@ export class SignupComponent implements OnInit, AfterViewInit {
     this.modalAlreadyLoggedInActions.emit({action:"modal",params:['close']});
   }
 
-  signOut() {
-    this.userService.logout();
-  }
-
   redirect() {
     this.router.navigate(['/events']);
   }
-
+  */
 
 
 
