@@ -25,9 +25,9 @@
               -->
 
               <div *ngIf="userIsLoggedIn()" class="row">
-                <div class="input-field col s12 login-error red-text text-darken-2 red lighten-3">
+                <div class="input-field col s12 login-error red lighten-3">
                   You are currently signed in!  Please
-                  <a class="include-pointer grey-text text-lighten-2" (click)="signOut()">Sign Out</a> before attempting
+                  <a class="include-pointer red-text text-darken-4" (click)="signOut()">Sign Out</a> before attempting
                   to create a new account.
                 </div>
               </div>
@@ -152,6 +152,13 @@
                 </div>
               </div>
 
+              <div class="row">
+                <div class="input-field col s12 m12 l12">
+                  Choose "Guest" if your institution does not appear
+                  in the drop-down list.  You can change institutions
+                  later if you need to.
+                </div>
+              </div>
               <div *ngIf="signinServerError" class="row">
                 <div class="input-field col s12 user-exists-warning red-text text-darken-2 red lighten-3">
                   {{signinServerError}}
@@ -159,9 +166,9 @@
               </div>
 
               <div *ngIf="userIsLoggedIn()" class="row">
-                <div class="input-field col s12 login-error red-text text-darken-2 red lighten-3">
+                <div class="input-field col s12 login-error red lighten-3">
                   You are currently signed in!  Please
-                  <a class="include-pointer grey-text text-lighten-2" (click)="signOut()">Sign Out</a> before attempting
+                  <a class="include-pointer red-text text-darken-4" (click)="signOut()">Sign Out</a> before attempting
                   to create a new account.
                 </div>
               </div>
