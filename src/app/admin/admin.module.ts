@@ -30,6 +30,7 @@ import { UserEventAnchorDirective } from './user-events/user-event-anchor.direct
 import {AnalysisDisplayComponent} from '../end-user/analysis-display';
 import { EventEnergyMomentumComponent } from './event-energy-momentum/event-energy-momentum.component';
 import { EventInfoAnchorDirective } from './user-events/event-info-anchor.directive';
+import { TeacherResourcesComponent } from './static-content/teacher-resources/teacher-resources.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,11 @@ const routes: Routes = [
       },
     ]
   },
+  {
+    path: 'teacher-resources',
+    component: TeacherResourcesComponent,
+    canActivate: [LoggedInGuard, AdminGuard],
+  }
 ];
 
 
@@ -68,7 +74,8 @@ const routes: Routes = [
     UserEventsComponent,
     UserEventAnchorDirective,
     EventEnergyMomentumComponent,
-    EventInfoAnchorDirective
+    EventInfoAnchorDirective,
+    TeacherResourcesComponent
   ]
 })
 export class AdminModule { }

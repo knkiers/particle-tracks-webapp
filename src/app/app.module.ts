@@ -18,6 +18,7 @@ import {AdminModule} from './admin/admin.module';
 import {StaticContentModule} from './static-content/static-content.module';
 
 import { LoggedInGuard } from './shared/guards/logged-in.guard';
+import { NotLoggedInGuard } from './shared/guards/not-logged-in.guard';
 import { AdminGuard } from './shared/guards/admin.guard';
 import { UserService } from './shared/services/user.service';
 
@@ -43,7 +44,7 @@ const routes: Routes = [
     HttpModule,
     HttpClientModule
   ],
-  providers: [FormBuilder, LoggedInGuard, AdminGuard, UserService],
+  providers: [FormBuilder, LoggedInGuard, NotLoggedInGuard, AdminGuard, UserService],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })

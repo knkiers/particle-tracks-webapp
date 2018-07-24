@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import {Router} from '@angular/router';
 
+import {MaterializeDirective,MaterializeAction} from "angular2-materialize";
+
 import { UserService } from './shared/services/user.service';
 
 import {EventDisplayService} from './shared/services/event-display.service';
@@ -53,7 +55,7 @@ export class AppComponent implements OnInit {
         if (token !== null && !(this.userService.tokenExpired())) {
           this.userService.setUserData(token).subscribe(
             result => {
-              console.log('user data: ', result);
+              console.log('user is logged in and ready to go');
             }
           )
         }
@@ -69,7 +71,7 @@ export class AppComponent implements OnInit {
       user => {
         this.currentUser = user;
         console.log('inside app comp...user updated');
-        console.log(this.currentUser);
+//        console.log(this.currentUser);
       });
     /*
      if(this.isLoggedIn()) {

@@ -10,9 +10,21 @@
               +{{currentUser.username}}
             </li>
 
+            <!--
+            <span *ngIf="currentUser">{{currentUser.fullName()}}</span>
+              <i class="material-icons right">arrow_drop_down</i>
+              -->
+
+
+
+
             <li *ngIf="currentUser && currentUser.isStaff">
-              <a [routerLink]="['/admin']">
-                <i class="material-icons">settings</i>
+              <a materialize="dropdown"
+                 data-alignment="right"
+                 data-beloworigin="true"
+                 class='dropdown-button'
+                 data-activates='adminDropdownMenu'>
+                Teachers
               </a>
             </li>
 
@@ -41,7 +53,11 @@
             <li>
               <a *ngIf="!isLoggedIn()"
                  [routerLink]="['/signup']">
-                <a class="waves-effect waves-light btn no-uppercase">Sign Up</a>
+                <a materialize="tooltip"
+                   class="waves-effect waves-light btn no-uppercase tooltipped"
+                   data-position="bottom"
+                   data-tooltip="Create an account"
+                >Sign Up</a>
               </a>
             </li>
 
@@ -74,6 +90,12 @@
     <li><a [routerLink]="['/demo']">Demo</a></li>
     <li><a [routerLink]="['/example-problems']">Example Problems</a></li>
     <li><a [routerLink]="['/teacher-faq']">FAQ for Teachers</a></li>
+  </ul>
+
+  <!-- Dropdown Structure -->
+  <ul id='adminDropdownMenu' class='dropdown-content large-width'>
+    <li><a [routerLink]="['/admin']">View Students' Events</a></li>
+    <li><a [routerLink]="['/teacher-resources']">Resources</a></li>
   </ul>
 
 

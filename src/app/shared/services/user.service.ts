@@ -81,7 +81,6 @@ export class UserService {
   }
 
   login(username, password) {
-    console.log('at login method');
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http
@@ -93,8 +92,7 @@ export class UserService {
         map(res => {
         // apparently if there is an error, that just gets returned automatically(?), skipping over this part of the code
           let jsonResponse = res.json();
-          console.log('here is the response: ', jsonResponse);
-          localStorage.setItem('auth_token', jsonResponse.token);
+          sessionStorage.setItem('auth_token', jsonResponse.token);
           //this.loggedIn = true;
           return jsonResponse;
       })
@@ -109,7 +107,6 @@ export class UserService {
     } else {
       let nowSeconds = Date.now()/1000;
       let decoded = this.jwtHelper.decodeToken(token);
-      console.log('seconds remaining: ', decoded.exp - nowSeconds - 10);
 
       return !(decoded.exp > nowSeconds + 10);// add 10 seconds to be on the safe side
     }
@@ -140,18 +137,18 @@ export class UserService {
   }
 
   logout() {
-    localStorage.removeItem('auth_token');
+    sessionStorage.removeItem('auth_token');
     //this.loggedIn = false;
     this.userAnnouncedSource.next(null);
     //this.announceLogOut();
   }
 
   fetchToken() {
-    return localStorage.getItem('auth_token');
+    return sessionStorage.getItem('auth_token');
   }
 
   isLoggedIn() {
-    let loggedIn: boolean = !!localStorage.getItem('auth_token');
+    let loggedIn: boolean = !!sessionStorage.getItem('auth_token');
     return loggedIn;
   }
 
@@ -182,16 +179,13 @@ export class UserService {
     //https://stackoverflow.com/questions/45286764/angular-httpclient-doesnt-send-header
 
     let headers = new Headers();
-    let authToken = localStorage.getItem('auth_token');
+    let authToken = sessionStorage.getItem('auth_token');
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `JWT ${authToken}`);
 
     //eventually will be required to switch to HttpClient; then this will be how to set the headers:
     //let headers = new HttpHeaders(); // this is the
     //headers = headers.set('Content-Type', 'application/json').set('Authorization', `JWT ${authToken}`);
-
-    console.log(headers);
-    console.log(EventTypeUrl);
 
     return this.http
       .get(
@@ -216,7 +210,7 @@ export class UserService {
     // https://blog.hackages.io/angular-http-httpclient-same-but-different-86a50bbcc450
 
     let headers = new Headers();
-    let authToken = localStorage.getItem('auth_token');
+    let authToken = sessionStorage.getItem('auth_token');
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `JWT ${authToken}`);
 
@@ -249,7 +243,7 @@ export class UserService {
     //   client side: https://medium.com/@blacksonic86/angular-2-authentication-revisited-611bf7373bf9#.jelvdws38
     //   server side: http://getblimp.github.io/django-rest-framework-jwt/
     let headers = new Headers();
-    let authToken = localStorage.getItem('auth_token');
+    let authToken = sessionStorage.getItem('auth_token');
 
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `JWT ${authToken}`);
@@ -266,8 +260,6 @@ export class UserService {
 
   // Service message command
   announceUser(user: User) {
-    console.log('announcing user! or lack thereof....');
-    //console.log(this.currentUser);
     this.userAnnouncedSource.next(user);
   }
 
@@ -275,9 +267,6 @@ export class UserService {
     let headers = new Headers();
 
     headers.append('Content-Type', 'application/json');
-
-    console.log(headers);
-    console.log(InstitutionsUrl);
 
     return this.http
       .get(

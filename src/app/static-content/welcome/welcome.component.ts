@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
+
+//import {UserService} from '../../shared/services/user.service';
+
 
 @Component({
   selector: 'app-welcome',
@@ -11,5 +15,11 @@ export class WelcomeComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  /*
+  isLoggedIn() {
+    return this.userService.isLoggedIn();
+  }
+  */
 
 }
