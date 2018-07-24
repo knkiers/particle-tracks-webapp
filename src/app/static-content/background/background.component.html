@@ -70,9 +70,9 @@
           after they are produced. The particles decay into less massive particles
           (particles with smaller masses). Particles have different lifetimes,
           or the typical amount of time it takes them to decay. These lifetimes can be
-          as small as 5×10<sup>-25</sup> seconds, the average lifetime of the top quark...
+          as small as 5×10<sup>-25</sup> seconds,<sup #fn1Source>[<a class="include-pointer" (click)="gotoFootnotesSection()">1</a>]</sup>the average lifetime of the top quark...
           or the particle could have a very long lifetime. Neutrons, for example,
-          have a lifetime of almost 15 minutes.
+          have a lifetime of almost 15 minutes.<sup #fn2Source>[<a class="include-pointer" (click)="gotoFootnotesSection()">2</a>]</sup>
         </h5>
       </div>
     </div>
@@ -108,14 +108,40 @@
       </div>
       <div class="col s10 offset-s1 m8 offset-m2">
         <h5 class="left-align grey-text text-darken-2 faq-text">
-          Energy is defined by the equation <i>E = (p<sup>2</sup> + m<sup>2</sup>)<sup>1/2</sup></i> with p as the momentum of the particle,
-          and m as the mass. Momentum can be found with the equation: <i>p = 0.299792 B r</i>,
+          Energy is defined by the equation <i>E = (p<sup>2</sup> + m<sup>2</sup>)<sup>1/2 </sup></i> with p as the momentum of the particle,
+          and m as the mass.<sup #fn3Source>[<a class="include-pointer" (click)="gotoFootnotesSection()">3</a>]</sup>Momentum can be found with the equation: <i>p = 0.299792 B r</i>,
           where B is the strength of the magnetic field, and r is the radius of the
           circle the particles create. Energy and momentum are conserved.
         </h5>
       </div>
     </div>
-  <div class="col s10 offset-s1 center-align">
-    <a class="btn-large" [routerLink]="['/advanced-background']">Explore More</a>
+    <div class="row">
+      <div class="col s10 offset-s1 center-align">
+        <a class="btn-large" [routerLink]="['/advanced-background']">Explore More</a>
+      </div>
+    </div>
+
+    <div #footnotes class="row">
+      <div class="col s10 offset-s1">
+        <div>1. <a materialize="tooltip"
+                  class="include-pointer tooltipped"
+                  data-position="top"
+                  data-tooltip="Jump back to footnote [1] in the text."
+                  (click)="goBackToText('fn1')"
+                  >^</a>A. Quadt (2006). "Top quark physics at hadron colliders". European Physical Journal C. 48 (3): 835–1000. Bibcode:2006EPJC...48..835Q. doi:10.1140/epjc/s2006-02631-6
+        </div>
+
+        <div>2. <a materialize="tooltip"
+                  class="include-pointer tooltipped"
+                  data-position="top"
+                  data-tooltip="Jump back to footnote [2] in the text."
+                  (click)="goBackToText('fn2')"
+                  >^</a>M. Tanabashi et al. (Particle Data Group), Phys. Rev. D 98, 030001 (2018).
+        <div>3. <a materialize="tooltip"
+                  class="include-pointer tooltipped"
+                  data-position="top"
+                  data-tooltip="Jump back to footnote [3] in the text."
+                  (click)="goBackToText('fn3')"
+                  >^</a>A. The original formula is that <i>E = (p<sup>2</sup>/c<sup>2</sup> + m<sup>2</sup>/c<sup>4</sup>)<sup>1/2</sup></i>. The units cancel out to make the <i>E = (p2 + m2)<sup>1/2</sup></i> formula true.
+    </div>
   </div>
-</div>
