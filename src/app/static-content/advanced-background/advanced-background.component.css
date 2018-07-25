@@ -1,0 +1,20 @@
+.background-title {
+  padding-top: 50px;
+  padding-bottom: 10px;
+}
+
+p {
+  padding-bottom: 10px;
+}
+
+/*
+  https://www.w3schools.com/cssref/pr_dim_line-height.asp
+*/
+.faq-text {
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+.square-root {
+  content: "\221A";
+}
