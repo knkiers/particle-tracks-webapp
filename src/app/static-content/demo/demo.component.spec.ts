@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {NeutralDecaysComponent} from '../../shared/static-content/neutral-decays/neutral-decays.component';
+import {ChargedDecaysComponent} from '../../shared/static-content/charged-decays/charged-decays.component';
 
 import { DemoComponent } from './demo.component';
 
