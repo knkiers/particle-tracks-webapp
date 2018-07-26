@@ -1,0 +1,50 @@
+<div class="container">
+  <div *ngIf="currentUser" class="row">
+    <div class="col s12 m6 offset-m3 l6 offset-l3">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">
+            Update Account Information
+          </span>
+          <div class="row">
+            <div class="col s4 offset-s2">
+                First Name:
+            </div>
+            <div class="col s6">
+                {{currentUser.firstName}}
+            </div>
+            <div class="col s12">
+              <h6>
+                Last Name: {{currentUser.lastName}}
+              </h6>
+            </div>
+
+
+            <!-- need Institution, too...is that part of the User object?!?  Should be :) -->
+            <!-- only non-admins should be allowed to change their institution.... -->
+
+
+
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- WORKING HERE:
+- client-side code: drop-down is messed up; doesn't initialize; I remember there was
+  a fix of some sort in Galilee; should look at what that was
+- need to put a form of some sort on this page; maybe only allow one quantity
+  at a time to be submitted?  Could turn the whole works into a form, but
+  have the contents be not editable unless the person clicks on something, say....
+- probably need to set up a completely separate endpoint for dealing with the password reset, or
+  else force the user to reset their password every single time....
+- don't allow admin users to change institution(!)
+  -->
+
+<a class="btn" (click)="updateUser()">Update!</a>

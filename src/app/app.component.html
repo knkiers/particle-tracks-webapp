@@ -6,17 +6,11 @@
           <a [routerLink]="['/']" class="brand-logo">Particle Tracks</a>
           <ul id="nav-mobile" class="right">
 
-            <li *ngIf="currentUser">
-              +{{currentUser.username}}
+            <li *ngIf="currentUser && currentUser.isStaff">
+              <a [routerLink]="['/events']">
+                Events
+              </a>
             </li>
-
-            <!--
-            <span *ngIf="currentUser">{{currentUser.fullName()}}</span>
-              <i class="material-icons right">arrow_drop_down</i>
-              -->
-
-
-
 
             <li *ngIf="currentUser && currentUser.isStaff">
               <a materialize="dropdown"
@@ -24,22 +18,19 @@
                  data-beloworigin="true"
                  class='dropdown-button'
                  data-activates='adminDropdownMenu'>
-                Teachers
+                <span>Teachers</span>
+                <i class="material-icons right icon-no-space">arrow_drop_down</i>
               </a>
             </li>
 
-            <li *ngIf="currentUser && currentUser.isStaff">
-              <a [routerLink]="['/events']">
-                Events
-              </a>
-            </li>
             <li>
               <a materialize="dropdown"
                  data-alignment="right"
                  data-beloworigin="true"
                  class='dropdown-button'
                  data-activates='helpDropdownMenu'>
-                Explore
+                <span>Explore</span>
+                <i class="material-icons right icon-no-space">arrow_drop_down</i>
               </a>
             </li>
 
@@ -61,12 +52,26 @@
               </a>
             </li>
 
+            <!--
             <li>
               <a *ngIf="isLoggedIn()"
                  (click)="logout()">
                 Sign Out
               </a>
             </li>
+            -->
+
+            <li *ngIf="currentUser">
+              <a materialize="dropdown"
+                 data-alignment="right"
+                 data-beloworigin="true"
+                 class='dropdown-button'
+                 data-activates='userDropdownMenu'>
+                <span>+{{currentUser.username}}</span>
+                <i class="material-icons right icon-no-space">arrow_drop_down</i>
+              </a>
+            </li>
+
 
             <!--<li>
               <a materialize="dropdown" class='dropdown-button' href='#' data-activates='dropdown1'>Drop Me!</a>
@@ -93,12 +98,18 @@
   </ul>
 
   <!-- Dropdown Structure -->
-  <ul id='adminDropdownMenu' class='dropdown-content large-width'>
+  <ul id='adminDropdownMenu' class='dropdown-content medium-large-width'>
     <li><a [routerLink]="['/admin']">View Students' Events</a></li>
     <li><a [routerLink]="['/teacher-resources']">Resources</a></li>
   </ul>
 
 
+  <!-- Dropdown Structure -->
+  <ul id='userDropdownMenu' class='dropdown-content medium-width'>
+    <li><a [routerLink]="['/profile']">Manage Account</a></li>
+    <li class="divider" tabindex="-1"></li>
+    <li><a (click)="logout()">Sign Out </a></li>
+  </ul>
 
 
 </body>

@@ -6,10 +6,13 @@
 */
 
 
-.medium-large-width {
-  min-width: 200px;
+.medium-width {
+  min-width: 180px;
 }
 
+.medium-large-width {
+  min-width: 210px;
+}
 
 .large-width {
   min-width: 240px;
@@ -25,4 +28,8 @@
 */
 .no-uppercase {
   text-transform: none;
+}
+
+.icon-no-space {
+  margin-left: 0px;
 }

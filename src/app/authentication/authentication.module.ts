@@ -8,9 +8,12 @@ import {MaterializeModule} from "angular2-materialize";
 import {SharedModule} from '../shared/shared.module';
 
 import { NotLoggedInGuard } from '../shared/guards/not-logged-in.guard';
+import { LoggedInGuard } from '../shared/guards/logged-in.guard';
+
 
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   {
@@ -18,9 +21,16 @@ const routes: Routes = [
     component: LoginComponent,
     canActivate: [NotLoggedInGuard],
   },
-  {path: 'signup', component: SignupComponent}
+  {
+    path: 'signup',
+    component: SignupComponent
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [LoggedInGuard],
+  },
 ];
-
 
 
 @NgModule({
@@ -32,6 +42,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SharedModule
   ],
-  declarations: [LoginComponent, SignupComponent]
+  declarations: [LoginComponent, SignupComponent, ProfileComponent]
 })
 export class AuthenticationModule { }

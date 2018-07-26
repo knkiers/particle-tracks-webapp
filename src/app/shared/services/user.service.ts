@@ -80,6 +80,35 @@ export class UserService {
       );
   }
 
+  update(username, email, firstName, lastName): Observable<any> {
+
+    let headers = new Headers();
+    let authToken = sessionStorage.getItem('auth_token');
+    //headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `JWT ${authToken}`);
+
+    let emptyList = [];
+    headers.append('Content-Type', 'application/json');
+
+    return this.http
+      .put(
+        AccountsUrl+'79/',
+        JSON.stringify({
+          'username': username,
+          'password': 'password',
+          'email': email,
+          'first_name': firstName,
+          'last_name': lastName,
+          'analyzed_events': emptyList,
+          'institution_id': 2
+        }),
+        { headers }
+      )
+      .pipe(
+        map(res => res.json())
+      );
+  }
+
   login(username, password) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -164,6 +193,15 @@ export class UserService {
   currentUserDataIsSet() {
     return !(this.currentUser === null);
   }
+
+  fetchCurrentUser() {
+    if (this.currentUserDataIsSet()) {
+      return this.currentUser;
+    } else {
+      return null;
+    }
+  }
+
 
   fetchUsers() {
 
