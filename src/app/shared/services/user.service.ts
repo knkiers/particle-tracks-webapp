@@ -80,7 +80,15 @@ export class UserService {
       );
   }
 
-  update(username, email, firstName, lastName): Observable<any> {
+  update(username, email, firstName, lastName, institutionId, userId): Observable<any> {
+
+    console.log('user id: ', userId);
+    console.log('username: ', username);
+    console.log('email: ', email);
+    console.log('firstName: ', firstName);
+    console.log('lastName: ', lastName);
+    console.log('institutionId: ', institutionId);
+
 
     let headers = new Headers();
     let authToken = sessionStorage.getItem('auth_token');
@@ -92,7 +100,7 @@ export class UserService {
 
     return this.http
       .put(
-        AccountsUrl+'79/',
+        AccountsUrl+userId+'/',
         JSON.stringify({
           'username': username,
           'password': 'password',
@@ -100,7 +108,7 @@ export class UserService {
           'first_name': firstName,
           'last_name': lastName,
           'analyzed_events': emptyList,
-          'institution_id': 2
+          'institution_id': institutionId
         }),
         { headers }
       )
@@ -159,6 +167,7 @@ export class UserService {
         map(res => {
           let userData = res.json();
           this.currentUser = new User(userData);
+          console.log('user data: ', userData);
           this.announceUser(this.currentUser);
           return userData;
         })

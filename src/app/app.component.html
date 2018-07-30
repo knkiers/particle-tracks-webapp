@@ -6,7 +6,7 @@
           <a [routerLink]="['/']" class="brand-logo">Particle Tracks</a>
           <ul id="nav-mobile" class="right">
 
-            <li *ngIf="currentUser && currentUser.isStaff">
+            <li *ngIf="currentUser">
               <a [routerLink]="['/events']">
                 Events
               </a>
@@ -61,13 +61,13 @@
             </li>
             -->
 
-            <li *ngIf="currentUser">
+            <li [hidden]="!currentUser">
               <a materialize="dropdown"
                  data-alignment="right"
                  data-beloworigin="true"
                  class='dropdown-button'
                  data-activates='userDropdownMenu'>
-                <span>+{{currentUser.username}}</span>
+                <span *ngIf="currentUser">+{{currentUser.username}}</span>
                 <i class="material-icons right icon-no-space">arrow_drop_down</i>
               </a>
             </li>

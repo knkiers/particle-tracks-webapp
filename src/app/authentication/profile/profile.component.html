@@ -1,50 +1,195 @@
-<div class="container">
-  <div *ngIf="currentUser" class="row">
-    <div class="col s12 m6 offset-m3 l6 offset-l3">
-      <div class="card">
-        <div class="card-content">
-          <span class="card-title">
-            Update Account Information
-          </span>
-          <div class="row">
-            <div class="col s4 offset-s2">
-                First Name:
+<div *ngIf="userForm">
+
+  <!--<h3>{{someText}}</h3>-->
+  <div class="container">
+    <div class="row">
+      <form [formGroup]="userForm" novalidate (ngSubmit)="onSubmit()">
+        <div class="col s12 m8 offset-m2 l6 offset-l3">
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">
+                Update Account Information
+              </span>
+
+
+              <div class="row valign-wrapper">
+                <div class="input-field col s10">
+                  <label for="firstName">First Name</label>
+                  <input
+                    [input-wake-up]="'firstName'"
+                    [class.warning-background] = "userForm.controls.firstName.errors && userForm.controls.firstName.touched"
+                    id="firstName"
+                    type="text"
+                    formControlName="firstName">
+                  <div *ngIf="userForm.controls.firstName.errors && userForm.controls.firstName.touched">
+                    <small class="warning">
+                      This field is required.
+                    </small>
+                  </div>
+                </div>
+                <div class="col s2">
+                  <a *ngIf="!editFirstName" class="include-pointer" (click)="enableField('firstName')">
+                    <i class="material-icons">edit</i>
+                  </a>
+                </div>
+              </div>
+
+              <div class="row valign-wrapper">
+                <div class="input-field col s10">
+                  <label for="lastName">Last Name</label>
+                  <input
+                    [input-wake-up]="'lastName'"
+                    [class.warning-background] = "userForm.controls.lastName.errors && userForm.controls.lastName.touched"
+                    id="lastName"
+                    type="text"
+                    formControlName="lastName">
+                  <div *ngIf="userForm.controls.lastName.errors && userForm.controls.lastName.touched">
+                    <small class="warning">
+                      This field is required.
+                    </small>
+                  </div>
+                </div>
+                <div class="col s2">
+                  <a *ngIf="!editLastName" class="include-pointer" (click)="enableField('lastName')">
+                    <i class="material-icons">edit</i>
+                  </a>
+                </div>
+              </div>
+
+              <div class="row valign-wrapper">
+                <div class="input-field col s10">
+                  <label for="username">Username</label>
+                  <input
+                    [input-wake-up]="'username'"
+                    [class.warning-background] = "userForm.controls.username.errors && userForm.controls.username.touched"
+                    id="username"
+                    type="text"
+                    formControlName="username">
+                  <div *ngIf="userForm.controls.username.errors && userForm.controls.username.touched">
+                      <small class="warning">
+                        This field is required.
+                      </small>
+                  </div>
+                </div>
+                <div class="col s2">
+                  <a *ngIf="!editUsername" class="include-pointer" (click)="enableField('username')">
+                    <i class="material-icons">edit</i>
+                  </a>
+                </div>
+              </div>
+
+              <div class="row valign-wrapper">
+                <div class="input-field col s10">
+                  <label for="email">Email</label>
+                  <input
+                    [input-wake-up]="'email'"
+                    [class.warning-background] = "userForm.controls.email.errors && userForm.controls.email.touched"
+                    id="email"
+                    type="text"
+                    formControlName="email">
+                  <div *ngIf="userForm.controls.email.errors && userForm.controls.email.touched">
+                    <small class="warning">
+                      This field must have the form of an email address.
+                    </small>
+                  </div>
+                </div>
+                <div class="col s2">
+                  <a *ngIf="!editEmail" class="include-pointer" (click)="enableField('email')">
+                    <i class="material-icons">edit</i>
+                  </a>
+                </div>
+              </div>
+
+              <!--
+              <div formGroupName="passwords">
+                <div class="row">
+                  <div class="input-field col s12">
+                    <label for="password">Password</label>
+                    <input
+                      [input-wake-up]="'password'"
+                      [class.warning-background] = "(userForm.controls.passwords.controls.password.touched && !userForm.controls.passwords.controls.password.valid) || (userForm.controls.passwords.errors && userForm.controls.passwords.controls.password.touched && userForm.controls.passwords.controls.password2.touched)"
+                      id="password"
+                      type="password"
+                      formControlName="password">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <label for="password2">Reenter Password</label>
+                    <input
+                      [input-wake-up]="'password2'"
+                      [class.warning-background] = "(userForm.controls.passwords.controls.password2.touched && !userForm.controls.passwords.controls.password2.valid) || (userForm.controls.passwords.errors && userForm.controls.passwords.controls.password.touched && userForm.controls.passwords.controls.password2.touched)"
+                      id="password2"
+                      type="password"
+                      formControlName="password2">
+                  </div>
+                  <div *ngIf="userForm.controls.passwords.errors && userForm.controls.passwords.controls.password.touched && userForm.controls.passwords.controls.password2.touched ">
+                    <small class="warning">
+                      {{userForm.controls.passwords.errors.error}}
+                    </small>
+                  </div>
+                </div>
+              </div>
+              -->
+
+              <div *ngIf="haveInstitutions" class="row valign-wrapper">
+                <div class="input-field col s10">
+                  <select
+                    materialize="material_select"
+                    [materializeSelectOptions]="availableInstitutions"
+                    formControlName="institutionId"
+                  >
+                    <option value="" [disabled]="true" [selected]="true">Choose your institution</option>-->
+                    <option *ngFor="let institution of availableInstitutions"
+                            [value]="institution.id"
+                    >{{institution.name}}
+                    </option>
+                  </select>
+
+                  <div *ngIf="userForm.controls.institutionId.errors && userForm.controls.institutionId.touched">
+                    <small class="warning">
+                      This field is required.
+                    </small>
+                  </div>
+                </div>
+                <div class="col s2">
+                  <a *ngIf="!editInstitution" class="include-pointer" (click)="enableField('institution')">
+                    <i class="material-icons">edit</i>
+                  </a>
+                </div>
+              </div>
+
+              <div *ngIf="signinServerError" class="row">
+                <div class="input-field col s12 user-exists-warning red-text text-darken-2 red lighten-3">
+                  {{signinServerError}}
+                </div>
+              </div>
+
             </div>
-            <div class="col s6">
-                {{currentUser.firstName}}
+
+            <div class="card-action">
+              <button
+                class="waves-effect waves-light btn"
+                type="submit"
+                [class.disabled]="!userForm.valid"
+                [disabled]="!userForm.valid">Submit</button>
             </div>
-            <div class="col s12">
-              <h6>
-                Last Name: {{currentUser.lastName}}
-              </h6>
-            </div>
-
-
-            <!-- need Institution, too...is that part of the User object?!?  Should be :) -->
-            <!-- only non-admins should be allowed to change their institution.... -->
-
-
-
-
-
-
           </div>
         </div>
-      </div>
+      </form>
+
     </div>
+
   </div>
 </div>
 
 
+
+
 <!-- WORKING HERE:
-- client-side code: drop-down is messed up; doesn't initialize; I remember there was
-  a fix of some sort in Galilee; should look at what that was
-- need to put a form of some sort on this page; maybe only allow one quantity
-  at a time to be submitted?  Could turn the whole works into a form, but
-  have the contents be not editable unless the person clicks on something, say....
+- what to do when it comes back from the server...?!?
+- password reset...maybe pass '' if not setting, and then catch this on the server side...?
 - probably need to set up a completely separate endpoint for dealing with the password reset, or
   else force the user to reset their password every single time....
 - don't allow admin users to change institution(!)
   -->
-
-<a class="btn" (click)="updateUser()">Update!</a>

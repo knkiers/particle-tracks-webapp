@@ -7,6 +7,7 @@ export class User {
   lastName: string;
   isStaff: boolean;
   username: string;
+  institutionId: number;
 
   constructor (obj) {
     this.id = obj.id;
@@ -18,6 +19,7 @@ export class User {
     this.lastName = obj.last_name;
     this.isStaff = obj.is_staff;
     this.username = obj.username;
+    this.institutionId = obj.institution_id;
   }
 
 }

@@ -110,6 +110,7 @@ export class SignupComponent implements OnInit {
     }
   }
 
+  // if change this in this in the future, make sure to change it in the profile component as well....
   emailValidator(control) {
     //see: http://stackoverflow.com/questions/34072092/generic-mail-validator-in-angular2
     var EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
