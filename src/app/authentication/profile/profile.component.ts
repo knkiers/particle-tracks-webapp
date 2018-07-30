@@ -30,7 +30,7 @@ export class ProfileComponent implements OnInit {
 
   availableInstitutions: any = null;
   haveInstitutions: boolean = false;
-  
+
   currentUser: User = null;
   signinServerError: any;
 
@@ -93,6 +93,7 @@ export class ProfileComponent implements OnInit {
   }
 
 
+  // https://netbasal.com/disabling-form-controls-when-working-with-reactive-forms-in-angular-549dd7b42110
   enableField(fieldName: string) {
     switch(fieldName) {
       case 'username': {
