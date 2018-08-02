@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router} from '@angular/router';
 import {
   FormBuilder,
@@ -8,7 +8,7 @@ import {
   FormControl
 } from '@angular/forms';
 
-import {MaterializeDirective/*,MaterializeAction*/} from "angular2-materialize";
+import {MaterializeDirective,MaterializeAction} from "angular2-materialize";
 
 import { UserService } from '../../shared/services/user.service';
 
@@ -18,6 +18,8 @@ import { UserService } from '../../shared/services/user.service';
   styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit {
+
+  modalActions = new EventEmitter<string|MaterializeAction>();
 
   resetPasswordServerError: any;
 
@@ -56,6 +58,14 @@ export class ResetPasswordComponent implements OnInit {
     this.userService.logout();
   }
 
+  openModal() {
+    this.modalActions.emit({action:"modal",params:['open']});
+  }
+
+  redirect() {
+    this.router.navigate(['/']);
+  }
+
   onSubmit() {
     if (this.resetPasswordForm.valid){
       this.resetPasswordServerError = null;//reinitialize it....
@@ -63,7 +73,8 @@ export class ResetPasswordComponent implements OnInit {
         this.resetPasswordForm.value.email
       ).subscribe(
         (result) => {
-          console.log('here is the result! ', result);
+          this.openModal();
+          //console.log('here is the result! ', result);
           //this.router.navigate(['/login']);
         },
         (error) => {

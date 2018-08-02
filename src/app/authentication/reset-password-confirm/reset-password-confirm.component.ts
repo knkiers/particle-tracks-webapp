@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
 
 import {
@@ -21,6 +21,8 @@ import { UserService } from '../../shared/services/user.service';
 })
 export class ResetPasswordConfirmComponent implements OnInit, OnDestroy {
 
+  modalActions = new EventEmitter<string|MaterializeAction>();
+
   token: string = null;
   tokenReceived: boolean = false;
   private sub: any;
@@ -36,6 +38,7 @@ export class ResetPasswordConfirmComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    //https://angular-2-training-book.rangle.io/handout/routing/query_params.html
     this.sub = this.route
       .queryParams
       .subscribe(params => {
@@ -77,6 +80,17 @@ export class ResetPasswordConfirmComponent implements OnInit, OnDestroy {
     this.userService.logout();
   }
 
+  openModal() {
+    this.modalActions.emit({action:"modal",params:['open']});
+  }
+
+  signIn() {
+    this.router.navigate(['/login']);
+  }
+
+  redirect() {
+    this.router.navigate(['/']);
+  }
 
   onSubmit() {
 
@@ -87,8 +101,9 @@ export class ResetPasswordConfirmComponent implements OnInit, OnDestroy {
         this.resetPasswordForm.value.passwords.password,
       ).subscribe(
         (result) => {
-          console.log('here is the result! ', result);
+          //console.log('here is the result! ', result);
           //this.router.navigate(['/login']);
+          this.openModal();
         },
         (error) => {
 
