@@ -28,9 +28,12 @@ import {AccountsUrl} from './urls';
 import {UsersUrl} from './urls';
 import {UsersThisInstitutionUrl} from './urls';
 import {InstitutionsUrl} from './urls';
+import {ResetPasswordUrl} from './urls';
+import {ResetPasswordConfirmUrl} from './urls';
 
 import {User} from '../models/user';
 import {UserNumberEvents} from '../interfaces/user-number-events';
+import {UpdateUserData} from '../interfaces/update-user-data';
 
 @Injectable()
 export class UserService {
@@ -80,15 +83,10 @@ export class UserService {
       );
   }
 
-  update(username, email, firstName, lastName, institutionId, userId): Observable<any> {
+  update(updateUserData: UpdateUserData, userId: number): Observable<any> {
 
+    console.log('update user data: ', updateUserData);
     console.log('user id: ', userId);
-    console.log('username: ', username);
-    console.log('email: ', email);
-    console.log('firstName: ', firstName);
-    console.log('lastName: ', lastName);
-    console.log('institutionId: ', institutionId);
-
 
     let headers = new Headers();
     let authToken = sessionStorage.getItem('auth_token');
@@ -101,19 +99,17 @@ export class UserService {
     return this.http
       .put(
         AccountsUrl+userId+'/',
-        JSON.stringify({
-          'username': username,
-          'password': 'password',
-          'email': email,
-          'first_name': firstName,
-          'last_name': lastName,
-          'analyzed_events': emptyList,
-          'institution_id': institutionId
-        }),
+        JSON.stringify(updateUserData),
         { headers }
       )
       .pipe(
-        map(res => res.json())
+        map(res => {
+          // apparently if there is an error, that just gets returned automatically(?), skipping over this part of the code
+          let jsonResponse = res.json();
+          sessionStorage.setItem('auth_token', jsonResponse.token);
+          //this.loggedIn = true;
+          return jsonResponse;
+        })
       );
   }
 
@@ -133,8 +129,47 @@ export class UserService {
           //this.loggedIn = true;
           return jsonResponse;
       })
-      )
-      ;
+      );
+  }
+
+  resetPassword(email: string) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http
+      .post(
+        ResetPasswordUrl,
+        JSON.stringify({ 'email': email }),
+        { headers })
+      .pipe(
+        map(res => {
+          // apparently if there is an error, that just gets returned automatically(?), skipping over this part of the code
+          let jsonResponse = res.json();
+          console.log(jsonResponse);
+          //this.loggedIn = true;
+          return jsonResponse;
+        })
+      );
+  }
+
+  resetPasswordConfirm(token: string, password: string) {
+    console.log('password: ', password);
+    console.log('token: ', token);
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http
+      .post(
+        ResetPasswordConfirmUrl,
+        JSON.stringify({ 'token': token, 'password': password }),
+        { headers })
+      .pipe(
+        map(res => {
+          // apparently if there is an error, that just gets returned automatically(?), skipping over this part of the code
+          let jsonResponse = res.json();
+          console.log(jsonResponse);
+          //this.loggedIn = true;
+          return jsonResponse;
+        })
+      );
   }
 
   tokenExpired() {
@@ -167,7 +202,7 @@ export class UserService {
         map(res => {
           let userData = res.json();
           this.currentUser = new User(userData);
-          console.log('user data: ', userData);
+          //console.log('user data: ', userData);
           this.announceUser(this.currentUser);
           return userData;
         })

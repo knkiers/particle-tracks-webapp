@@ -10,3 +10,6 @@ export const UserEventsUrl = BaseURL + "/useranalyzedevents/";
 export const UsersUrl = BaseURL + "/users/";
 export const UsersThisInstitutionUrl = BaseURL + "/usersthisinstitution/";
 export const InstitutionsUrl = BaseURL + "/institutions/";
+export const ResetPasswordUrl = BaseURL + "/api/password_reset/";
+export const ResetPasswordConfirmUrl = BaseURL + "/api/password_reset/confirm/";
+

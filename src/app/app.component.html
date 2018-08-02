@@ -6,7 +6,7 @@
           <a [routerLink]="['/']" class="brand-logo">Particle Tracks</a>
           <ul id="nav-mobile" class="right">
 
-            <li *ngIf="currentUser">
+            <li *ngIf="currentUser && isLoggedIn()">
               <a [routerLink]="['/events']">
                 Events
               </a>
@@ -61,7 +61,7 @@
             </li>
             -->
 
-            <li [hidden]="!currentUser">
+            <li [hidden]="!currentUser || !isLoggedIn()">
               <a materialize="dropdown"
                  data-alignment="right"
                  data-beloworigin="true"

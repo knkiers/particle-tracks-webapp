@@ -100,10 +100,9 @@
                 </div>
               </div>
 
-              <!--
               <div formGroupName="passwords">
-                <div class="row">
-                  <div class="input-field col s12">
+                <div class="row valign-wrapper">
+                  <div class="input-field col s10">
                     <label for="password">Password</label>
                     <input
                       [input-wake-up]="'password'"
@@ -112,9 +111,14 @@
                       type="password"
                       formControlName="password">
                   </div>
+                  <div class="col s2">
+                    <a *ngIf="!editPassword" class="include-pointer" (click)="enableField('password')">
+                      Edit
+                    </a>
+                  </div>
                 </div>
-                <div class="row">
-                  <div class="input-field col s12">
+                <div [hidden]="!editPassword" class="row">
+                  <div class="input-field col s10">
                     <label for="password2">Reenter Password</label>
                     <input
                       [input-wake-up]="'password2'"
@@ -122,24 +126,24 @@
                       id="password2"
                       type="password"
                       formControlName="password2">
-                  </div>
-                  <div *ngIf="userForm.controls.passwords.errors && userForm.controls.passwords.controls.password.touched && userForm.controls.passwords.controls.password2.touched ">
-                    <small class="warning">
-                      {{userForm.controls.passwords.errors.error}}
-                    </small>
+                    <div *ngIf="userForm.controls.passwords.errors && userForm.controls.passwords.controls.password.touched && userForm.controls.passwords.controls.password2.touched ">
+                      <small class="warning">
+                        {{userForm.controls.passwords.errors.error}}
+                      </small>
+                    </div>
                   </div>
                 </div>
               </div>
-              -->
 
-              <div *ngIf="haveInstitutions" class="row valign-wrapper">
+              <div *ngIf="haveInstitutions && showInstitutionDropDown" class="row valign-wrapper">
                 <div class="input-field col s10">
+                  Institution
                   <select
                     materialize="material_select"
                     [materializeSelectOptions]="availableInstitutions"
                     formControlName="institutionId"
                   >
-                    <option value="" [disabled]="true" [selected]="true">Choose your institution</option>-->
+                    <!--<option value="" [disabled]="true" [selected]="true">Choose your institution</option>-->
                     <option *ngFor="let institution of availableInstitutions"
                             [value]="institution.id"
                     >{{institution.name}}
@@ -159,9 +163,9 @@
                 </div>
               </div>
 
-              <div *ngIf="signinServerError" class="row">
+              <div *ngIf="updateServerError" class="row">
                 <div class="input-field col s12 user-exists-warning red-text text-darken-2 red lighten-3">
-                  {{signinServerError}}
+                  {{updateServerError}}
                 </div>
               </div>
 
