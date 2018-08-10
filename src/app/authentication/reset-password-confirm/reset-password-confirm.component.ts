@@ -9,7 +9,7 @@ import {
   FormControl
 } from '@angular/forms';
 
-import {MaterializeDirective/*,MaterializeAction*/} from "angular2-materialize";
+import {MaterializeDirective,MaterializeAction} from "angular2-materialize";
 
 import { UserService } from '../../shared/services/user.service';
 
