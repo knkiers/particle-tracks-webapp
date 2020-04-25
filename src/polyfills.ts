@@ -38,8 +38,9 @@
 // import 'classlist.js';  // Run `npm install --save classlist.js`.
 
 /** Evergreen browsers require these. **/
-import 'core-js/es6/reflect';
-import 'core-js/es7/reflect';
+// KK: commented these lines out, based on the following: https://github.com/angular/angular-cli/issues/14542
+//import 'core-js/es6/reflect';
+//import 'core-js/es7/reflect';
 
 
 /**

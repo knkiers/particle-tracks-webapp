@@ -9,10 +9,10 @@ import {ChargedDecaysComponent} from '../../shared/static-content/charged-decays
   styleUrls: ['./background.component.css']
 })
 export class BackgroundComponent implements OnInit {
-  @ViewChild('footnotes') footnotesSection
-  @ViewChild('fn1Source') fn1Source
-  @ViewChild('fn2Source') fn2Source
-  @ViewChild('fn3Source') fn3Source
+  @ViewChild('footnotes', {static: false}) footnotesSection
+  @ViewChild('fn1Source', {static: false}) fn1Source
+  @ViewChild('fn2Source', {static: false}) fn2Source
+  @ViewChild('fn3Source', {static: false}) fn3Source
 
   constructor() { }
 

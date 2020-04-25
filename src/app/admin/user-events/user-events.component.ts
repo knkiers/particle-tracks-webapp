@@ -19,8 +19,8 @@ import {EventEnergyMomentumComponent} from '../event-energy-momentum/event-energ
 })
 export class UserEventsComponent implements OnInit, OnDestroy {
 
-  @ViewChild(UserEventAnchorDirective) userEventAnchor: UserEventAnchorDirective;
-  @ViewChild(EventInfoAnchorDirective) eventInfoAnchor: EventInfoAnchorDirective;
+  @ViewChild(UserEventAnchorDirective, {static: false}) userEventAnchor: UserEventAnchorDirective;
+  @ViewChild(EventInfoAnchorDirective, {static: false}) eventInfoAnchor: EventInfoAnchorDirective;
 
   private user: User = null;
   events: any = null;

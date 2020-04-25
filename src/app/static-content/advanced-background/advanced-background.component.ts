@@ -6,12 +6,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./advanced-background.component.css']
 })
 export class AdvancedBackgroundComponent implements OnInit {
-  @ViewChild('footnotes') footnotesSection
-  @ViewChild('fn1Source') fn1Source
-  @ViewChild('fn2Source') fn2Source
-  @ViewChild('fn3Source') fn3Source
-  @ViewChild('fn4Source') fn4Source
-  @ViewChild('fn5Source') fn5Source
+  @ViewChild('footnotes', {static: false}) footnotesSection
+  @ViewChild('fn1Source', {static: false}) fn1Source
+  @ViewChild('fn2Source', {static: false}) fn2Source
+  @ViewChild('fn3Source', {static: false}) fn3Source
+  @ViewChild('fn4Source', {static: false}) fn4Source
+  @ViewChild('fn5Source', {static: false}) fn5Source
 
   constructor() { }
 
